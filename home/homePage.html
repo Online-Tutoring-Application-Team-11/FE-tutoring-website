@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>GlobalHomeAndDashboard</title>
+    
+
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+
+<!-- COPIED -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- COPIED -->
+
+    <style>
+
+    .mytext1 {
+    color: #e5e5e5;
+    font-family: 'Lato', sans-serif;
+    font-size: 17px;
+    letter-spacing: 2.5px;
+    margin-right: 5px;
+    /* margin-bottom: 20px; */
+    position: relative;
+    /* -webkit-text-stroke-width: 1px;
+    animation: text 2s 1; */
+    }
+
+    .aplus{
+        color: #3FA637;
+        font-family: 'Lato', sans-serif;
+        font-size: 90px;
+        letter-spacing: 3px;
+        position: relative;
+        font-weight: bold;
+    }
+
+    .tutors{
+        color:black;
+        font-family: 'Lato', sans-serif;
+        font-size: 90px;
+        letter-spacing: 10px;
+        position: relative;
+        margin-top: -50px;
+        font-weight: bold;
+    }
+
+    .subtitle{
+        color: #3FA637;
+        font-family: 'Raleway';
+        font-size: 30px;
+        letter-spacing: 2px;
+        position: relative;
+        font-weight: lighter;
+        margin-top: -33px;
+    }
+
+    .body-text{
+        color: #423F3E;
+        font-family: 'Raleway';
+        font-size: 20px;
+        position:relative;
+
+    }
+
+    .spc a{
+        margin-right: 30px;
+        color: #e5e5e5 !important;
+        
+    }
+
+    .spc-btn{
+        margin-right: 15px;
+    }
+
+    .nav-link:hover { 
+        color: #a3b18a !important;
+    }
+
+    .hollow-btn {
+        border-color: white;
+        border-radius: 5px;
+        color:white;
+        font-family: 'Lato', sans-serif;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+    }
+
+    .hollow-btn:hover {
+        background: #a3b18a;
+        color: black !important;
+    }
+
+    .btn-options{
+        
+        background-color: #285430;
+        border-radius: 20px;
+        border-width: 6px; 
+        border-color: none; 
+        font-family: 'Lato', sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        margin-right: 20px;
+        margin-top: 15px;
+        height: 75px;
+        padding-left: 20px;
+        padding-right: 20px;
+        color:#dce3d8;
+    }
+
+    .btn-options:hover{
+        border-color: #16361c;
+        background-color: #285430;
+        color: #dce3d8;
+        border-width:6px;
+        
+    }
+
+    .full-btn {
+        background: #3FA637; 
+        border-radius: 5px;
+        color: white;
+        font-family: 'Lato', sans-serif;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+    }
+
+    .full-btn:hover{
+        background: #2c7827; 
+    }
+
+
+
+    .abs-center-x {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .carousel {
+            border-radius: 50%;
+            overflow: hidden;   
+            margin-top: 12px;
+            height: 550px;
+        }
+
+        .carousel-indicators [data-bs-target] { 
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+        }
+
+    .mathPicture img{
+        position: absolute;
+        width:320px;
+        height: 213px;
+        /* top: 450px; */
+        top:100px;
+        left:520px;
+        z-index: -1;
+        opacity: 50%;
+    }
+
+    .page-heads{
+        color:black;
+        font-family: 'Lato', sans-serif;
+        font-size: 70px;
+        letter-spacing: 8px;
+        position: relative;
+        margin-top: 18px;
+        font-weight: bold;
+    }
+
+    .card {
+    /* font-size: 1em; */
+    overflow: hidden;
+    padding: 0em;
+    border: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #5e8b7e, 0 0 0 0.2px #5e8b7e;
+    margin-top:0px;
+    /* margin-left: 4.5em; */
+    }
+
+    .tutor-name{
+        font-size:22px;
+        padding-top: 11px;
+        color:#3b9f33;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+
+    }
+
+
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="navbar-fixed.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+    <img class="mr-2" src="../assets/logo_icon.png" height="64px">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <!-- <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">item1</a>
+        </li>
+      </ul> -->
+    </div>
+        <ul class="nav navbar-nav abs-center-x mytext1">
+        <li class="nav-item spc"><a class="nav-link" href="#ts">TUTORS</a></li>
+        <li class="nav-item spc"><a class="nav-link" href="#coursesSection">COURSES</a></li>
+        <li class="nav-item spc"><a class="nav-link" href="#">REVIEWS</a></li>
+        <li class="nav-item spc"><a class="nav-link" href="#">CONTACT US</a></li>
+      </ul>
+    <div class="ml-auto navbar-collapse collapse nav-content order-3 order-md-3">
+        <ul class="ml-auto nav navbar-nav">
+            <li class="nav-item spc-btn">
+                <!-- <a class="nav-link" href="#">Sign-In</a> -->
+                <a class="btn hollow-btn" href="#" role="button">RETURNING USER?</a>
+            </li>
+            <li class="nav-item">
+                <!-- <a class="nav-link" href="#">Sign-Up➔</a> -->
+                <a class="btn full-btn" href="#" role="button">SIGN-UP ➔</a>
+            </li>
+        </ul>
+    </div>
+  </div>
+</nav>
+
+<section id="landing">
+    <div class="container">
+        <div class="row">
+
+            <!-- HEADING BEGINS -->
+            <div class="col-sm">
+                <div class="aplus text-left">A +</div>
+                <div class="tutors text-left">TUTORS</div>
+                <div class="subtitle text-left">Success starts here</div>
+                <br/>
+                <br/>
+                <div class="body-text text-left">Find <b>trusted</b> mentors and <a href="#" style="color:#3FA637 !important; 
+                    font-weight: bolder;">tutors</a> for college-level STEM <a href="#" style="color:#3FA637 !important; 
+                    font-weight: bolder;">courses</a>, including 3000 and 4000-level courses. And <b>free</b> of charge for 
+                    UT Dallas students!</div>
+                <br/>
+                <div class="body-text text-left" style="font-family:'Lato', sans-serif;font-weight:700;">Tell us more about yourself.</div>
+                <div>
+                    <button type="button" class="btn btn-options">I am a new student ❯</button>
+                <!-- </div>
+                <div> -->
+                    <button type="button" class="btn btn-options">I am a returning student ❯</button>
+                </div>
+                
+
+            </div>
+            <!-- HEADING ENDS -->
+
+            <!-- CAROUSEL BEGINS -->
+            <div class="col-sm">
+                <div id="pictures" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3800">
+                    <div class="carousel-indicators">
+                      <button data-bs-target="#pictures" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button data-bs-target="#pictures" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button data-bs-target="#pictures" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="../assets/homepage-img/sample1.jpg" style="width: 100%; border-radius: 50%;" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="../assets/homepage-img/sample2.jpg" style="width: 100%; border-radius: 50%;" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="../assets/homepage-img/sample3.jpg" style="width: 100%; border-radius: 50%;" alt="...">
+                      </div>
+                    </div>
+                  </div>
+            </div>
+         <!-- CAROUSEL ENDS-->
+            
+        </div>
+        <!-- GRID END -->
+
+        <div class="mathPicture">
+            <img src="../assets/homepage-img/math.png" alt="math picture">
+        </div>
+
+    </div>
+</section>
+
+
+<!-- TUTORS SECTION -->
+<section id="tutors-section">
+    <div class="container">
+    <div class="page-heads text-center" id="ts">TUTORS</div>
+    <div class="body-text text-center" style="color:#3FA637 !important; font-weight: bold;">Learn more about our talented team 
+        of tutors!</div>
+
+    <!-- GRID OF TUTORS -->
+    <div>
+        <div class="row" style="padding-top:18px">
+          <div class="col-md-6">
+            <!-- TUTOR 1 -->
+            <div class="card">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="../assets/homepage-img/tutor1.jfif" style="width:100%; border-radius: 50%; 
+                        padding-top: 11px; padding-left: 11px; padding-bottom: 11px;">
+                    </div>
+                    <div class="col">
+                        <div class="tutor-name text-left">NATALIE WELSH</div>
+                        <div class="body-text text-left" style="font-size: 14px; padding-right:13px"><i>"I am a driven individual, 
+                            with an intrinsic curiousity for math and CS. I love to help others understand the basics of programming 
+                            and number theory. I like to hike in my free time!"</i></div>
+                        <div class="body-text text-center" style="font-size: 14px; margin-right:13px; background-color: #acc5aa; margin-top:7px;
+                                    border-radius: 20px;">
+                            <b>Linear Algebra | Calculus I, II | Automata Theory</b></div>
+                    </div>
+                </div>
+            </div> <!-- card end -->
+        </div>
+          <div class="col-md-6">
+            <!-- TUTOR 2 -->
+            <div class="card">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="../assets/homepage-img/tutor2.jfif" style="width:100%; border-radius: 50%; 
+                        padding-top: 11px; padding-left: 11px; padding-bottom: 11px;">
+                    </div>
+                    <div class="col">
+                        <div class="tutor-name text-left">MAHESH KUMAR</div>
+                        <div class="body-text text-left" style="font-size: 14px; padding-right:13px"><i>"Hey everyone, I'm Mahesh. I consider myself
+                            proficient in programming languages like C/C++ as well as Databases. I love teaching & helping others as well."</i></div>
+                        <div class="body-text text-center" style="font-size: 14px; margin-right:13px; background-color: #acc5aa; margin-top:7px;
+                                    border-radius: 20px;">
+                            <b>Java | C++ | SQL | Distributed Sys</b></div>
+                    </div>
+                </div>
+            </div> <!-- card end -->
+          </div>
+        </div>
+        <div class="row" style="padding-top:25px">
+          <div class="col-md-6">
+            <!-- TUTOR 3 -->
+            <div class="card">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="../assets/homepage-img/tutor3.jfif" style="width:100%; border-radius: 50%; 
+                        padding-top: 11px; padding-left: 11px; padding-bottom: 11px;">
+                    </div>
+                    <div class="col">
+                        <div class="tutor-name text-left">CHRIS CLEMSON</div>
+                        <div class="body-text text-left" style="font-size: 14px; padding-right:13px"><i>"Math and compilers are my 
+                            favorite things in the universe. I also like to tinker with OS's and have built my own UNIX-based OS. Love playing Mario Kart too."</i></div>
+                        <div class="body-text text-center" style="font-size: 14px; margin-right:13px; background-color: #acc5aa; margin-top:7px;
+                                    border-radius: 20px;">
+                            <b>Comp Architecture | OS | Discrete Math </b></div>
+                    </div>
+                </div>
+            </div> <!-- card end -->
+          </div>
+          <div class="col-md-6">
+            <!-- TUTOR 4 -->
+            <div class="card">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="../assets/homepage-img/tutor4.jfif" style="width:100%; border-radius: 50%; 
+                        padding-top: 11px; padding-left: 11px; padding-bottom: 11px;">
+                    </div>
+                    <div class="col">
+                        <div class="tutor-name text-left">ASHLEY ISAAC</div>
+                        <div class="body-text text-left" style="font-size: 14px; padding-right:13px"><i>"Hey! I'm a med-student currently
+                            and proficient in all college-level sciences. I love to help people & teaching is my passion. Please feel free to ask me anything."</i></div>
+                        <div class="body-text text-center" style="font-size: 14px; margin-right:13px; background-color: #acc5aa; margin-top:7px;
+                                    border-radius: 20px;">
+                            <b>Comp Physics I, II | Chemistry | Java | MATLAB </b></div>
+                    </div>
+                </div>
+            </div> <!-- card end -->
+          </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<section id="coursesSection" style="padding-top:20px">
+    <div class="container">
+        <div class="page-heads text-center">COURSES</div>
+        <div class="body-text text-center" style="color:#3FA637 !important; font-weight: bold;">Learn more about the courses we support!</div>
+        <div class="row">
+
+            <div class="col-md-4 my-3">
+                <div class="card h-100 s-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                  <h5 class="card-title"><span style='font-size: 100px;'>&#128034</span></h5>
+                  <h6 class="card-subtitle mt-4 mb-2" style="font-size:20px;">Languages</h6>
+                  <p class="card-text text-muted">Java, C/C++, SQL, Javascript, Python, R, Dart, Bash, HTML/CSS</p>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-md-4 my-3">
+                <div class="card s-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                  <h5 class="card-title"><span style='font-size: 100px;'>&#129361</span></h5>
+                  <h6 class="card-subtitle mt-4 mb-2" style="font-size:20px;">Tools</h6>
+                  <p class="card-text text-muted">React, React Native, Flutter, Git, TensorFlow, Keras, Node.js, Firebase, MongoDB</p>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-md-4 my-3">
+                <div class="card s-card" style="width: 20rem;">
+                <div class="card-body text-center">
+                  <h5 class="card-title"><span style='font-size: 100px;'>&#128010</span></h5>
+                  <h6 class="card-subtitle mt-4 mb-2" style="font-size:20px;">Interpersonal</h6>
+                  <p class="card-text text-muted">Teamwork, Creativity, Leadership, Problem-solving, Adaptibility, Communication</p>
+                </div>
+              </div>
+          </div>
+  </div>
+    </div>
+</section>
+
+
+
+
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+
+      
+</body>
+</html>
