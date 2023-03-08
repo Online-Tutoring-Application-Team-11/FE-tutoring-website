@@ -5,12 +5,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
 import Layout from './Pages/layout'
+import SignInLayout from './Pages/UserAuth/sign-in-layout'
+import SignUp from './Pages/UserAuth/sign-up-all'
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = "/" element = {<Layout />}>
+        <Route path = "/" element = {<Layout/>}>
+        </Route>
+        <Route path = "/auth" element = {<SignInLayout/>}>
+          <Route path = "sign-up" element = {<SignUp/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
