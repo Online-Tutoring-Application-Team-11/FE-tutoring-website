@@ -1,14 +1,21 @@
-export type UserSignUp = {
+export type UserSend = {
   email: string,
   password: string,
-  tutor: boolean
+  tutor?: boolean,
+  aboutMe?: string,
+  subjects?: string[],
+  profilePic?: string,
+  fName?: string,
+  lName?: string
 }
 
-export type TutorUser = {
+export type UserGet = {
   email: string,
   password: string,
-  tutor: true,
+  tutor: boolean,
   aboutMe: string,
   subjects: string[],
-  avatarUrl?: string,
+  profilePic?: string,
+  fname?: string,
+  lname?: string
 }

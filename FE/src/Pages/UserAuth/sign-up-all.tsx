@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import '../../output.css'
 import './sign-in.css'
-import { UserSignUp } from '../../API/DTOs/userTypes'
+import { UserSend } from '../../API/DTOs/userTypes'
 import { registerUser } from '../../API/Endpoints/authEndpoint'
 
 
@@ -31,12 +31,12 @@ const SignUp = () => {
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
     if (isSubmitSuccessful) {
-      const newUser: UserSignUp = {
+      const newUser: UserSend = {
         email: register.email, 
         password: register.password,
         tutor: register.tutor as unknown as boolean
       }
-      registerUser(newUser).then(() => {
+      registerUser(newUser).then((data) => {
         if (newUser.tutor) {
           navigate("/auth/sign-up-tutor")
         } else {

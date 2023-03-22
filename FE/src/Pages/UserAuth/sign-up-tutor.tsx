@@ -6,7 +6,7 @@ import { TextField, Button, FormControl, Box, Typography, MenuItem } from '@mui/
 
 import '../../output.css'
 import './sign-in.css'
-import { TutorUser } from '../../API/DTOs/userTypes'
+import { UserSend } from '../../API/DTOs/userTypes'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import { updateTutor } from '../../API/Endpoints/userEndpoints'
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const SignUpTutor = () => {
 
   const navigate = useNavigate();
-  var newUser: TutorUser;
+  var newUser: UserSend;
 
   const profileSchema = object({
     aboutMe: string().nonempty('About Me is required'),
@@ -30,7 +30,7 @@ const SignUpTutor = () => {
         aboutMe: profile.aboutMe,
         subjects: profile.subjects
       }
-      updateTutor(newUser).then(() => {
+      updateTutor(newUser).then((data) => {
         navigate('/')
       })
     }
