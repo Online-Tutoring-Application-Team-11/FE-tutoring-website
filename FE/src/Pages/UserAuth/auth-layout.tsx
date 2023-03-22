@@ -6,7 +6,7 @@ import './sign-in.css'
 import logo from '../../Assets/logo.png'
 
 
-const SignInLayout = () => {
+const AuthLayout = () => {
     return(
         <main className="m-auto">
 
@@ -24,4 +24,4 @@ const SignInLayout = () => {
     )
 }
 
-export default SignInLayout
+export default AuthLayout

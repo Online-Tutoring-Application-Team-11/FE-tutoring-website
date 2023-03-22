@@ -5,8 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
 import Layout from './Pages/layout'
-import SignInLayout from './Pages/UserAuth/sign-in-layout'
+import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
+import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
 
 export default function App() {
   return (
@@ -14,8 +15,9 @@ export default function App() {
       <Routes>
         <Route path = "/" element = {<Layout/>}>
         </Route>
-        <Route path = "/auth" element = {<SignInLayout/>}>
+        <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-up" element = {<SignUp/>}></Route>
+          <Route path = "sign-up-tutor" element = {<SignUpTutor/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
