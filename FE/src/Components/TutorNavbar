@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import useResultsStudent from '../Hooks/useResultsStudent';
 
 
-const StudentNavbar = () => {
+const TutorNavbar = () => {
 
     //HOOKS
     const[studentNameAPI, results, errorMessage] = useResultsStudent();
@@ -47,4 +47,4 @@ const StudentNavbar = () => {
     )
 }
 
-export default StudentNavbar;
+export default TutorNavbar;

@@ -7,15 +7,10 @@ export default () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const studentNameAPI:any = async (emailreq: string) => {
-    //const studentNameAPI: ((newState: { emailreq: string }) => void) {
         try {
-            const response = await APlus.get('/students', {
-                params: {
-                    email: emailreq
-                }
-            });
-            console.log("response: " + response)
-            //setResults(response.data.data[0])
+            const response = await APlus.get(`/students/get/${emailreq}`, {});
+            console.log("response: " + JSON.stringify(response.data.fname))
+            setResults(response.data)
 
         } catch (e) {
             setErrorMessage("Something went wrong!");
@@ -25,7 +20,6 @@ export default () => {
     useEffect(() => {
         studentNameAPI("anirudh.umarji@utdallas.edu");
     }, []);
-    //console.log("RESULTS", results);
     
     return [studentNameAPI, results, errorMessage];
 };
