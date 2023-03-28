@@ -5,6 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
 import Layout from './Pages/layout'
+import HomePage from './Pages/HomePage';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   return (
@@ -22,7 +25,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <HomePage/>
   </React.StrictMode>
 );
 
