@@ -29,5 +29,5 @@ export const logIn = async (user: UserSend) => {
     data : data
   };
 
-  axios.request(config).then((response) => {}).catch((error) => {})
+  return axios.request(config).then((response) => response.data).catch((error) => {})
 }
