@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const AppNavbar = () => {
 
     return(
-        <Navbar bg="dark" variant="dark">
+        <Navbar className="nb-col" bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#">
           <img src="https://i.imgur.com/Vomm9Wd.png" className="navbar-image" alt="A+ Tutors Logo"/>

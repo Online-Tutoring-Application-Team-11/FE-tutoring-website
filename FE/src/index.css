@@ -12,11 +12,16 @@ code {
     monospace;
 }
 
-#rest {
-    background-color: pink !important;
+#page-body {
+    background-color: #eef4ee !important;
+    /* background-image: linear-gradient(#EBF9EE 60%, white) !important; */
 }
 
 /* HOMEPAGE NAVBAR STYLING -------------------------- */
+
+.nb-col{
+    background-color: #353a40 !important;
+}
 
 .navbar-image {
     height: 64px;
@@ -40,7 +45,7 @@ position: relative;
 }
 
 .nav-link:hover { 
-  color: #51934b !important;
+  color: #72ad6d !important;
 }
 
 .navbar-links {
@@ -131,6 +136,92 @@ position: relative;
     color:white !important;
     margin-top: 4px;
     margin-right: 15px;
+}
+
+/* ------------------------------------------ */
+
+/* --- HOMEPAGE STYLING ---------------------- */
+.aplus{
+    color: #3FA637;
+    font-family: 'Lato', sans-serif;
+    font-size: 90px;
+    letter-spacing: 3px;
+    position: relative;
+    font-weight: bold;
+}
+
+.tutors{
+    color:black;
+    font-family: 'Lato', sans-serif;
+    font-size: 90px;
+    letter-spacing: 10px;
+    position: relative;
+    margin-top: -50px;
+    font-weight: bold;
+}
+
+.subtitle{
+    color: #3FA637;
+    font-family: 'Raleway';
+    font-size: 30px;
+    letter-spacing: 2px;
+    position: relative;
+    font-weight: lighter;
+    margin-top: -33px;
+}
+
+.body-text{
+    color: #423F3E;
+    font-family: 'Raleway';
+    font-size: 20px;
+    position:relative;
+}
+
+.body-link{
+    color: #3FA637;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+.body-link:hover{
+    color: #3FA637;
+    font-weight: lighter;
+}
+
+.btn-options{
+    border-radius: 10px !important;
+    border-width: 1.5px !important;
+    border-color: white !important;
+    /* font-family: 'Lato', sans-serif !important; */
+    font-weight:600 !important;
+    font-family: 'Raleway' !important;
+    /* box-shadow: 1px 8px 18px -5px rgba(0,0,0,0.48) !important; */
+    /* font-weight: 500; */
+    font-size: 18px !important;
+    margin-right: 20px !important;
+    margin-top: 15px !important;
+    /* height: 75px !important; */
+    height: 65px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    color:#005d0d !important;
+}
+
+.btn-options:hover{
+    /* border-color: #16361c; */
+    /* background-color: #285430; */
+    color: #005d0d !important;
+    border-width: 1.5px !important;
+    border-color: #005d0d !important;
+    /* box-shadow: 1px 8px 24px -2px rgba(0,0,0,0.48) !important; */
+    /* border-width:6px; */
+    
+}
+
+.carousel-indicators [data-bs-target] { 
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 100% !important;
 }
 
 /* ------------------------------------------ */
