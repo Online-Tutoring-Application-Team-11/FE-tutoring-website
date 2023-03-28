@@ -25,11 +25,8 @@ const TutorNavbar = () => {
           <Navbar.Brand href="#">
           <img src="https://i.imgur.com/N7tRk7d.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
-            <NavDropdown style={{paddingLeft:20}}title="APPOINTMENTS" className="navlink-sp">
-                <NavDropdown.Item href="#action3" className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
-                <NavDropdown.Item href="#action4" className="down-nb">UPCOMING APPOINTMENT</NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link className="navlink-sp">FAVORITES</Nav.Link>
+            <Nav.Link style={{paddingLeft:20}} className="navlink-sp">UPCOMING</Nav.Link>
+            <Nav.Link className="navlink-sp">SET HOURS</Nav.Link>
         </Nav>
         
 
