@@ -4,16 +4,18 @@ import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
-import Layout from './Pages/layout'
 import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
 import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
+import HomePage from './Pages/Home/HomePage';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = "/" element = {<Layout/>}>
+        <Route path = "/" element = {<HomePage/>}>
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-up" element = {<SignUp/>}></Route>
@@ -29,7 +31,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <App/>
   </React.StrictMode>
 );
 
