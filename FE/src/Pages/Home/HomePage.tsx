@@ -1,6 +1,6 @@
 import React from 'react';
-import AppNavbar from '../../Components/AppNavbar'
-import StudentNavbar from '../../Components/StudentNavbar';
+// import AppNavbar from '../../Components/AppNavbar'
+// import StudentNavbar from '../../Components/StudentNavbar';
 import TutorNavbar from '../../Components/TutorNavbar'
 
 import { Outlet } from 'react-router-dom'

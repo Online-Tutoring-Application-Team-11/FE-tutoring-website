@@ -16,6 +16,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<HomePage/>}>
+          {/* ~Put any pages that use the nav bar in this area~ */}
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-up" element = {<SignUp/>}></Route>

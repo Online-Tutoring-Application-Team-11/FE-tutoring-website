@@ -8,7 +8,7 @@ import logo from '../../Assets/logo.png'
 
 const AuthLayout = () => {
     return(
-        <main className="m-auto">
+        <main className="m-auto body-auth">
 
           <div className="grid grid-flow-col grid-cols-7">
             <div className="col-span-3 justified">
