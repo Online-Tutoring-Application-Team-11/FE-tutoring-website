@@ -10,7 +10,8 @@ import '../../output.css'
 import './sign-in.css'
 import { UserSend } from '../../API/DTOs/userTypes'
 import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
-
+import { setUser } from '../../Hooks/userSlice';
+import { useAppDispatch } from '../../Hooks/stateHooks';
 
 const SignUp = () => {
 
@@ -18,6 +19,8 @@ const SignUp = () => {
 
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrMsg] = React.useState('');
+
+  const dispatch = useAppDispatch()
 
   const registerSchema = object({
     email: string().nonempty('Email is required').email('Email is invalid'),
@@ -49,7 +52,8 @@ const SignUp = () => {
           email: data.email,
           password: data.password
         }
-        logIn(logInInfo).then(() => {
+        logIn(logInInfo).then((data) => {
+          dispatch(setUser(data))
           if (newUser.tutor) {
             navigate("/auth/sign-up-tutor")
           } else {

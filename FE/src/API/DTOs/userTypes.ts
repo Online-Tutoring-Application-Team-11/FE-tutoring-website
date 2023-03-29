@@ -15,6 +15,7 @@ export type TutorSend = {
 }
 
 export type UserGet = {
+  id: number,
   email: string,
   password: string,
   tutor: boolean,

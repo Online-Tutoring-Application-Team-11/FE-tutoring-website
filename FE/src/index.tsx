@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 import reportWebVitals from './reportWebVitals';
 
 import AuthLayout from './Pages/UserAuth/auth-layout'
@@ -10,6 +11,7 @@ import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
 import HomePage from './Pages/Home/HomePage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { store}  from './store'
 
 export default function App() {
   return (
@@ -32,7 +34,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App/>
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </React.StrictMode>
 );
 

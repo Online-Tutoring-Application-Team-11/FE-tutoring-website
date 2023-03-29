@@ -11,11 +11,14 @@ import { subjectArray } from '../../API/DTOs/subjectTypes'
 import { updateTutor, updateUser } from '../../API/Endpoints/userEndpoints'
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
+import { useAppSelector } from '../../Hooks/stateHooks';
 
 const SignUpTutor = () => {
 
+  const user = useAppSelector((state) => state.user.value)
+
   const navigate = useNavigate();
-  var newUser: UserSend;
+  var newUser: UserSend = user;
   var tutorSubjects: TutorSend
 
   const [error, setError] = React.useState(false);
