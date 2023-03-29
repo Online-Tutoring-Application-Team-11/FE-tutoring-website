@@ -8,12 +8,6 @@ import reportWebVitals from './reportWebVitals';
 import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
 import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
-import HomePage from './Pages/Home/HomePage';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { store}  from './store'
-import SignIn from './Pages/UserAuth/sign-in-all';
-import EditProfileTutor from './Pages/Profile/edit-profile-tutor';
 
 export default function App() {
   return (
@@ -27,6 +21,7 @@ export default function App() {
           <Route path = "sign-in" element = {<SignIn/>}></Route>
           <Route path = "sign-up" element = {<SignUp/>}></Route>
           <Route path = "sign-up-tutor" element = {<SignUpTutor/>}></Route>
+          <Route path = "sign-in" element = {<SignIn/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
