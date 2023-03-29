@@ -7,7 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import Layout from './Pages/layout'
 import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
-import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
+import SignUpTutor from './Pages/UserAuth/sign-up-tutor'
+import SignIn from './Pages/UserAuth/sign-in-all';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-up" element = {<SignUp/>}></Route>
           <Route path = "sign-up-tutor" element = {<SignUpTutor/>}></Route>
+          <Route path = "sign-in" element = {<SignIn/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
