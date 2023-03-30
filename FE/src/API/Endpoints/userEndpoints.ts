@@ -19,7 +19,7 @@ export const updateTutor = async (user: TutorSend) => {
 
 export const updateUser = async (user: UserSend) => {
   let data = JSON.stringify(user);
-
+  console.log(user)
   let config = {
     method: 'put',
     maxBodyLength: Infinity,

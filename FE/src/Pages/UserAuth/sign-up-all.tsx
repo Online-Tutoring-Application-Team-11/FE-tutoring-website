@@ -50,7 +50,7 @@ const SignUp = () => {
       registerUser(newUser).then((data) => {
         const logInInfo = {
           email: data.email,
-          password: data.password
+          password: register.password
         }
         logIn(logInInfo).then((data) => {
           dispatch(setUser(data))
@@ -59,13 +59,17 @@ const SignUp = () => {
           } else {
             navigate("/")
           }
-        })
+        }).catch((err) => console.log(err))
       }).catch((err) => {
         setError(true);
         setErrMsg(err.message);
       })
     }
   };
+
+  const navToSignIn = () => {
+    navigate("/auth/sign-in")
+  }
 
   const {
     register,
@@ -186,7 +190,7 @@ const SignUp = () => {
                   Sign up
                 </Button>
                 <p className="mt-1 mb-0 text flex justify-center">Already have an account?</p>
-                <Button className="mv-0 btn btn-link btn-temp-fix" variant="text">Log In!</Button>
+                <Button className="mv-0 btn btn-link btn-temp-fix" variant="text" onClick={navToSignIn}>Log In!</Button>
                 <p className="text-muted flex justify-center">Team 11 &copy; 2023</p>
               </div>
               

@@ -31,7 +31,16 @@ const TutorNavbar = () => {
         
 
         <Nav className='float-end'>
-          <Navbar.Text className="nb-nametag">Hello, <b>{results.fname}</b></Navbar.Text>
+          {
+          results.fname && results.fname.length > 0 ? 
+          <Navbar.Text className="nb-nametag">
+            Hello, <b>{results.fname}</b>
+          </Navbar.Text> :
+          <Navbar.Text className="nb-nametag">
+            Hello, Guest
+          </Navbar.Text>
+          }
+          
           <NavDropdown align="end" style={{marginRight:-50}} title={<img className="thumbnail-image" src="https://i.imgur.com/cyUeBP3.jpg" alt="user pic"/>}>
                 <NavDropdown.Item href="#action3" className="down-nb">View Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#action4" className="down-nb">Edit Profile</NavDropdown.Item>

@@ -19,8 +19,9 @@ export const registerUser = async (user: UserSend) => {
 
 export const logIn = async (user: UserSend) => {
   let data = JSON.stringify(user);
+  console.log(data)
   let config = {
-    method: 'get',
+    method: 'post',
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_DB_URL + '/auth/login',
     headers: { 

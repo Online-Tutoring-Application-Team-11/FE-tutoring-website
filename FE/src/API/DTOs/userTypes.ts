@@ -1,10 +1,11 @@
 export type UserSend = {
   email: string,
-  password: string,
+  password?: string,
   tutor?: boolean,
   aboutMe?: string,
   subjects?: string[],
   profilePic?: string,
+  totalHours?: number,
   fName?: string,
   lName?: string
 }
@@ -22,6 +23,7 @@ export type UserGet = {
   aboutMe: string,
   subjects: string[],
   profilePic?: string,
+  totalHours?: number,
   fname?: string,
   lname?: string
 }
