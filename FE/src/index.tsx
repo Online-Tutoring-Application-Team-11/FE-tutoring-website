@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import reportWebVitals from './reportWebVitals';
 
+import Layout from './Pages/layout'
 import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
 import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
@@ -13,9 +14,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = "/" element = {<HomePage/>}>
-          {/* ~Put any pages that use the nav bar in this area~ */}
-          <Route path = "profile/edit" element = {<EditProfileTutor/>}></Route>
+        <Route path = "/" element = {<Layout/>}>
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-in" element = {<SignIn/>}></Route>
@@ -33,9 +32,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App/>
-    </Provider>
+    <App />
   </React.StrictMode>
 );
 

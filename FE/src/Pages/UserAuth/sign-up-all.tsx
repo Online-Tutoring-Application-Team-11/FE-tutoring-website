@@ -9,18 +9,12 @@ import { FaTimes} from 'react-icons/fa';
 import '../../output.css'
 import './sign-in.css'
 import { UserSend } from '../../API/DTOs/userTypes'
-import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
-import { setUser } from '../../Hooks/userSlice';
-import { useAppDispatch } from '../../Hooks/stateHooks';
+import { registerUser } from '../../API/Endpoints/authEndpoint'
+
 
 const SignUp = () => {
 
   const navigate = useNavigate();
-
-  const [error, setError] = React.useState(false);
-  const [errorMessage, setErrMsg] = React.useState('');
-
-  const dispatch = useAppDispatch()
 
   const registerSchema = object({
     email: string().nonempty('Email is required').email('Email is invalid'),
@@ -48,21 +42,11 @@ const SignUp = () => {
         tutor: register.tutor as unknown as boolean
       }
       registerUser(newUser).then((data) => {
-        const logInInfo = {
-          email: data.email,
-          password: register.password
+        if (newUser.tutor) {
+          navigate("/auth/sign-up-tutor")
+        } else {
+          navigate("/")
         }
-        logIn(logInInfo).then((data) => {
-          dispatch(setUser(data))
-          if (newUser.tutor) {
-            navigate("/auth/sign-up-tutor")
-          } else {
-            navigate("/")
-          }
-        }).catch((err) => console.log(err))
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message);
       })
     }
   };

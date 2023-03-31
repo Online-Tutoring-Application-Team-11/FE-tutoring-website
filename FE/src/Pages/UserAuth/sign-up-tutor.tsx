@@ -10,19 +10,13 @@ import { TutorSend, UserGet, UserSend } from '../../API/DTOs/userTypes'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import { updateTutor, updateUser } from '../../API/Endpoints/userEndpoints'
 import { useNavigate } from 'react-router-dom';
-import { FaTimes } from 'react-icons/fa';
-import { useAppSelector } from '../../Hooks/stateHooks';
 
 const SignUpTutor = () => {
 
   const user = useAppSelector((state) => state.user.value)
 
   const navigate = useNavigate();
-  var newUser: UserSend = user;
-  var tutorSubjects: TutorSend
-
-  const [error, setError] = React.useState(false);
-  const [errorMessage, setErrMsg] = React.useState('');
+  var newUser: UserSend;
 
   const profileSchema = object({
     aboutMe: string().nonempty('About Me is required'),
@@ -37,22 +31,8 @@ const SignUpTutor = () => {
         email: newUser.email,
         subjects: profile.subjects.slice(1)
       }
-      updateTutor(tutorSubjects).then((data: UserGet) => {
-        newUser = {
-          email: data.email,
-          tutor: data.tutor, 
-          profilePic: data.profilePic,
-          totalHours: data.totalHours,
-          aboutMe: profile.aboutMe,
-          fName: data.fname,
-          lName: data.lname
-        }
-        updateUser(newUser).then(() => {
-          navigate('/')
-        })
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message)
+      updateTutor(newUser).then((data) => {
+        navigate('/')
       })
     }
   };

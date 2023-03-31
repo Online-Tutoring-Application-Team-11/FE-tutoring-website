@@ -14,21 +14,5 @@ export const updateTutor = async (user: TutorSend) => {
     data : data
   };
   
-  return axios.request(config).then((response) => response.data)
-}
-
-export const updateUser = async (user: UserSend) => {
-  let data = JSON.stringify(user);
-  console.log(user)
-  let config = {
-    method: 'put',
-    maxBodyLength: Infinity,
-    url: process.env.REACT_APP_DB_URL + '/users/update-profile',
-    headers: { 
-      'Content-Type': 'application/json'
-    },
-    data : data
-  };
-
-  return axios.request(config).then((response) => response.data)
+  return axios.request(config).then((response) => response.data).catch((error) => {})
 }
