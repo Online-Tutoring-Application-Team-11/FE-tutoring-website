@@ -11,7 +11,6 @@ import SignUpTutor from './Pages/UserAuth/sign-up-tutor';
 import HomePage from './Pages/Home/HomePage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { store}  from './store'
 import SignIn from './Pages/UserAuth/sign-in-all';
 import ProfileLayout from './Pages/Profile/profile-layout';
 import EditProfileTutor from './Pages/Profile/edit-profile-tutor';
@@ -48,9 +47,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App/>
-    </Provider>
+    <App />
   </React.StrictMode>
 );
 
