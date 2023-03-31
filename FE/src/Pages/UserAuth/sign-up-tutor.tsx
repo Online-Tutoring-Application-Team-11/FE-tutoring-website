@@ -2,19 +2,24 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { object, string, TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, Button, FormControl, Box, Typography, MenuItem } from '@mui/material'
+import { TextField, Button, FormControl, Box, Typography, MenuItem, Alert, Collapse, IconButton } from '@mui/material'
 
 import '../../output.css'
 import './sign-in.css'
-import { UserSend } from '../../API/DTOs/userTypes'
+import { TutorSend, UserGet, UserSend } from '../../API/DTOs/userTypes'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
-import { updateTutor } from '../../API/Endpoints/userEndpoints'
+import { updateTutor, updateUser } from '../../API/Endpoints/userEndpoints'
 import { useNavigate } from 'react-router-dom';
+import { FaTimes } from 'react-icons/fa';
 
 const SignUpTutor = () => {
 
   const navigate = useNavigate();
   var newUser: UserSend;
+  var tutorSubjects: TutorSend
+
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrMsg] = React.useState('');
 
   const profileSchema = object({
     aboutMe: string().nonempty('About Me is required'),
@@ -25,13 +30,23 @@ const SignUpTutor = () => {
 
   const onSubmitHandler: SubmitHandler<ProfileInput> = (profile) => {
     if (isSubmitSuccessful) {
-      newUser = {
-        ...newUser,
-        aboutMe: profile.aboutMe,
-        subjects: profile.subjects
+      tutorSubjects = {
+        email: newUser.email,
+        subjects: profile.subjects.slice(1)
       }
-      updateTutor(newUser).then((data) => {
-        navigate('/')
+      updateTutor(tutorSubjects).then((data: UserGet) => {
+        newUser = {
+          ...data,
+          aboutMe: profile.aboutMe,
+          fName: data.fname,
+          lName: data.lname
+        }
+        updateUser(newUser).then(() => {
+          navigate('/')
+        })
+      }).catch((err) => {
+        setError(true);
+        setErrMsg(err.message)
       })
     }
   };
@@ -67,24 +82,49 @@ const SignUpTutor = () => {
               />
               <TextField
                 select
-                SelectProps={{multiple: true}}
+                SelectProps={{
+                  multiple: true,
+                  native: false
+                }}
                 required
                 id="type"
-                label="Account Type"
+                label="Subjects"
+                defaultValue={[""]}
                 error={!!errors['subjects']}
                 helperText={errors['subjects'] ? errors['subjects'].message : ''}
                 {...register('subjects')}
               >
                 {subjectArray.map((option) => 
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
                 )}
               </TextField>
 
+              <Collapse in={error}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setError(false);
+                      }}
+                    >
+                      <FaTimes fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  {errorMessage}
+                </Alert>
+              </Collapse>
+
               <div className="space-y-2">
                 <Button
-                  className="w-100 btn btn-lg btn-primary btn-temp-fix"
+                  className="w-20 btn btn-lg btn-primary btn-temp-fix"
                   variant="contained"
                   type="submit"
                 >

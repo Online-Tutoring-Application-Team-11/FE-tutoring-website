@@ -4,7 +4,7 @@ import './index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
-import Layout from './Pages/layout'
+import HomePage from './Pages/Home/HomePage'
 import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
 import SignUpTutor from './Pages/UserAuth/sign-up-tutor'
@@ -14,7 +14,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path = "/" element = {<Layout/>}>
+        <Route path = "/" element = {<HomePage/>}>
+          {/* ~Put any pages that use the nav bar in this area~ */}
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-up" element = {<SignUp/>}></Route>
@@ -31,7 +32,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <App/>
   </React.StrictMode>
 );
 

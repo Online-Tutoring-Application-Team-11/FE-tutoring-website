@@ -2,21 +2,27 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { number, object, string, TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, MenuItem, Button, FormControl, Box, Typography } from '@mui/material'
+import { TextField, MenuItem, Button, FormControl, Box, Typography, Alert, Collapse, IconButton } from '@mui/material'
 import { useNavigate } from "react-router-dom";
+import { FaTimes} from 'react-icons/fa';
 
 import '../../output.css'
 import './sign-in.css'
 import { UserSend } from '../../API/DTOs/userTypes'
-import { registerUser } from '../../API/Endpoints/authEndpoint'
+import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
 
 
 const SignUp = () => {
 
   const navigate = useNavigate();
 
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrMsg] = React.useState('');
+
   const registerSchema = object({
     email: string().nonempty('Email is required').email('Email is invalid'),
+    fName: string().nonempty('Name is required'),
+    lName: string().nonempty('Name is required'),
     password: string()
       .nonempty('Password is required')
       .min(8, 'Password must be more than 8 characters'),
@@ -32,16 +38,27 @@ const SignUp = () => {
   const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
     if (isSubmitSuccessful) {
       const newUser: UserSend = {
-        email: register.email, 
+        email: register.email,
+        fName: register.fName,
+        lName: register.lName,
         password: register.password,
         tutor: register.tutor as unknown as boolean
       }
       registerUser(newUser).then((data) => {
-        if (newUser.tutor) {
-          navigate("/auth/sign-up-tutor")
-        } else {
-          navigate("/")
+        const logInInfo = {
+          email: data.email,
+          password: data.password
         }
+        logIn(logInInfo).then(() => {
+          if (newUser.tutor) {
+            navigate("/auth/sign-up-tutor")
+          } else {
+            navigate("/")
+          }
+        })
+      }).catch((err) => {
+        setError(true);
+        setErrMsg(err.message);
       })
     }
   };
@@ -68,18 +85,42 @@ const SignUp = () => {
             <FormControl sx={{ height: 560 }} fullWidth className="flex justify-between center">
               <TextField
                 required
-                id="standard-required"
                 className="m-2"
+                size="small"
                 label="Email Address"
                 placeholder="netid@utdallas.edu"
                 error={!!errors['email']}
                 helperText={errors['email'] ? errors['email'].message : ''}
                 {...register('email')}
               />
+              <div className="grid grid-flow-col grid-cols-6">
+                <div className="col-span-3">
+                  <TextField
+                    required
+                    className="m-2"
+                    size="small"
+                    label="First Name"
+                    error={!!errors['fName']}
+                    helperText={errors['fName'] ? errors['fName'].message : ''}
+                    {...register('fName')}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <TextField
+                    required
+                    className="m-2"
+                    size="small"
+                    label="Last Name"
+                    error={!!errors['lName']}
+                    helperText={errors['lName'] ? errors['lName'].message : ''}
+                    {...register('lName')}
+                  />
+                </div>
+              </div>
               <TextField
                 required
-                id="standard-password-input"
                 className="m-2"
+                size="small"
                 label="Password"
                 type="password"
                 error={!!errors['password']}
@@ -88,8 +129,8 @@ const SignUp = () => {
               />
               <TextField
                 required
-                id="standard-password-input"
                 className="m-2"
+                size="small"
                 label="Confirm Password"
                 type="password"
                 error={!!errors['conPassword']}
@@ -99,6 +140,8 @@ const SignUp = () => {
               <TextField
                 select
                 required
+                className="m-2"
+                size="small"
                 id="type"
                 label="Account Type"
                 error={!!errors['tutor']}
@@ -109,9 +152,30 @@ const SignUp = () => {
                 <MenuItem value={1}>Tutor</MenuItem>
               </TextField>
 
+              <Collapse in={error}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setError(false);
+                      }}
+                    >
+                      <FaTimes fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  {errorMessage}
+                </Alert>
+              </Collapse>
+
               <div className="space-y-2">
                 <Button
-                  className="w-100 btn btn-lg btn-primary btn-temp-fix"
+                  className="w-20 btn btn-lg btn-primary btn-temp-fix"
                   variant="contained"
                   type="submit"
                 >
@@ -123,6 +187,8 @@ const SignUp = () => {
               </div>
               
             </FormControl>
+
+            
             
           </Box>
       

@@ -9,6 +9,11 @@ export type UserSend = {
   lName?: string
 }
 
+export type TutorSend = {
+  email: string,
+  subjects: string[]
+}
+
 export type UserGet = {
   email: string,
   password: string,
