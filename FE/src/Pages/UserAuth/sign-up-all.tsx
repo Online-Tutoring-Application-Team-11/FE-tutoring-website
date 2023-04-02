@@ -10,6 +10,7 @@ import '../../output.css'
 import './sign-in.css'
 import { UserSend } from '../../API/DTOs/userTypes'
 import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
+import { setAuthToken } from '../../Hooks/useAuthToken';
 
 
 const SignUp = () => {
@@ -47,9 +48,11 @@ const SignUp = () => {
       registerUser(newUser).then((data) => {
         const logInInfo = {
           email: data.email,
-          password: data.password
+          password: newUser.password
         }
-        logIn(logInInfo).then(() => {
+        logIn(logInInfo).then((response) => {
+          setAuthToken(response.token)
+
           if (newUser.tutor) {
             navigate("/auth/sign-up-tutor")
           } else {
