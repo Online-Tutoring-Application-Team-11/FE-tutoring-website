@@ -13,6 +13,7 @@ import HomePage from './Pages/Home/HomePage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { store}  from './store'
 import SignIn from './Pages/UserAuth/sign-in-all';
+import ProfileLayout from './Pages/Profile/profile-layout';
 import EditProfileTutor from './Pages/Profile/edit-profile-tutor';
 
 export default function App() {
@@ -20,8 +21,9 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path = "/" element = {<HomePage/>}>
-          {/* ~Put any pages that use the nav bar in this area~ */}
-          <Route path = "profile/edit" element = {<EditProfileTutor/>}></Route>
+          <Route path = "profile" element = {<ProfileLayout/>}>
+            <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
+          </Route>
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-in" element = {<SignIn/>}></Route>

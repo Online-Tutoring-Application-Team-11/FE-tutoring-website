@@ -8,14 +8,11 @@ import { useNavigate } from "react-router-dom";
 import useResultsStudent from '../Hooks/useResultsStudent';
 
 
-const StudentNavbar = () => {
-
-    //HOOKS
-    const[studentNameAPI, results, errorMessage] = useResultsStudent();
+const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => {
 
     //HELPER FUNCTION
     const processAPI = () => {
-        studentNameAPI("anirudh.umarji@utdallas.edu");
+        nameAPI("anirudh.umarji@utdallas.edu");
     }
 
     return(

@@ -4,18 +4,12 @@ import {Navbar, Container, Nav, NavDropdown} from 'react-bootstrap'
 import {FaHeart} from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
-//Hooks
-import useResultsStudent from '../Hooks/useResultsStudent';
 
-
-const TutorNavbar = () => {
-
-    //HOOKS
-    const[studentNameAPI, results, errorMessage] = useResultsStudent();
+const TutorNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => {
 
     //HELPER FUNCTION
     const processAPI = () => {
-        studentNameAPI("anirudh.umarji@utdallas.edu");
+        nameAPI("anirudh.umarji@utdallas.edu");
     }
 
     return(
@@ -43,9 +37,9 @@ const TutorNavbar = () => {
           
           <NavDropdown align="end" style={{marginRight:-50}} title={<img className="thumbnail-image" src="https://i.imgur.com/cyUeBP3.jpg" alt="user pic"/>}>
                 <NavDropdown.Item href="#action3" className="down-nb">View Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action4" className="down-nb">Edit Profile</NavDropdown.Item>
+                <NavDropdown.Item href="profile/edit/tutor" className="down-nb">Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action4" className="down-nb">Sign Out</NavDropdown.Item>
+                <NavDropdown.Item href="auth/sign-in" className="down-nb">Sign Out</NavDropdown.Item>
             </NavDropdown>
         </Nav>
         </Container>
