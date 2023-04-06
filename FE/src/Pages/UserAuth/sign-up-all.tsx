@@ -12,6 +12,8 @@ import { UserSend } from '../../API/DTOs/userTypes'
 import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
 import { setUser } from '../../Hooks/userSlice';
 import { useAppDispatch } from '../../Hooks/stateHooks';
+import { setAuthToken } from '../../Hooks/useAuthToken';
+
 
 const SignUp = () => {
 
@@ -50,10 +52,12 @@ const SignUp = () => {
       registerUser(newUser).then((data) => {
         const logInInfo = {
           email: data.email,
-          password: register.password
+          password: newUser.password
         }
-        logIn(logInInfo).then((data) => {
-          dispatch(setUser(data))
+        logIn(logInInfo).then((response) => {
+          dispatch(setUser(response))
+          setAuthToken(response.token)
+
           if (newUser.tutor) {
             navigate("/auth/sign-up-tutor")
           } else {

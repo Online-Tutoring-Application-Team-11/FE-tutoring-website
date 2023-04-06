@@ -1,4 +1,5 @@
 import { TutorSend, UserSend } from '../DTOs/userTypes'
+import { getAuthToken } from '../../Hooks/useAuthToken';
 import axios from 'axios'
 
 export const updateTutor = async (user: TutorSend) => {
@@ -9,7 +10,8 @@ export const updateTutor = async (user: TutorSend) => {
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_DB_URL + '/tutors/update',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getAuthToken()}`
     },
     data : data
   };
@@ -25,7 +27,8 @@ export const updateUser = async (user: UserSend) => {
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_DB_URL + '/users/update-profile',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getAuthToken()}`
     },
     data : data
   };

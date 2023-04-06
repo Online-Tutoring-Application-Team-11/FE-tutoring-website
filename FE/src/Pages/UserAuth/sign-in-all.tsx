@@ -11,6 +11,7 @@ import { UserSend } from '../../API/DTOs/userTypes'
 import { logIn } from '../../API/Endpoints/authEndpoint'
 import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setUser } from '../../Hooks/userSlice';
+import { setAuthToken } from '../../Hooks/useAuthToken';
 import { FaTimes } from 'react-icons/fa';
 
 const SignIn = () => {
@@ -38,6 +39,7 @@ const SignIn = () => {
             password: login.password,
           }
           logIn(returnUser).then((data) => {
+            setAuthToken(data.token)
             dispatch(setUser(data))
             navigate("/") // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
           }).catch((err) => {

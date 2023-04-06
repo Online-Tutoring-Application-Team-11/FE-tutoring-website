@@ -7,7 +7,8 @@ export type UserSend = {
   profilePic?: string,
   totalHours?: number,
   fName?: string,
-  lName?: string
+  lName?: string,
+  token?: string
 }
 
 export type TutorSend = {
@@ -25,5 +26,6 @@ export type UserGet = {
   profilePic?: string,
   totalHours?: number,
   fname?: string,
-  lname?: string
+  lname?: string,
+  token?: string
 }
