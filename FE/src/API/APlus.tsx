@@ -4,5 +4,5 @@ import { getAuthToken } from '../Hooks/useAuthToken';
 
 export default axios.create({
     baseURL: process.env.REACT_APP_DB_URL,
-    headers: { 'Authorization': `Bearer ${getAuthToken()}` }
+    headers: { 'Authorization': `${getAuthToken()}` }
 });

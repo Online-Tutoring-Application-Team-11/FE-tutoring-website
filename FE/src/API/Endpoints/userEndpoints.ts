@@ -11,7 +11,7 @@ export const updateTutor = async (user: TutorSend) => {
     url: process.env.REACT_APP_DB_URL + '/tutors/update',
     headers: { 
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${getAuthToken()}`
+      'Authorization': `${getAuthToken()}`
     },
     data : data
   };
@@ -28,7 +28,7 @@ export const updateUser = async (user: UserSend) => {
     url: process.env.REACT_APP_DB_URL + '/users/update-profile',
     headers: { 
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${getAuthToken()}`
+      'Authorization': `${getAuthToken()}`
     },
     data : data
   };
