@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setUser } from '../../Hooks/userSlice';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import { FaTimes } from 'react-icons/fa';
+import { getTutor } from '../../API/Endpoints/userEndpoints';
 
 const SignIn = () => {
 
@@ -21,7 +22,7 @@ const SignIn = () => {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrMsg] = React.useState('');
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     // in progress
     const loginSchema = object({
@@ -39,9 +40,27 @@ const SignIn = () => {
             password: login.password,
           }
           logIn(returnUser).then((data) => {
-            setAuthToken(data.token)
-            dispatch(setUser(data))
-            navigate("/") // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
+            setAuthToken(data.token);
+            if (!data.tutor) {
+              dispatch(setUser({
+                ...data,
+                fName: data.fname,
+                lName: data.lname
+              }));
+              navigate("/");
+            } else {
+              getTutor(login.email).then((response) => {
+                dispatch(setUser({
+                  ...response,
+                  fName: response.fname,
+                  lName: response.lname,
+                  subjects: response.subjects
+                }));
+                navigate("/");
+              })
+            }    
+
+             // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
           }).catch((err) => {
             setError(true);
             setErrMsg(err.message);

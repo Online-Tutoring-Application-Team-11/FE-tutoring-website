@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 
 export const uploadImage = async (image: string | ArrayBuffer, path: string) => {
   const storage = getStorage(app);
-  const reference = ref(storage, 'jah200003.png');
+  const reference = ref(storage, path);
   if (typeof(image) == 'string') {
     await uploadString(reference, image);
   } else {

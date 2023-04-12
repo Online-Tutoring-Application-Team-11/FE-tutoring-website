@@ -55,7 +55,11 @@ const SignUp = () => {
           password: newUser.password
         }
         logIn(logInInfo).then((response) => {
-          dispatch(setUser(response))
+          dispatch(setUser({
+            ...response,
+            fName: response.fname,
+            lName: response.lname
+          }))
           setAuthToken(response.token)
 
           if (newUser.tutor) {

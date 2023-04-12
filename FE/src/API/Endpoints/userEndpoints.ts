@@ -21,7 +21,6 @@ export const updateTutor = async (user: TutorSend) => {
 
 export const updateUser = async (user: UserSend) => {
   let data = JSON.stringify(user);
-  console.log(user)
   let config = {
     method: 'put',
     maxBodyLength: Infinity,
@@ -33,5 +32,33 @@ export const updateUser = async (user: UserSend) => {
     data : data
   };
 
-  return axios.request(config).then((response) => response.data)
+  return axios.request(config).then((response) => response.data);
+}
+
+export const getTutor = async (emailreq : string) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: process.env.REACT_APP_DB_URL + `/tutors/get/${emailreq}`,
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `${getAuthToken()}`
+    }
+  };
+
+  return axios.request(config).then((response) => response.data);
+}
+
+export const getStudent = async (emailreq : string) => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: process.env.REACT_APP_DB_URL + `/students/get/${emailreq}`,
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `${getAuthToken()}`
+    }
+  };
+
+  return axios.request(config).then((response) => response.data);
 }

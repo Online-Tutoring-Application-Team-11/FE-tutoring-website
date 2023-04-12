@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CardContent, Typography, CardActions, MenuItem, TextField, Button, Avatar, Badge, IconButton, Dialog, DialogTitle, Collapse, Alert, Fab } from '@mui/material'
+import { CardContent, Typography, CardActions, TextField, Button, Avatar, Badge, IconButton, Dialog, DialogTitle, Collapse, Alert, Fab } from '@mui/material'
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -7,9 +7,7 @@ import { object, string, TypeOf } from 'zod'
 
 import {FaEdit, FaTimes} from 'react-icons/fa';
 
-import { subjectArray } from '../../API/DTOs/subjectTypes'
-import { UserSend, TutorSend, UserGet } from '../../API/DTOs/userTypes'
-import { updateTutor } from '../../API/Endpoints/userEndpoints'
+import { UserSend } from '../../API/DTOs/userTypes'
 import { updateUser } from '../../API/Endpoints/userEndpoints'
 import { useAppDispatch, useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
@@ -19,14 +17,13 @@ import { uploadImage } from '../../Helpers/firebaseHelper'
 import { setUser } from '../../Hooks/userSlice'
 import { changePassword } from '../../API/Endpoints/authEndpoint'
 
-const EditProfileTutor = () => {
+const EditProfileStudent = () => {
 
   const user = useAppSelector((state) => state.user.value);
 
   const dispatch = useAppDispatch();
 
   var userChange: UserSend = user;
-  var tutorSubjects: TutorSend;
   const [openForgotPassword, setOpen] = React.useState(false);
   const [oldPassword, setOldPass] = React.useState("");
   const [newPassword, setNewPass] = React.useState("");
@@ -86,34 +83,23 @@ const EditProfileTutor = () => {
 
   const onSubmitHandler: SubmitHandler<ProfileInput> = (profile) => {
     if (isSubmitSuccessful) {
-      tutorSubjects = {
-        email: userChange.email,
-        subjects: profile.subjects.slice(1)
-      }
-      updateTutor(tutorSubjects).then((data: UserGet) => {
         userChange = {
-          id: data.id,
-          email: data.email,
-          tutor: data.tutor, 
-          profilePic: profileLink,
-          totalHours: data.totalHours,
-          aboutMe: profile.aboutMe,
+          ...userChange,
           fName: profile.fName,
-          lName: profile.lName
+          lName: profile.lName,
+          profilePic: profileLink
         }
         updateUser(userChange).then((response) => {
           dispatch(setUser({
             ...response,
-            subjects: data.subjects,
             fName: response.fname,
             lName: response.lname
           }));
           setSuccess(true);
-        })
-      }).catch((err) => {
-        setErrMsg(err.message);
-        setError(true);
-      })
+        }).catch((err) => {
+          setErrMsg(err.message);
+          setError(true);
+        });
     }
   };
 
@@ -124,9 +110,7 @@ const EditProfileTutor = () => {
   } = useForm<ProfileInput>({
     defaultValues: {
       fName: user.fName,
-      lName: user.lName,
-      aboutMe: user.aboutMe,
-      subjects: user.subjects
+      lName: user.lName
     },
     resolver: zodResolver(profileSchema),
   });
@@ -177,38 +161,6 @@ const EditProfileTutor = () => {
                 }}
                 value={user.email}
               />
-          
-              <TextField
-                className="row-span-2 m-2"
-                id="outlined-multiline-static"
-                label="About Me"
-                multiline
-                rows={4}
-                error={!!errors['aboutMe']}
-                helperText={errors['aboutMe'] ? errors['aboutMe'].message : ''}
-                {...register('aboutMe')}
-              />
-              <TextField
-                className="m-2"
-                select
-                SelectProps={{
-                  multiple: true,
-                  native: false
-                }}
-                required
-                id="type"
-                label="Subjects"
-                defaultValue={user.subjects}
-                error={!!errors['subjects']}
-                helperText={errors['subjects'] ? errors['subjects'].message : ''}
-                {...register('subjects')}
-              >
-                {subjectArray.map((option) => 
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                )}
-              </TextField>
             </div>
 
             <div className="col-span-4 flex justify-end">
@@ -301,4 +253,4 @@ const EditProfileTutor = () => {
   )
 }
 
-export default EditProfileTutor
+export default EditProfileStudent

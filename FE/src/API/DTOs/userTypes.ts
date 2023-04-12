@@ -1,4 +1,5 @@
 export type UserSend = {
+  id?: number,
   email: string,
   password?: string,
   tutor?: boolean,
@@ -14,6 +15,12 @@ export type UserSend = {
 export type TutorSend = {
   email: string,
   subjects: string[]
+}
+
+export type PasswordSend = {
+  email: string,
+  password: string,
+  newPassword: string
 }
 
 export type UserGet = {
