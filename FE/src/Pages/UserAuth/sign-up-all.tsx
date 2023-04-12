@@ -10,6 +10,8 @@ import '../../output.css'
 import './sign-in.css'
 import { UserSend } from '../../API/DTOs/userTypes'
 import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
+import { setUser } from '../../Hooks/userSlice';
+import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 
 
@@ -19,6 +21,8 @@ const SignUp = () => {
 
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrMsg] = React.useState('');
+
+  const dispatch = useAppDispatch()
 
   const registerSchema = object({
     email: string().nonempty('Email is required').email('Email is invalid'),
@@ -51,6 +55,11 @@ const SignUp = () => {
           password: newUser.password
         }
         logIn(logInInfo).then((response) => {
+          dispatch(setUser({
+            ...response,
+            fName: response.fname,
+            lName: response.lname
+          }))
           setAuthToken(response.token)
 
           if (newUser.tutor) {
@@ -58,13 +67,17 @@ const SignUp = () => {
           } else {
             navigate("/")
           }
-        })
+        }).catch((err) => console.log(err))
       }).catch((err) => {
         setError(true);
         setErrMsg(err.message);
       })
     }
   };
+
+  const navToSignIn = () => {
+    navigate("/auth/sign-in")
+  }
 
   const {
     register,
@@ -185,7 +198,7 @@ const SignUp = () => {
                   Sign up
                 </Button>
                 <p className="mt-1 mb-0 text flex justify-center">Already have an account?</p>
-                <Button className="mv-0 btn btn-link btn-temp-fix" variant="text">Log In!</Button>
+                <Button className="mv-0 btn btn-link btn-temp-fix" variant="text" onClick={navToSignIn}>Log In!</Button>
                 <p className="text-muted flex justify-center">Team 11 &copy; 2023</p>
               </div>
               
