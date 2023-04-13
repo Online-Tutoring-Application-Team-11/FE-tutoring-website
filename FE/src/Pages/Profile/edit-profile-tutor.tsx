@@ -9,15 +9,13 @@ import {FaEdit, FaTimes} from 'react-icons/fa';
 
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import { UserSend, TutorSend, UserGet } from '../../API/DTOs/userTypes'
-import { updateTutor } from '../../API/Endpoints/userEndpoints'
-import { updateUser } from '../../API/Endpoints/userEndpoints'
+import { updateTutor, updateUser, changePassword } from '../../API/Endpoints/userEndpoints'
 import { useAppDispatch, useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
 import './profile.css'
 import { uploadImage } from '../../Helpers/firebaseHelper'
 import { setUser } from '../../Hooks/userSlice'
-import { changePassword } from '../../API/Endpoints/authEndpoint'
 
 const EditProfileTutor = () => {
 

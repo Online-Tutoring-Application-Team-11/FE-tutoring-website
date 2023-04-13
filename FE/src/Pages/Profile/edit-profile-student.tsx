@@ -8,14 +8,13 @@ import { object, string, TypeOf } from 'zod'
 import {FaEdit, FaTimes} from 'react-icons/fa';
 
 import { UserSend } from '../../API/DTOs/userTypes'
-import { updateUser } from '../../API/Endpoints/userEndpoints'
+import { updateUser, changePassword } from '../../API/Endpoints/userEndpoints'
 import { useAppDispatch, useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
 import './profile.css'
 import { uploadImage } from '../../Helpers/firebaseHelper'
 import { setUser } from '../../Hooks/userSlice'
-import { changePassword } from '../../API/Endpoints/authEndpoint'
 
 const EditProfileStudent = () => {
 
