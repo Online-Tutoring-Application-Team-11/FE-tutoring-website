@@ -16,6 +16,8 @@ import SignIn from './Pages/UserAuth/sign-in-all';
 import ProfileLayout from './Pages/Profile/profile-layout';
 import EditProfileTutor from './Pages/Profile/edit-profile-tutor';
 import EditProfileStudent from './Pages/Profile/edit-profile-student';
+import ViewProfileTutor from './Pages/Profile/view-profile-tutor';
+import ViewProfileStudent from './Pages/Profile/view-profile-student';
 
 export default function App() {
 
@@ -26,6 +28,8 @@ export default function App() {
           <Route path = "profile" element = {<ProfileLayout/>}>
             <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
             <Route path = "edit/student" element = {<EditProfileStudent/>}></Route>
+            <Route path = "view/tutor" element = {<ViewProfileTutor/>}></Route>
+            <Route path = "view/student" element = {<ViewProfileStudent/>}></Route>
           </Route>
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>

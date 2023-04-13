@@ -47,7 +47,7 @@ const TutorNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => {
           <NavDropdown align="end" style={{marginRight:-50}} title={<Avatar sx={{ bgcolor: nameToColor(results.fname || " ") }} src={results.profilePic}>
                   {nameToInitials(results.fname || " ", results.lname || " ")}
                 </Avatar>}>
-                <NavDropdown.Item href="#action3" className="down-nb">View Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => {navigate("/profile/view/tutor")}} className="down-nb">View Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => {navigate("/profile/edit/tutor")}} className="down-nb">Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={signOut} className="down-nb">Sign Out</NavDropdown.Item>
