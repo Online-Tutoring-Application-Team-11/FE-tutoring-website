@@ -8,15 +8,15 @@ import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
 import './profile.css'
 
-const ViewProfileTutor = () => {
+const ViewProfileStudent = () => {
 
   const navigate = useNavigate();
-
-  const user = useAppSelector((state) => state.user.value)
   
-  const navToEditTutor = () => {
-    navigate("/profile/edit/tutor")
-  };
+  const user = useAppSelector((state) => state.user.value)
+
+  const navToEditStudent = () => {
+    navigate("/profile/edit/student")
+  }
 
   return(
     <div>
@@ -28,20 +28,14 @@ const ViewProfileTutor = () => {
           </Typography>
 
           <div className="grid grid-flow-col grid-cols-12">
-            <div className="grid grid-flow-row col-span-6 form-elements">
+            <div className="grid grid-flow-row grid-rows-5 gap-y-4 col-span-6 form-elements">
               
-              <Typography variant="h6">Name</Typography>
-              <Typography variant="body1">{user.fName} {user.lName}</Typography>
+              <Typography variant="h6" gutterBottom>Name</Typography>
+              <Typography variant="body1" gutterBottom>{user.fName} {user.lName}</Typography>
 
-              <Typography variant="h6">Email</Typography>
-              <Typography variant="body1">{user.email}</Typography>
+              <Typography variant="h6" gutterBottom>Email</Typography>
+              <Typography variant="body1" gutterBottom>{user.email}</Typography>
           
-              <Typography variant="h6">About Me</Typography>
-              <Typography variant="body1">{user.aboutMe}</Typography>
-
-              <Typography variant="h6">List of Subjects</Typography>
-              <Typography variant="body1">{user.subjects}</Typography>
-
             </div>
 
             <div className="col-span-4 flex justify-end">
@@ -54,11 +48,11 @@ const ViewProfileTutor = () => {
  
         </CardContent>
         <CardActions>
-          <Button className="m-3" variant="contained" color="primary" onClick={navToEditTutor}>Edit Profile</Button>
+          <Button className="m-3" variant="contained" color="primary" onClick={navToEditStudent}>Edit Profile</Button>
         </CardActions>
       </Card>
     </div>
   )
 }
 
-export default ViewProfileTutor
+export default ViewProfileStudent
