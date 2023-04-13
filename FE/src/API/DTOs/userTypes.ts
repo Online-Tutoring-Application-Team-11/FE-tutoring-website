@@ -23,11 +23,6 @@ export type PasswordSend = {
   newPassword: string
 }
 
-export type TutorSend = {
-  email: string,
-  subjects: string[]
-}
-
 export type UserGet = {
   id: number,
   email: string,
