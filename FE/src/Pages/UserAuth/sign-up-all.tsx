@@ -19,6 +19,11 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrMsg] = React.useState('');
+
+  const dispatch = useAppDispatch()
+
   const registerSchema = object({
     email: string().nonempty('Email is required').email('Email is invalid'),
     fName: string().nonempty('Name is required'),

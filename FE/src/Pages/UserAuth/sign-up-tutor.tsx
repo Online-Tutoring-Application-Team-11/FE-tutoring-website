@@ -22,7 +22,11 @@ const SignUpTutor = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  var newUser: UserSend;
+  var newUser: UserSend = user;
+  var tutorSubjects: TutorSend
+
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrMsg] = React.useState('');
 
   const profileSchema = object({
     aboutMe: string().nonempty('About Me is required'),

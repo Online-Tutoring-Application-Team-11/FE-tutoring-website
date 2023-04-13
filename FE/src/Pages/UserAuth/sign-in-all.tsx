@@ -22,9 +22,8 @@ const SignIn = () => {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrMsg] = React.useState('');
 
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
 
-    // in progress
     const loginSchema = object({
       email: string().nonempty('Email is required'),
       password: string().nonempty('Password is required'),
@@ -32,7 +31,6 @@ const SignIn = () => {
 
     type LoginInput = TypeOf<typeof loginSchema>;
 
-    // in progress
     const onSubmitHandler: SubmitHandler<LoginInput> = (login) => {
         if (isSubmitSuccessful) {
           const returnUser: UserSend = {
