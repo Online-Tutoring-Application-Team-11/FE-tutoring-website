@@ -37,9 +37,7 @@ const EditProfileStudent = () => {
 
   const profileSchema = object({
     fName: string().nonempty('Name is required'),
-    lName: string().nonempty('Name is required'),
-    aboutMe: string().nonempty('About Me is required'),
-    subjects: string().array().nonempty('Subjects are required')
+    lName: string().nonempty('Name is required')
   });
 
   type ProfileInput = TypeOf<typeof profileSchema>

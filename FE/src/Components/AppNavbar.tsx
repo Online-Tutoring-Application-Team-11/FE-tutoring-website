@@ -18,7 +18,7 @@ const AppNavbar = () => {
         <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#">
-          <img src="https://i.imgur.com/Vomm9Wd.png" className="navbar-image" alt="A+ Tutors Logo"/>
+          <img src="https://i.imgur.com/Vomm9Wd.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
           <Nav className="navbar-links">
             <Nav.Link className="navlink-hp" href="#">TUTORS</Nav.Link>
