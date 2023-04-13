@@ -36,6 +36,7 @@ export default function App() {
           <Route path = "sign-in" element = {<SignIn/>}></Route>
           <Route path = "sign-up" element = {<SignUp/>}></Route>
           <Route path = "sign-up-tutor" element = {<SignUpTutor/>}></Route>
+          <Route path = "sign-in" element = {<SignIn/>}></Route>
         </Route>
         
       </Routes>
