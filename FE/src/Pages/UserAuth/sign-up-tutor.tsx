@@ -9,13 +9,17 @@ import './sign-in.css'
 import { TutorSend, UserGet, UserSend } from '../../API/DTOs/userTypes'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import { updateTutor, updateUser } from '../../API/Endpoints/userEndpoints'
+import { useAppDispatch } from '../../Hooks/stateHooks';
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { useAppSelector } from '../../Hooks/stateHooks';
+import { setUser } from '../../Hooks/userSlice';
 
 const SignUpTutor = () => {
 
   const user = useAppSelector((state) => state.user.value)
+
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
   var newUser: UserSend = user;
@@ -47,8 +51,14 @@ const SignUpTutor = () => {
           fName: data.fname,
           lName: data.lname
         }
-        updateUser(newUser).then(() => {
-          navigate('/')
+        updateUser(newUser).then((response) => {
+          dispatch(setUser({
+            ...response,
+            subjects: data.subjects,
+            fName: response.fname,
+            lName: response.lname
+          }));
+          navigate('/');
         })
       }).catch((err) => {
         setError(true);

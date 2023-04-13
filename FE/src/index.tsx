@@ -20,6 +20,7 @@ import EditProfileStudent from './Pages/Profile/edit-profile-student';
 import ViewProfileStudent from './Pages/Profile/view-profile-student';
 
 export default function App() {
+
   return (
     <BrowserRouter>
       <Routes>
