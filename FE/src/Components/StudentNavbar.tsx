@@ -33,7 +33,7 @@ const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => 
           <img src="https://i.imgur.com/N7tRk7d.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
             <NavDropdown style={{paddingLeft:20}}title="APPOINTMENTS" className="navlink-sp">
-                <NavDropdown.Item href="#action3" className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => {navigate("/appointments/set")}} className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
                 <NavDropdown.Item href="#action4" className="down-nb">UPCOMING APPOINTMENT</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link className="navlink-sp">FAVORITES</Nav.Link>

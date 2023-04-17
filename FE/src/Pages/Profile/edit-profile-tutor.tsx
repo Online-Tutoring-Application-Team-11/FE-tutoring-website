@@ -86,7 +86,7 @@ const EditProfileTutor = () => {
     if (isSubmitSuccessful) {
       tutorSubjects = {
         email: userChange.email,
-        subjects: profile.subjects.slice(1)
+        subjects: profile.subjects
       }
       updateTutor(tutorSubjects).then((data: UserGet) => {
         userChange = {
