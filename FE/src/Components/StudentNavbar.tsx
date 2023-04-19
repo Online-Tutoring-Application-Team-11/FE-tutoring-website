@@ -1,22 +1,15 @@
 //React
 import React from 'react';
 import {Navbar, Container, Nav, NavDropdown} from 'react-bootstrap'
-import {FaHeart} from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 //Hooks
-import useResultsStudent from '../Hooks/useResultsStudent';
 import { setAuthToken } from '../Hooks/useAuthToken';
 import { Avatar } from '@mui/material';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 
 
-const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => {
-
-    //HELPER FUNCTION
-    const processAPI = () => {
-        nameAPI("anirudh.umarji@utdallas.edu");
-    }
+const StudentNavbar = ({ results }: { nameAPI: any, results: any }) => {
 
     const navigate = useNavigate();
 
@@ -36,7 +29,7 @@ const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => 
                 <NavDropdown.Item onClick={() => {navigate("/appointments/set")}} className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
                 <NavDropdown.Item href="#action4" className="down-nb">UPCOMING APPOINTMENT</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link className="navlink-sp">FAVORITES</Nav.Link>
+            <Nav.Link onClick={() => {navigate("/favorites")}} className="navlink-sp">FAVORITES</Nav.Link>
         </Nav>
         
 

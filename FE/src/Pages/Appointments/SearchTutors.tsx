@@ -8,9 +8,14 @@ import { InputAdornment, MenuItem, TextField } from '@mui/material'
 import { FaFilter, FaSearch } from 'react-icons/fa'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import TutorCard from '../../Components/TutorCard'
+import { useAppSelector } from '../../Hooks/stateHooks'
 
 
 const SearchTutors = () => {
+
+    const user = useAppSelector((state) => state.user.value)
+
+    const subjList = subjectArray;
 
     const [tutorList, setTutorList] = React.useState<Array<Array<UserGet>>>([]);
     const [totalList, setTotalList] = React.useState<Array<UserGet>>([]);
@@ -28,7 +33,19 @@ const SearchTutors = () => {
     }
 
     const getList = () => {
+        if (!subjList.find((val) => val == "All Subjects")) {
+            subjList.push("All Subjects");
+        }
+        
         getAllTutors(subjectFilter).then((data: Array<UserGet>) => {
+            for (let i = 0; i < data.length; i++) {
+                if (user.favouriteTutorIds && user.favouriteTutorIds.find((val) => val == data[i].id) != undefined) {
+                    data[i].fav = true;
+                } else {
+                    data[i].fav = false;
+                }
+            }
+
             let newTutorList = [[]] as Array<Array<UserGet>>;
             let outerIndex = 0;
             let innerIndex = 0;
@@ -38,7 +55,7 @@ const SearchTutors = () => {
                 } else {
                     newTutorList[outerIndex].push(data[i])
                 }
-                if ((innerIndex + 1) % 3 == 0) {
+                if ((innerIndex + 1) % 3 === 0) {
                     newTutorList.push([]);
                     outerIndex++;
                 }
@@ -51,6 +68,7 @@ const SearchTutors = () => {
 
     useEffect(() => {
         getList();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
     const updateList = (subject: string, name: string | null) => {
@@ -62,12 +80,12 @@ const SearchTutors = () => {
         for (let i = 0; i < data.length; i++) {
             if (name && name.length > 0 && !((data[i].fname! + " " + data[i].lname!).includes(name))) {
                 innerIndex--;
-            } else if (subject && !(data[i].subjects.includes(subject))) {
+            } else if (subject && subject != "All Subjects" && !(data[i].subjects.includes(subject))) {
                 innerIndex--;
             } else {
                 newTutorList[outerIndex].push(data[i])
             }
-            if ((innerIndex + 1) % 3 == 0) {
+            if ((innerIndex + 1) % 3 === 0) {
                 newTutorList.push([]);
                 outerIndex++;
             }
@@ -110,7 +128,7 @@ const SearchTutors = () => {
                         }}
                         onChange={(event) => {updateSubject(event.target.value)}}
                     >
-                        {subjectArray.map((option) => 
+                        {subjList.map((option) => 
                             <MenuItem key={option} value={option}>
                                 {option}
                             </MenuItem>

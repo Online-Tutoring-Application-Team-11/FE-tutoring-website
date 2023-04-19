@@ -1,19 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from "react-router-dom";
 
 import { Card, CardContent, Typography, Avatar} from '@mui/material/';
 
-import { useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
 import './profile.css'
+import { UserSend } from '../../API/DTOs/userTypes';
+import { getTutor } from '../../API/Endpoints/userEndpoints';
 
 const ViewProfileTutor = () => {
 
-  // edit so that students/tutors can view profiles of other students/tutors via id(email)
-  const user = useAppSelector((state) => state.user.value)
+  const { tutorEmail } = useParams();
 
-  const subjectsList = user.subjects?.join(',')
-  
+  const [user, setUser] = React.useState<UserSend>({email:""});
+
+  const fetchUser = () => {
+    getTutor(tutorEmail || "").then((response) => {
+      const newTutor: UserSend = {
+        ...response,
+        fName: response.fname,
+        lName: response.lname
+      };
+      setUser(newTutor);
+    })
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const subjectsList = user.subjects?.join(', ');
+
   return(
     <div>
       <Card>
@@ -35,13 +53,13 @@ const ViewProfileTutor = () => {
               <Typography variant="h6">About Me</Typography>
               <Typography variant="body1">{user.aboutMe}</Typography>
 
-              <Typography variant="h6">Subjects</Typography>
+              <Typography variant="h6">List of Subjects</Typography>
               <Typography variant="body1">{subjectsList}</Typography>
 
             </div>
 
             <div className="col-span-4 flex justify-end">
-              <Avatar sx={{ width: 256, height: 256, fontSize: '80px', bgcolor: nameToColor(user.fName || " ") }}>
+              <Avatar sx={{ width: 256, height: 256, fontSize: '80px', bgcolor: nameToColor(user.fName || " ") }} src={user.profilePic}>
                   {nameToInitials(user.fName|| " ", user.lName || " ")}
               </Avatar>
             </div>

@@ -19,6 +19,7 @@ import EditProfileStudent from './Pages/Profile/edit-profile-student';
 import ViewProfileTutor from './Pages/Profile/view-profile-tutor';
 import ViewProfileStudent from './Pages/Profile/view-profile-student';
 import SearchTutors from './Pages/Appointments/SearchTutors';
+import Favorites from './Pages/Favorites';
 
 export default function App() {
 
@@ -29,10 +30,11 @@ export default function App() {
           <Route path = "profile" element = {<ProfileLayout/>}>
             <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
             <Route path = "edit/student" element = {<EditProfileStudent/>}></Route>
-            <Route path = "view/tutor" element = {<ViewProfileTutor/>}></Route>
-            <Route path = "view/student" element = {<ViewProfileStudent/>}></Route>
+            <Route path = "view/tutor/:tutorEmail" element = {<ViewProfileTutor/>}></Route>
+            <Route path = "view/student/:studentEmail" element = {<ViewProfileStudent/>}></Route>
           </Route>
           <Route path = "appointments/set" element = {<SearchTutors/>}></Route>
+          <Route path = "favorites" element = {<Favorites/>}></Route>
         </Route>
         <Route path = "/auth" element = {<AuthLayout/>}>
           <Route path = "sign-in" element = {<SignIn/>}></Route>
