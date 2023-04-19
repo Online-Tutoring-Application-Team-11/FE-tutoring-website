@@ -7,14 +7,9 @@ import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 import { Avatar } from '@mui/material';
 
 
-const TutorNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => {
+const TutorNavbar = ({ results }: { nameAPI: any, results: any }) => {
 
     const navigate = useNavigate();
-
-    //HELPER FUNCTION
-    const processAPI = () => {
-        nameAPI("anirudh.umarji@utdallas.edu");
-    }
 
     const signOut = () => {
       setAuthToken("");

@@ -9,7 +9,7 @@ import useResultsStudent from '../../Hooks/useResultsStudent';
 const HomePage = () => {
 
   //HOOKS
-  const[studentNameAPI, results, errorMessage] = useResultsStudent();
+  const[studentNameAPI, results] = useResultsStudent();
 
     return (
       <div className="App">

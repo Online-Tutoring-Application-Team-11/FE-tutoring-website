@@ -1,14 +1,11 @@
-import { Avatar, Chip, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography } from '@mui/material';
+import { Avatar, Chip, SpeedDial, Typography } from '@mui/material';
 import React from 'react';
 import { Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { UserGet } from '../API/DTOs/userTypes';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 import { FaStar } from 'react-icons/fa';
 
 const TutorCard = (props: { tutor: UserGet }) => {
-
-    const navigate = useNavigate();
   
       return(
         <Card className="m-2 p-2 justify-content-start">
