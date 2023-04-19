@@ -57,7 +57,6 @@ const EditProfileStudent = () => {
       setImage(e.target!.result);
       uploadImage(profileImage!, user.id!.toString()).then((link) => {
         setLink(link);
-        console.log(profileLink);
       });
     };
   }
