@@ -4,7 +4,7 @@ import { number, object, string, TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TextField, MenuItem, Button, FormControl, Box, Typography, Alert, Collapse, IconButton } from '@mui/material'
 import { useNavigate } from "react-router-dom";
-import { FaTimes} from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
 import '../../output.css'
 import './sign-in.css'
