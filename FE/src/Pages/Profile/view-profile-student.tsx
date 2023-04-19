@@ -1,22 +1,34 @@
-import React from 'react'
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { useParams } from "react-router-dom";
 
-import { Card, CardContent, Typography, CardActions, Button, Avatar} from '@mui/material/';
+import { Card, CardContent, Typography, Avatar} from '@mui/material/';
 
-import { useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
 import './profile.css'
+import { UserSend } from '../../API/DTOs/userTypes';
+import { getStudent } from '../../API/Endpoints/userEndpoints';
 
 const ViewProfileStudent = () => {
-
-  const navigate = useNavigate();
   
-  const user = useAppSelector((state) => state.user.value)
+  const { studentEmail } = useParams();
 
-  const navToEditStudent = () => {
-    navigate("/profile/edit/student")
-  }
+  const [user, setUser] = React.useState<UserSend>({email:""});
+
+  const fetchUser = () => {
+    getStudent(studentEmail || "").then((response) => {
+      const newTutor: UserSend = {
+        ...response,
+        fName: response.fname,
+        lName: response.lname
+      };
+      setUser(newTutor);
+    })
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return(
     <div>
@@ -39,7 +51,7 @@ const ViewProfileStudent = () => {
             </div>
 
             <div className="col-span-4 flex justify-end">
-              <Avatar sx={{ width: 256, height: 256, fontSize: '80px', bgcolor: nameToColor(user.fName || " ") }}>
+              <Avatar sx={{ width: 256, height: 256, fontSize: '80px', bgcolor: nameToColor(user.fName || " ") }} src={user.profilePic}>
                   {nameToInitials(user.fName|| " ", user.lName || " ")}
               </Avatar>
             </div>
@@ -47,9 +59,7 @@ const ViewProfileStudent = () => {
           </div>
  
         </CardContent>
-        <CardActions>
-          <Button className="m-3" variant="contained" color="primary" onClick={navToEditStudent}>Edit Profile</Button>
-        </CardActions>
+
       </Card>
     </div>
   )

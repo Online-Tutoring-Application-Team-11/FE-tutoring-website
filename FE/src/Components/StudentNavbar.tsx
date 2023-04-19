@@ -36,7 +36,7 @@ const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => 
                 <NavDropdown.Item onClick={() => {navigate("/appointments/set")}} className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
                 <NavDropdown.Item href="#action4" className="down-nb">UPCOMING APPOINTMENT</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link className="navlink-sp">FAVORITES</Nav.Link>
+            <Nav.Link onClick={() => {navigate("/favorites")}} className="navlink-sp">FAVORITES</Nav.Link>
         </Nav>
         
 
