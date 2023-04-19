@@ -6,10 +6,10 @@ export default () => {
     const [results, setResults] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const studentNameAPI:any = async (emailreq: string) => {
+    const allTutorsAPI:any = async () => {
         try {
-            const response = await APlus.get(`/students/get/${emailreq}`, {});
-            // console.log("response: " + JSON.stringify(response.data.fname))
+            const response = await APlus.get(`/tutors/get/all`, {});
+            console.log("response of GET ALL TUTORS: " +(response.data))
             setResults(response.data)
 
         } catch (e) {
@@ -18,8 +18,8 @@ export default () => {
     };
 
     useEffect(() => {
-        studentNameAPI("anirudh.umarji@utdallas.edu");
+        allTutorsAPI();
     }, []);
     
-    return [studentNameAPI, results, errorMessage];
+    return [allTutorsAPI, results, errorMessage];
 };

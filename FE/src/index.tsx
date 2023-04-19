@@ -8,6 +8,7 @@ import Layout from './Pages/layout'
 import HomePage from './Pages/HomePage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import StudentNavbar from './Components/StudentNavbar';
 
 export default function App() {
   return (

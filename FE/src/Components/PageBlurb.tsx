@@ -20,7 +20,7 @@ const PageBlurb = () => {
             </Button>
 
             <Button className="btn-options"
-                style={{ background: 'linear-gradient(to right, #c1f9ae, #74b67d)'}}>
+                style={{ background: 'linear-gradient(to right, #74b67d, #c1f9ae)'}}>
                     I am a returning student ❯
             </Button>
         </div>
