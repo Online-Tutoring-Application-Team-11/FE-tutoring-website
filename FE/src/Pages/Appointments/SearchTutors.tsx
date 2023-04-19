@@ -55,7 +55,7 @@ const SearchTutors = () => {
                 } else {
                     newTutorList[outerIndex].push(data[i])
                 }
-                if ((innerIndex + 1) % 3 == 0) {
+                if ((innerIndex + 1) % 3 === 0) {
                     newTutorList.push([]);
                     outerIndex++;
                 }
@@ -68,6 +68,7 @@ const SearchTutors = () => {
 
     useEffect(() => {
         getList();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
     const updateList = (subject: string, name: string | null) => {
@@ -84,7 +85,7 @@ const SearchTutors = () => {
             } else {
                 newTutorList[outerIndex].push(data[i])
             }
-            if ((innerIndex + 1) % 3 == 0) {
+            if ((innerIndex + 1) % 3 === 0) {
                 newTutorList.push([]);
                 outerIndex++;
             }

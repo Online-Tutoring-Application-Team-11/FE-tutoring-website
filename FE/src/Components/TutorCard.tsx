@@ -1,13 +1,13 @@
 import { Avatar, Chip, SpeedDial, SpeedDialAction, SpeedDialIcon, Typography } from '@mui/material';
 import React from 'react';
 import { Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { UserGet } from '../API/DTOs/userTypes';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 import { FaStar, FaUser, FaEllipsisH, FaTimes, FaCalendarCheck } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../Hooks/stateHooks';
 import { updateStudent } from '../API/Endpoints/userEndpoints';
 import { setUser } from '../Hooks/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => void }) => {
