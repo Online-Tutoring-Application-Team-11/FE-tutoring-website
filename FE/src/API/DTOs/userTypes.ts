@@ -9,12 +9,20 @@ export type UserSend = {
   totalHours?: number,
   fName?: string,
   lName?: string,
-  token?: string
+  token?: string,
+  favouriteTutorIds?: number[],
+  year?: number
 }
 
 export type TutorSend = {
   email: string,
   subjects: string[]
+}
+
+export type StudentSend = {
+  email: string,
+  year: number,
+  favouriteTutorIds: number[]
 }
 
 export type PasswordSend = {
@@ -34,5 +42,8 @@ export type UserGet = {
   totalHours?: number,
   fname?: string,
   lname?: string,
-  token?: string
+  token?: string,
+  fav?: boolean,
+  favouriteTutorIds?: number[],
+  year?: number
 }

@@ -1,4 +1,4 @@
-import { TutorSend, UserSend, PasswordSend } from '../DTOs/userTypes'
+import { TutorSend, UserSend, PasswordSend, StudentSend } from '../DTOs/userTypes'
 import { getAuthToken } from '../../Hooks/useAuthToken';
 import axios from 'axios'
 
@@ -16,7 +16,24 @@ export const updateTutor = async (user: TutorSend) => {
     data : data
   };
   
-  return axios.request(config).then((response) => response.data)
+  return axios.request(config).then((response) => response.data);
+}
+
+export const updateStudent = async (user: StudentSend) => {
+  let data = JSON.stringify(user);
+
+  let config = {
+    method: 'put',
+    maxBodyLength: Infinity,
+    url: process.env.REACT_APP_DB_URL + '/students/update',
+    headers: { 
+      'Content-Type': 'application/json',
+      'Authorization': `${getAuthToken()}`
+    },
+    data : data
+  };
+
+  return axios.request(config).then((response) => response.data);
 }
 
 export const updateUser = async (user: UserSend) => {
@@ -76,5 +93,5 @@ export const changePassword = async (user: PasswordSend) => {
     data : data
   };
 
-  return axios.request(config).then((response) => response.data)
+  return axios.request(config).then((response) => response.data);
 }

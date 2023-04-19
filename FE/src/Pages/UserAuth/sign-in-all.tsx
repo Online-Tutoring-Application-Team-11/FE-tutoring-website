@@ -13,7 +13,7 @@ import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setUser } from '../../Hooks/userSlice';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import { FaTimes } from 'react-icons/fa';
-import { getTutor } from '../../API/Endpoints/userEndpoints';
+import { getStudent, getTutor } from '../../API/Endpoints/userEndpoints';
 
 const SignIn = () => {
 
@@ -42,12 +42,17 @@ const SignIn = () => {
           logIn(returnUser).then((data) => {
             setAuthToken(data.token);
             if (!data.tutor) {
-              dispatch(setUser({
-                ...data,
-                fName: data.fname,
-                lName: data.lname
-              }));
-              navigate("/");
+              getStudent(login.email).then((response) => {
+                dispatch(setUser({
+                  ...response,
+                  fName: response.fname,
+                  lName: response.lname,
+                  year: response.year,
+                  favouriteTutorIds: response.favouriteTutorIds
+                }));
+                navigate("/");
+              })
+              
             } else {
               getTutor(login.email).then((response) => {
                 dispatch(setUser({
