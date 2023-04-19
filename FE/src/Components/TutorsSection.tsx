@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Navbar, Container, Nav} from 'react-bootstrap'
-const TutorsSection:any = async () => {
+
+const TutorsSection = () => {
 
     return(
         <>
