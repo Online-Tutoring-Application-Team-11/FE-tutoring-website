@@ -34,5 +34,7 @@ export type UserGet = {
   totalHours?: number,
   fname?: string,
   lname?: string,
-  token?: string
+  token?: string,
+  fav?: boolean,
+  favList?: UserGet[]
 }

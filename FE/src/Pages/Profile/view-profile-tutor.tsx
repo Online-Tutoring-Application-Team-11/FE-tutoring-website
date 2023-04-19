@@ -1,7 +1,6 @@
 import React from 'react'
-import { useNavigate } from "react-router-dom";
 
-import { Card, CardContent, Typography, CardActions, Button, Avatar} from '@mui/material/';
+import { Card, CardContent, Typography, Avatar} from '@mui/material/';
 
 import { useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
@@ -10,14 +9,11 @@ import './profile.css'
 
 const ViewProfileTutor = () => {
 
-  const navigate = useNavigate();
-
+  // edit so that students/tutors can view profiles of other students/tutors via id(email)
   const user = useAppSelector((state) => state.user.value)
-  
-  const navToEditTutor = () => {
-    navigate("/profile/edit/tutor")
-  };
 
+  const subjectsList = user.subjects?.join(',')
+  
   return(
     <div>
       <Card>
@@ -39,13 +35,8 @@ const ViewProfileTutor = () => {
               <Typography variant="h6">About Me</Typography>
               <Typography variant="body1">{user.aboutMe}</Typography>
 
-              <Typography variant="h6">List of Subjects</Typography>
-              <Typography variant="body1"> 
-                {user.subjects![0]}
-                {user.subjects!.slice(1).map((subject) => 
-                  ", " + subject
-                )}
-              </Typography>
+              <Typography variant="h6">Subjects</Typography>
+              <Typography variant="body1">{subjectsList}</Typography>
 
             </div>
 
@@ -58,9 +49,6 @@ const ViewProfileTutor = () => {
           </div>
  
         </CardContent>
-        <CardActions>
-          <Button className="m-3" variant="contained" color="primary" onClick={navToEditTutor}>Edit Profile</Button>
-        </CardActions>
       </Card>
     </div>
   )

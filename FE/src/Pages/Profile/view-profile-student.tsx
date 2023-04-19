@@ -1,7 +1,6 @@
 import React from 'react'
-import { useNavigate } from "react-router-dom";
 
-import { Card, CardContent, Typography, CardActions, Button, Avatar} from '@mui/material/';
+import { Card, CardContent, Typography, Avatar} from '@mui/material/';
 
 import { useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
@@ -9,14 +8,9 @@ import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 import './profile.css'
 
 const ViewProfileStudent = () => {
-
-  const navigate = useNavigate();
   
+  // edit so that students/tutors can view profiles of other students/tutors via id(email)
   const user = useAppSelector((state) => state.user.value)
-
-  const navToEditStudent = () => {
-    navigate("/profile/edit/student")
-  }
 
   return(
     <div>
@@ -47,9 +41,6 @@ const ViewProfileStudent = () => {
           </div>
  
         </CardContent>
-        <CardActions>
-          <Button className="m-3" variant="contained" color="primary" onClick={navToEditStudent}>Edit Profile</Button>
-        </CardActions>
       </Card>
     </div>
   )
