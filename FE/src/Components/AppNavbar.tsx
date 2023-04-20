@@ -4,6 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 const AppNavbar = () => {
 
+  const navigate = useNavigate();
+
+  const signIn = () => {
+    navigate('/auth/sign-in');
+  }
+
+  const signUp = () => {
+    navigate('/auth/sign-up')
+  }
+
     return(
         <Navbar className="nb-col" bg="dark" variant="dark">
         <Container>
@@ -17,8 +27,8 @@ const AppNavbar = () => {
             <Nav.Link className="navlink-hp" href="#">CONTACT US</Nav.Link>
           </Nav>
           <Nav className="float-end">
-            <Button variant="hollow-nb-button" style={{marginRight:15}}>RETURNING USER?</Button>
-            <Button variant="full-nb-button" style={{marginRight:-50}}>SIGN-UP ➔</Button>
+            <Button variant="hollow-nb-button" style={{marginRight:15}} onClick={signIn}>RETURNING USER?</Button>
+            <Button variant="full-nb-button" style={{marginRight:-50}} onClick={signUp}>SIGN-UP ➔</Button>
           </Nav>
         </Container>
       </Navbar>

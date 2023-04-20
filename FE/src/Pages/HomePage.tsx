@@ -7,25 +7,21 @@ import PageBlurb from '../Components/PageBlurb'
 import PicturesCarousel from '../Components/PicturesCarousel'
 import FloatingPicture from '../Components/FloatingPicture';
 import TutorsSection from '../Components/TutorsSection';
-import useResultsTutors from '../Hooks/useResultsTutors';
-
 
 
 const HomePage = () => {
 
-    const[allTutorsAPI, results, errorMessage] = useResultsTutors();
+    // const[allTutorsAPI, results, errorMessage] = useResultsTutors();
 
-    const processAPI = () => {
-      allTutorsAPI();
-      // console.log("In Homepage, results = " + (results))
-    }
+    // const processAPI = () => {
+    //   allTutorsAPI();
+    //   // console.log("In Homepage, results = " + (results))
+    // }
 
     return (
       <div className="App">
-        <AppNavbar/>
-
+        {/* <AppNavbar/> */}
         <div id="page-body" style={{paddingLeft:"75px", paddingRight:"75px"}}>
-
           {/* ROW STARTS */}
           <div className="row">
             <div className="col-sm">

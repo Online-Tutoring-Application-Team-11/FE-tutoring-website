@@ -1,22 +1,8 @@
 
 import axios from 'axios';
-
-const myAuthToken = () => {
-    let authToken: String|null = ''; 
-    try {
-        if (typeof window !== 'undefined') {
-            authToken = localStorage.getItem('token');
-            return authToken;
-        }
-    } catch (error) {
-        console.log(`Error in getting auth token: ${error}`)
-    }
-} 
+import { getAuthToken } from '../Hooks/useAuthToken';
 
 export default axios.create({
-    baseURL: 'https://online-tutoring-backend.up.railway.app',
-    headers: {
-        ContentType: 'application/json',
-        Authorization : `${myAuthToken()}`
-    }
+    baseURL: process.env.REACT_APP_DB_URL,
+    headers: { 'Authorization': `${getAuthToken()}` }
 });

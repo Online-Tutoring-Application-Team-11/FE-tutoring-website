@@ -1,7 +1,19 @@
 import React from 'react';
 import {Button, Navbar, Container, Nav} from 'react-bootstrap'
+import { getAllTutors } from '../API/Endpoints/appointEndpoint';
+import { UserGet } from '../API/DTOs/userTypes'
 
 const TutorsSection = () => {
+
+    // const getAllAppTutors = () => {
+    //     getAllTutors('').then((data: Array<UserGet>) => {}
+
+    // }
+
+    // const processAPI = () => {
+    //   allTutorsAPI();
+    //   // console.log("In Homepage, results = " + (results))
+    // }
 
     return(
         <>
