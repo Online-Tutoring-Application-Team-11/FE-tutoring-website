@@ -10,6 +10,10 @@ import TutorsSection from '../../Components/TutorsSection';
 import { Outlet } from 'react-router-dom'
 import useResultsStudent from '../../Hooks/useResultsStudent';
 import useResultsTutors from '../../Hooks/useResultsTutors';
+import CoursesSection from '../../Components/CoursesSection';
+import ReviewsSection from '../../Components/ReviewsSection';
+import ContactUsSection from '../../Components/ContactUs';
+import HomepageFooter from '../../Components/HomepageFooter';
 
 const HomePage = () => {
 
@@ -19,12 +23,12 @@ const HomePage = () => {
 
   const processAPI = () => {
       allTutorsAPI();
-      console.log("In Homepage, 1results = " + (resultsTutors));
+      // console.log("In Homepage, 1results = " + JSON.stringify(resultsTutors));
   }
 
   useEffect(() => {
     processAPI();
-    console.log("In Homepage, 2results = " + (resultsTutors));
+    // console.log("In Homepage, 2results = " + (resultsTutors));
   }, []);
 
 
@@ -32,9 +36,9 @@ const HomePage = () => {
     return (
       <div className="App">
         {
-          // results.fname && results.fname.length > 0 ? 
-          //   results.tutor ? <TutorNavbar nameAPI={studentNameAPI} results={results}/> : 
-          //   <StudentNavbar nameAPI={studentNameAPI} results={results}/> :
+          results.fname && results.fname.length > 0 ? 
+            results.tutor ? <TutorNavbar nameAPI={studentNameAPI} results={results}/> : 
+            <StudentNavbar nameAPI={studentNameAPI} results={results}/> :
           <AppNavbar/>
         }
 
@@ -53,12 +57,20 @@ const HomePage = () => {
 
           <FloatingPicture/>
 
-          <TutorsSection/>
+          <TutorsSection resultsTutors={resultsTutors}/>
 
+          <div style={{paddingBottom: "40px"}}>
+          <CoursesSection/>
+          </div>
 
+          <ReviewsSection/>
 
+          <ContactUsSection/>
+          <br/>
+          <br/>
 
         </div>{/*  BODY DIV ENDS */}
+        <HomepageFooter/>
         
         <Outlet/>
       </div>

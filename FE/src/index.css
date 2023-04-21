@@ -303,4 +303,145 @@ position: relative;
 
 /* ------------------------------------------ */
 
+.course-bullet{
+    background-color: #8fbe8a;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+}
+
+.card-sub-title{
+    font-family: 'Raleway', sans-serif;
+    padding-top: 14px;
+    margin-bottom: -12px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;   
+}
+
+.card-course{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-color: #8fbe8a !important;
+    border-width: 2px !important;
+    
+}
+
+.crsl-rv{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding:30px;
+    padding-left: 100px;
+    padding-right: 100px;
+    text-align:"center" !important;
+}
+
+.css-selector {
+    background: linear-gradient(242deg, #81af7b, #2d8820, #aae3a2, #219d0f);
+    background-size: 800% 800%;
+
+    -webkit-animation: AnimationName 7s ease infinite;
+    -moz-animation: AnimationName 7s ease infinite;
+    animation: AnimationName 7s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.stu-pic-review{
+    border-radius: 50%;
+    border-color: #2d8820;
+    border-width: 2px;
+    padding: 2px;
+}
+
+.stars-review {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.review-blurb{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    vertical-align: center;
+}
+
+.quote-by{
+    font-size: 15px;
+    color: grey;
+    font-family: 'Raleway', sans-serif;
+    margin-top: 20px;
+}
+
+.form-submit-btn{
+    width: 100% !important;
+    /* background-color: #219d0f !important; */
+    color:white !important;
+    border-radius: 4px !important;
+    border-width: 1.5px !important;
+    border-color: white !important;
+    font-family: 'Raleway' !important;
+    background: linear-gradient(to right, #c1f9ae, #74b67d) !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.form-submit-btn:hover{
+    /* border-color: #16361c; */
+    /* background-color: #285430; */
+    color: #005d0d !important;
+    border-width: 1.5px !important;
+    border-color: #005d0d !important;
+    /* background: linear-gradient(to right, #74b67d 20%, #c1f9ae 60%) !important; */
+    /* box-shadow: 1px 8px 24px -2px rgba(0,0,0,0.48) !important; */
+    /* border-width:6px; */
+    
+}
+
+.page-ftr{
+    background-color: #212429;
+    /* width: 100%; */
+    height: 85px;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: 18px;
+    color: white;
+    line-height: 85px;
+    /* position: relative;
+    top: 50%;
+    transform: translateY(-50%); */
+}
+
+.ftr-link{
+    background-color: none !important;
+    color:white !important;
+}
+
+.ftr-link:hover{
+    color: #8fbe8a !important;
+}
+
 

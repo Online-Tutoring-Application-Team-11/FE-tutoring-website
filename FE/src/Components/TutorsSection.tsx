@@ -3,12 +3,14 @@ import {Button, Navbar, Container, Nav} from 'react-bootstrap'
 import { getAllTutors } from '../API/Endpoints/appointEndpoint';
 import { UserGet } from '../API/DTOs/userTypes'
 
-const TutorsSection = () => {
+const TutorsSection = (resultsTutors: any) => {
 
     // const getAllAppTutors = () => {
     //     getAllTutors('').then((data: Array<UserGet>) => {}
 
     // }
+    // let abc:Array<UserGet> = resultsTutors
+    // console.log("abc = ")
 
     // const processAPI = () => {
     //   allTutorsAPI();
@@ -17,6 +19,11 @@ const TutorsSection = () => {
 
     return(
         <>
+        {/* {console.log("Result: " + abc)} */}
+        {/* {(resultsTutors).forEach((element:any) => {
+            console.log("ELEMENT = " + element)
+        })} */}
+        
         {/* <img className="tutorClipartPicture" src="https://i.imgur.com/DjrOzVL.png" alt="tutors clipart"/> */}
         {/* {console.log("Inside TutorSection.tsx, tutorList value = " + tutorList[0].fname)} */}
         <div className="row" style={{marginTop:"25px"}}>

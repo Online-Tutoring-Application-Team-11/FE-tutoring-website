@@ -12,7 +12,7 @@ export default () => {
     const allTutorsAPI : any = async () => {
         try {
             const response = await APlus.get(`/tutors/get/all`, {})
-            console.log("result from useResultsTutors hook: " + JSON.stringify(response.data));
+            // console.log("result from useResultsTutors hook: " + JSON.stringify(response.data));
             setResults(response.data);
         } catch (e) {
             setErrorMessage("Something went wrong!");

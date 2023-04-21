@@ -5,6 +5,12 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/resolvers": "^3.0.0",
     "@mui/material": "^5.12.1",
     "@reduxjs/toolkit": "^1.9.3",
@@ -28,6 +34,7 @@
     "react-icons": "^4.8.0",
     "react-redux": "^8.0.5",
     "react-scripts": "^5.0.1",
+    "react-social-icons": "^5.15.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zod": "^3.21.4"
