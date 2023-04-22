@@ -1,27 +1,24 @@
 //React
 import React from 'react';
 import {Navbar, Container, Nav, NavDropdown} from 'react-bootstrap'
-import {FaHeart} from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 //Hooks
-import useResultsStudent from '../Hooks/useResultsStudent';
 import { setAuthToken } from '../Hooks/useAuthToken';
 import { Avatar } from '@mui/material';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
+import cookies from '../Hooks/cookieHook';
 
 
-const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => {
-
-    //HELPER FUNCTION
-    const processAPI = () => {
-        nameAPI("anirudh.umarji@utdallas.edu");
-    }
+const StudentNavbar = ({ results }: { results: any }) => {
 
     const navigate = useNavigate();
 
+    const updateCookie = cookies().updateCookie;
+
     const signOut = () => {
       setAuthToken("");
+      updateCookie("", "", false);
       navigate("/auth/sign-in")
     }
 
@@ -53,7 +50,6 @@ const StudentNavbar = ({ nameAPI, results }: { nameAPI: any, results: any }) => 
           <NavDropdown align="end" style={{marginRight:-50}} title={<Avatar sx={{ bgcolor: nameToColor(results.fname || " ") }} src={results.profilePic}>
                   {nameToInitials(results.fname || " ", results.lname || " ")}
                 </Avatar>}>
-                <NavDropdown.Item onClick={() => {navigate("/profile/view/student")}} className="down-nb">View Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => {navigate("/profile/edit/student")}} className="down-nb">Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={signOut} className="down-nb">Sign Out</NavDropdown.Item>
