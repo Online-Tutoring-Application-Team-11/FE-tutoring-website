@@ -24,7 +24,7 @@ const TutorNavbar = ({ results }: { nameAPI: any, results: any }) => {
           <img src="https://i.imgur.com/N7tRk7d.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
             <Nav.Link className="navlink-sp">UPCOMING</Nav.Link>
-            <Nav.Link className="navlink-sp">SET HOURS</Nav.Link>
+            <Nav.Link className="navlink-sp" onClick={() => {navigate("/hours")}}>SET HOURS</Nav.Link>
         </Nav>
         
 
