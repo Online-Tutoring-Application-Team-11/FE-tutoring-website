@@ -7,14 +7,18 @@ import { useNavigate } from "react-router-dom";
 import { setAuthToken } from '../Hooks/useAuthToken';
 import { Avatar } from '@mui/material';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
+import cookies from '../Hooks/cookieHook';
 
 
-const StudentNavbar = ({ results }: { nameAPI: any, results: any }) => {
+const StudentNavbar = ({ results }: { results: any }) => {
 
     const navigate = useNavigate();
 
+    const updateCookie = cookies().updateCookie;
+
     const signOut = () => {
       setAuthToken("");
+      updateCookie("", "", false);
       navigate("/auth/sign-in")
     }
 
@@ -46,7 +50,6 @@ const StudentNavbar = ({ results }: { nameAPI: any, results: any }) => {
           <NavDropdown align="end" style={{marginRight:-50}} title={<Avatar sx={{ bgcolor: nameToColor(results.fname || " ") }} src={results.profilePic}>
                   {nameToInitials(results.fname || " ", results.lname || " ")}
                 </Avatar>}>
-                <NavDropdown.Item onClick={() => {navigate("/profile/view/student")}} className="down-nb">View Profile</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => {navigate("/profile/edit/student")}} className="down-nb">Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={signOut} className="down-nb">Sign Out</NavDropdown.Item>
