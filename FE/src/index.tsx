@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import reportWebVitals from './reportWebVitals';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 import AuthLayout from './Pages/UserAuth/auth-layout'
 import SignUp from './Pages/UserAuth/sign-up-all'
@@ -25,25 +27,27 @@ import Favorites from './Pages/Favorites';
 export default function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path = "/" element = {<HomePage/>}>
-          <Route path = "profile" element = {<ProfileLayout/>}>
-            <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
-            <Route path = "edit/student" element = {<EditProfileStudent/>}></Route>
-            <Route path = "view/tutor/:tutorEmail" element = {<ViewProfileTutor/>}></Route>
-            <Route path = "view/student/:studentEmail" element = {<ViewProfileStudent/>}></Route>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <BrowserRouter>
+        <Routes>
+          <Route path = "/" element = {<HomePage/>}>
+            <Route path = "profile" element = {<ProfileLayout/>}>
+              <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
+              <Route path = "edit/student" element = {<EditProfileStudent/>}></Route>
+              <Route path = "view/tutor/:tutorEmail" element = {<ViewProfileTutor/>}></Route>
+              <Route path = "view/student/:studentEmail" element = {<ViewProfileStudent/>}></Route>
+            </Route>
+            <Route path = "appointments/set" element = {<SearchTutors/>}></Route>
+            <Route path = "favorites" element = {<Favorites/>}></Route>
           </Route>
-          <Route path = "appointments/set" element = {<SearchTutors/>}></Route>
-          <Route path = "favorites" element = {<Favorites/>}></Route>
-        </Route>
-        <Route path = "/auth" element = {<AuthLayout/>}>
-          <Route path = "sign-in" element = {<SignIn/>}></Route>
-          <Route path = "sign-up" element = {<SignUp/>}></Route>
-          <Route path = "sign-up-tutor" element = {<SignUpTutor/>}></Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          <Route path = "/auth" element = {<AuthLayout/>}>
+            <Route path = "sign-in" element = {<SignIn/>}></Route>
+            <Route path = "sign-up" element = {<SignUp/>}></Route>
+            <Route path = "sign-up-tutor" element = {<SignUpTutor/>}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </LocalizationProvider>
   );
 }
 

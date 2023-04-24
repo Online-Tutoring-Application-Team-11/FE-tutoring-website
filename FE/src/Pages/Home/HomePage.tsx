@@ -44,8 +44,11 @@ const HomePage = () => {
           setLoaded(true);
         })
       } else {
+        setLoaded(true);
         navigate("/");
       }
+    } else {
+      setLoaded(true);
     }
   };
 
