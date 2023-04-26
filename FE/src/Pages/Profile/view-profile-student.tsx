@@ -59,7 +59,6 @@ const ViewProfileStudent = () => {
           </div>
  
         </CardContent>
-
       </Card>
     </div>
   )

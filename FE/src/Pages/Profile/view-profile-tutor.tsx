@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Card, CardContent, Typography, Avatar} from '@mui/material/';
+import { Card, CardContent, Typography, Avatar, Button } from '@mui/material/';
 
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
@@ -32,8 +32,15 @@ const ViewProfileTutor = () => {
 
   const subjectsList = user.subjects?.join(', ');
 
+  const navigate = useNavigate();
+
+  const navBack = () => {
+    navigate(-1);
+  }
+
   return(
-    <div>
+    <main>
+      <div>
       <Card>
         <CardContent>
           
@@ -67,9 +74,14 @@ const ViewProfileTutor = () => {
           </div>
  
         </CardContent>
-
       </Card>
     </div>
+
+    <div>
+      <Button className="m-3" variant="contained" color="primary" onClick={navBack}>Back</Button>
+    </div>
+
+    </main>
   )
 }
 

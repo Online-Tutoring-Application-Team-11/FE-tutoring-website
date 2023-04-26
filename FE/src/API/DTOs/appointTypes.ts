@@ -6,6 +6,20 @@ export type AppointmentGet = {
     tutorId: number
 }
 
+export type HoursSend = {
+    email: string,
+    startTime: Date | string,
+    endTime: Date | string,
+    dayOfWeek: string
+}
+
+export type HoursGet = {
+    tutorId: number,
+    startTime: Date | string,
+    endTime: Date | string,
+    dayOfWeek: string
+}
+
 export type AppointmentSend = {
     requestedStartTime: string,
     requestedEndTime: string,

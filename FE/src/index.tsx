@@ -14,7 +14,6 @@ import HomePage from './Pages/Home/HomePage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { store}  from './store'
-
 import SignIn from './Pages/UserAuth/sign-in-all';
 import ProfileLayout from './Pages/Profile/profile-layout';
 import EditProfileTutor from './Pages/Profile/edit-profile-tutor';
@@ -23,6 +22,7 @@ import ViewProfileTutor from './Pages/Profile/view-profile-tutor';
 import ViewProfileStudent from './Pages/Profile/view-profile-student';
 import SearchTutors from './Pages/Appointments/SearchTutors';
 import Favorites from './Pages/Favorites';
+import Hours from './Pages/Hours';
 
 export default function App() {
 
@@ -39,6 +39,7 @@ export default function App() {
             </Route>
             <Route path = "appointments/set" element = {<SearchTutors/>}></Route>
             <Route path = "favorites" element = {<Favorites/>}></Route>
+            <Route path = "hours" element = {<Hours/>}></Route>
           </Route>
           <Route path = "/auth" element = {<AuthLayout/>}>
             <Route path = "sign-in" element = {<SignIn/>}></Route>
