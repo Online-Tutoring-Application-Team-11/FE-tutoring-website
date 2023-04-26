@@ -14,6 +14,7 @@ import { setUser } from '../../Hooks/userSlice';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import { FaTimes } from 'react-icons/fa';
 import { getStudent, getTutor } from '../../API/Endpoints/userEndpoints';
+import cookies from '../../Hooks/cookieHook';
 
 const SignIn = () => {
 
@@ -23,6 +24,8 @@ const SignIn = () => {
     const [errorMessage, setErrMsg] = React.useState('');
 
     const dispatch = useAppDispatch();
+
+    const updateCookie = cookies().updateCookie;
 
     // in progress
     const loginSchema = object({
@@ -41,6 +44,8 @@ const SignIn = () => {
           }
           logIn(returnUser).then((data) => {
             setAuthToken(data.token);
+            updateCookie(data.token, data.email, data.tutor);
+            
             if (!data.tutor) {
               getStudent(login.email).then((response) => {
                 dispatch(setUser({

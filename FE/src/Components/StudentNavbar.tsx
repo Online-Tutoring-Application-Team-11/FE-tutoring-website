@@ -7,14 +7,18 @@ import { useNavigate } from "react-router-dom";
 import { setAuthToken } from '../Hooks/useAuthToken';
 import { Avatar } from '@mui/material';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
+import cookies from '../Hooks/cookieHook';
 
 
 const StudentNavbar = ({ results }: { results: any }) => {
 
     const navigate = useNavigate();
 
+    const updateCookie = cookies().updateCookie;
+
     const signOut = () => {
       setAuthToken("");
+      updateCookie("", "", false);
       navigate("/auth/sign-in")
     }
 

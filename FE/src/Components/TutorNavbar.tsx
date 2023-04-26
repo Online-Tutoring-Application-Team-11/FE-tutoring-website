@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { setAuthToken } from '../Hooks/useAuthToken';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 import { Avatar } from '@mui/material';
+import cookies from '../Hooks/cookieHook';
 
 
 const TutorNavbar = ({ results }: { results: any }) => {
@@ -15,6 +16,7 @@ const TutorNavbar = ({ results }: { results: any }) => {
 
     const signOut = () => {
       setAuthToken("");
+      updateCookie("", "", false);
       navigate("/auth/sign-in")
     }
 
