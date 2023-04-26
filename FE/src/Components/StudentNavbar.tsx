@@ -9,7 +9,7 @@ import { Avatar } from '@mui/material';
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 
 
-const StudentNavbar = ({ results }: { nameAPI: any, results: any }) => {
+const StudentNavbar = ({ results }: { results: any }) => {
 
     const navigate = useNavigate();
 

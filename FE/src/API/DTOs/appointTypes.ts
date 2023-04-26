@@ -1,8 +1,8 @@
-export type Appointment = {
-    startTime?: Date,
-    endTime?: Date,
+export type AppointmentGet = {
+    startTime?: Date | string,
+    endTime?: Date | string,
     subject: string,
-    userId: number,
+    studentId: number,
     tutorId: number
 }
 
@@ -18,4 +18,12 @@ export type HoursGet = {
     startTime: Date | string,
     endTime: Date | string,
     dayOfWeek: string
+}
+
+export type AppointmentSend = {
+    requestedStartTime: string,
+    requestedEndTime: string,
+    subject: string,
+    studentEmail: string,
+    tutorEmail: string
 }

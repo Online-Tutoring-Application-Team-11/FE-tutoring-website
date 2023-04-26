@@ -7,9 +7,11 @@ import { nameToColor, nameToInitials } from '../Helpers/avatarHelper';
 import { Avatar } from '@mui/material';
 
 
-const TutorNavbar = ({ results }: { nameAPI: any, results: any }) => {
+const TutorNavbar = ({ results }: { results: any }) => {
 
     const navigate = useNavigate();
+
+    const updateCookie = cookies().updateCookie;
 
     const signOut = () => {
       setAuthToken("");

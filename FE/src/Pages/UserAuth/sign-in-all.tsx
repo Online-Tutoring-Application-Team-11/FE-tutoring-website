@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { object, string, TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, Button, FormControl, Box, Typography, Checkbox, FormGroup, FormControlLabel, Alert, Collapse, IconButton } from '@mui/material'
+import { TextField, Button, FormControl, Box, Typography, Alert, Collapse, IconButton } from '@mui/material'
 import { useNavigate } from "react-router-dom";
 
 import '../../output.css'
@@ -81,22 +81,9 @@ const SignIn = () => {
         resolver: zodResolver(loginSchema),
       });
 
-    const [state, setState] = React.useState({
-        rememberMe: true,
-    });
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({
-            ...state,
-            [event.target.name]:event.target.checked,
-        });
-    };
-
     const navToSignUp = () => {
         navigate("/auth/sign-up")
     }
-
-    const { rememberMe } = state;
 
     return (
     
@@ -131,13 +118,6 @@ const SignIn = () => {
               helperText={errors['password'] ? errors['password'].message : ''}
               {...register('password')}
             />
-
-            <FormGroup>
-                <FormControlLabel 
-                    control={<Checkbox checked={rememberMe} onChange={handleChange} name="rememberMe" />} 
-                    label="Remember Me"                
-                />
-            </FormGroup>
             
             <Collapse in={error}>
                 <Alert
@@ -163,13 +143,20 @@ const SignIn = () => {
             <div className="space-y-2">
               <Button
                 className="w-20 btn btn-lg btn-primary btn-temp-fix"
+                color="success"
                 variant="contained"
                 type="submit"
               >
                 Sign In
               </Button>
               <p className="mt-1 mb-0 text flex justify-center">Don't have an account?</p>
-              <Button className="mv-0 btn btn-link btn-temp-fix" variant="text" onClick={navToSignUp}> Sign Up!</Button>
+              <Button 
+                className="mv-0 btn btn-link btn-temp-fix"
+                variant="text" onClick={navToSignUp}
+                sx={{color: 'green', '&:hover': {color: 'green'}}}
+              >
+                Sign Up!
+              </Button>
               <p className="text-muted flex justify-center">Team 11 &copy; 2023</p>
             </div>
             
