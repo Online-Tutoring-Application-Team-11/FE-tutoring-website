@@ -23,7 +23,7 @@ const HomePage = () => {
     if (getCookie().bearerToken && getCookie().email) {
       setAuthToken(getCookie().bearerToken);
 
-      if (getCookie().tutor != undefined && getCookie().tutor == true) {
+      if (getCookie().tutor != undefined && getCookie().tutor == 'true') {
         getTutor(getCookie().email).then((user) => {
           dispatch(setUser({
             ...user,
