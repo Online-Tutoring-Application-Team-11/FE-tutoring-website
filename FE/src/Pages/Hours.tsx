@@ -1,14 +1,13 @@
 import { Alert, Button, Card, CardActions, CardContent, Collapse, IconButton, MenuItem, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
-//import { HoursGet } from '../API/DTOs/appointTypes';
-import { deleteTutorHours, getTutorHours, setTutorHours } from '../API/Endpoints/appointEndpoint';
+import { deleteAllTutorHours, getTutorHours, setTutorHours } from '../API/Endpoints/appointEndpoint';
 import TimeBlock from '../Components/TimeBlock';
 import { useAppSelector } from '../Hooks/stateHooks';
 import { HoursGet, HoursSend } from '../API/DTOs/appointTypes';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TypeOf, object, string } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaTrash } from 'react-icons/fa';
 
 const SetHours = () => {
 
@@ -18,6 +17,7 @@ const SetHours = () => {
     const user = useAppSelector((state) => state.user.value);
     
     const [blockList, setBlockList] = React.useState<Array<HoursGet>>();
+    const [selectDeleteAll, setSelectDeleteAll] = React.useState(false);
 
     const [error, setError] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
@@ -48,6 +48,9 @@ const SetHours = () => {
                     endTime: new Date(0, 0, 0, +endTimeParse[0], +endTimeParse[1])
                 };
                 newBlockList.push(newBlock);
+                newBlockList.sort((a, b) => 
+                (dayArray.findIndex((element) => element === a.dayOfWeek) > dayArray.findIndex((element) => element === b.dayOfWeek)) 
+                ? 1 : (a.dayOfWeek === b.dayOfWeek) ? ((a.startTime > b.startTime) ? 1 : -1) : -1 );
             })
             setBlockList(newBlockList);
         });
@@ -111,15 +114,35 @@ const SetHours = () => {
       } = useForm<BlockInput>({
         resolver: zodResolver(blockSchema),
       });
-    
-
       
+      const deleteAllHours = () => {
+        //console.log(user.email);
+        //console.log(props.block.dayOfWeek);
+    
+        //var formatteddatestr = moment(props.block.startTime).format('hh:mm:ss');
+        //console.log(formatteddatestr);
+        
+        deleteAllTutorHours(user.email).then(() => {
+          setSelectDeleteAll(!selectDeleteAll);
+          getAvailableHours();
+            //if (props.onHandleDelete)
+              //props.onHandleDelete();
+        })
+        //console.log("Did we make it??");
+      } 
 
     return(
         <main className="m-4">
             <div className="grid-flow-col">
                 <div className="grid-flow-row">
-                    <Typography variant="h4"> &nbsp; Set Available Hours</Typography>
+                    <div className="grid-flow-col grid-cols-12">
+                        <div className="col-span-6">
+                            <Typography variant="h4"> &nbsp; Set Available Hours</Typography>
+                        </div>
+                        <div className="col-span-5 flex justify-end">
+                            <Button variant="contained" color="error" sx={{marginRight: 16}} onClick={deleteAllHours}>Delete All &nbsp; <FaTrash color="white"/></Button>
+                        </div>
+                    </div>
                     <div className="grid grid-flow-col grid-cols-12">
                         <div className="col-span-5">
                         <Card>
@@ -300,9 +323,13 @@ const SetHours = () => {
                         <div className="col-span-1"></div>
 
                         <div className="col-span-5">
-                            {blockList?.map((block) => 
-                                <TimeBlock key={block.dayOfWeek + block.startTime} block={block} onHandleDelete={getAvailableHours}/>
-                            )}
+                            {
+                                blockList && blockList.length > 0 ?
+                                blockList?.map((block) => 
+                                    <TimeBlock key={block.dayOfWeek + block.startTime} block={block} onHandleDelete={getAvailableHours}/>
+                                ) :
+                                <Typography variant="h4" align="center" sx={{marginTop: 16}}>There are no time blocks set</Typography>
+                            }
                         </div>
 
                     </div>

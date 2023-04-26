@@ -13,7 +13,6 @@ import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
 import { setUser } from '../../Hooks/userSlice';
 import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setAuthToken } from '../../Hooks/useAuthToken';
-import cookies from '../../Hooks/cookieHook';
 
 
 const SignUp = () => {
@@ -23,9 +22,7 @@ const SignUp = () => {
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrMsg] = React.useState('');
 
-  const dispatch = useAppDispatch();
-
-  const updateCookie = cookies().updateCookie;
+  const dispatch = useAppDispatch()
 
   const registerSchema = object({
     email: string().nonempty('Email is required').email('Email is invalid'),
@@ -63,8 +60,7 @@ const SignUp = () => {
             fName: response.fname,
             lName: response.lname
           }))
-          setAuthToken(response.token);
-          updateCookie(response.token, response.email, response.tutor);
+          setAuthToken(response.token)
 
           if (newUser.tutor) {
             navigate("/auth/sign-up-tutor")

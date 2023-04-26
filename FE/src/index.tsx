@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import reportWebVitals from './reportWebVitals';
 
@@ -12,7 +12,6 @@ import HomePage from './Pages/Home/HomePage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { store}  from './store'
-
 import SignIn from './Pages/UserAuth/sign-in-all';
 import ProfileLayout from './Pages/Profile/profile-layout';
 import EditProfileTutor from './Pages/Profile/edit-profile-tutor';

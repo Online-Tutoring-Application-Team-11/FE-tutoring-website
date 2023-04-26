@@ -4,9 +4,11 @@ import { Card } from 'react-bootstrap'
 import { HoursGet } from '../API/DTOs/appointTypes'
 import { deleteTutorHours } from '../API/Endpoints/appointEndpoint'
 import { useAppSelector } from '../Hooks/stateHooks'
+import { FaTimes } from 'react-icons/fa'
+import moment from 'moment'
 
 
-const TimeBlock = (props: {block: HoursGet, onHandleDelete?: (id: number) => void}) => {
+const TimeBlock = (props: {block: HoursGet, onHandleDelete?: () => void}) => {
 
   const user = useAppSelector((state) => state.user.value);
 
@@ -15,37 +17,18 @@ const TimeBlock = (props: {block: HoursGet, onHandleDelete?: (id: number) => voi
   const [startAMPM, setStartAMPM] = React.useState("");
   const [endAMPM, setEndAMPM] = React.useState("");
 
-  const [selectDelete, setSelectDelete] = React.useState(true);
-
-  /* how to delete single block???
-  TRY 1
-  const handleDelete = () => {
-    deleteTutorHours(user.email, props.block.dayOfWeek, props.block.startTime);
-  }
-  */
-
-  /*
-  can get the email from user for calling the API 
-  but how to get day and start time of a specific time block 
-  TRY 2
-
-  const deleteBlockHandler = () => {
-    deleteTutorHours(user.email).then(() => {
-        getAvailableHours();
-        setSuccess(true);
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message)
-    })
-  };
-  */
+  const [selectDelete, setSelectDelete] = React.useState(false);
 
   const handleDelete = () => {
-    deleteTutorHours(user.email, props.block.dayOfWeek, props.block.startTime).then(() => {
+
+    var formatteddatestr = moment(props.block.startTime).format('hh:mm:ss');
+    
+    deleteTutorHours(user.email, props.block.dayOfWeek, formatteddatestr).then(() => {
       setSelectDelete(!selectDelete);
         if (props.onHandleDelete)
-          props.onHandleDelete(props.block.tutorId);
+          props.onHandleDelete();
     })
+   
   }
 
   // convert from military time format to AM/PM time format
@@ -110,11 +93,15 @@ const TimeBlock = (props: {block: HoursGet, onHandleDelete?: (id: number) => voi
               } {endAMPM}
             </Typography>
             </div>
-            <div className="col-span-3 flex justify-end">
-              <Stack direction="row" spacing={1}>
-                <Button color="error" onClick={handleDelete}>Delete</Button>
-              </Stack>
-            </div>
+            {
+              props.onHandleDelete ? 
+              <div className="col-span-3 flex justify-end">
+                <Stack direction="row" spacing={1}>
+                  <Button onClick={handleDelete}><FaTimes color="gray"/></Button>
+                </Stack>
+              </div>
+              : <div/>
+            }
           </div>
         </div>
       </Card>

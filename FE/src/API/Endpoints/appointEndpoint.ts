@@ -46,13 +46,30 @@ export const getAllTutors = async (subject: string) => {
     return axios.request(config).then((response) => response.data);
   }
 
-  // not sure if this is the right way to go about it ... so far been seeing only 'put' and 'get'
-  // but in theory del should prob be similar to 'get'
   export const deleteTutorHours = async (email: string, dayOfWeek: string, startTime: Date | string): Promise<Array<HoursGet>> => {
     let config = {
-      method: 'del',
+      method: 'delete',
       maxBodyLength: Infinity,
-      url: process.env.REACT_APP_DB_URL + `/tutors/get/available-hours/${email}/delete?day=${dayOfWeek}&startTime=${startTime}`,
+      url: process.env.REACT_APP_DB_URL + `/tutors/available-hours/${email}/delete`,
+      params: {
+        day: dayOfWeek,
+        startTime: startTime
+      },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `${getAuthToken()}`
+      }
+    };
+  
+    return axios.request(config).then((response) => response.data);
+  }
+
+  // trying to delete all hours using one query param for day
+  export const deleteAllTutorHours = async (email: string): Promise<Array<HoursGet>> => {
+    let config = {
+      method: 'delete',
+      maxBodyLength: Infinity,
+      url: process.env.REACT_APP_DB_URL + `/tutors/available-hours/${email}/delete`,
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': `${getAuthToken()}`
