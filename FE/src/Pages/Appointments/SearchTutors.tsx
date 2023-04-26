@@ -4,7 +4,7 @@ import { getAllTutors } from '../../API/Endpoints/appointEndpoint'
 import '../../output.css'
 import './appointment.css'
 import { UserGet } from '../../API/DTOs/userTypes'
-import { InputAdornment, MenuItem, TextField } from '@mui/material'
+import { InputAdornment, MenuItem, Skeleton, TextField } from '@mui/material'
 import { FaFilter, FaSearch } from 'react-icons/fa'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import TutorCard from '../../Components/TutorCard'
@@ -16,6 +16,8 @@ const SearchTutors = () => {
     const user = useAppSelector((state) => state.user.value)
 
     const subjList = subjectArray;
+
+    const [loading, setLoading] = React.useState(false);
 
     const [tutorList, setTutorList] = React.useState<Array<Array<UserGet>>>([]);
     const [totalList, setTotalList] = React.useState<Array<UserGet>>([]);
@@ -37,7 +39,8 @@ const SearchTutors = () => {
             subjList.push("All Subjects");
         }
         
-        getAllTutors(subjectFilter).then((data: Array<UserGet>) => {
+        setLoading(true);
+        getAllTutors().then((data: Array<UserGet>) => {
             for (let i = 0; i < data.length; i++) {
                 if (user.favouriteTutorIds && user.favouriteTutorIds.find((val) => val == data[i].id) != undefined) {
                     data[i].fav = true;
@@ -50,7 +53,7 @@ const SearchTutors = () => {
             let outerIndex = 0;
             let innerIndex = 0;
             for (let i = 0; i < data.length; i++) {
-                if (nameFilter && nameFilter.length > 0 && !((data[i].fname! + " " + data[i].lname!).includes(nameFilter))) {
+                if (nameFilter && nameFilter.length > 0 && !((data[i].fname! + " " + data[i].lname!).toLowerCase().includes(nameFilter.toLowerCase()))) {
                     innerIndex--;
                 } else {
                     newTutorList[outerIndex].push(data[i])
@@ -63,7 +66,7 @@ const SearchTutors = () => {
             }
             setTotalList(data);
             setTutorList(newTutorList);
-        })
+        }).finally(() => { setLoading(false); })
     }
 
     useEffect(() => {
@@ -78,7 +81,7 @@ const SearchTutors = () => {
         let outerIndex = 0;
         let innerIndex = 0;
         for (let i = 0; i < data.length; i++) {
-            if (name && name.length > 0 && !((data[i].fname! + " " + data[i].lname!).includes(name))) {
+            if (name && name.length > 0 && !((data[i].fname! + " " + data[i].lname!).toLowerCase().includes(name.toLowerCase()))) {
                 innerIndex--;
             } else if (subject && subject != "All Subjects" && !(data[i].subjects.includes(subject))) {
                 innerIndex--;
@@ -135,13 +138,21 @@ const SearchTutors = () => {
                         )}
                     </TextField>
                 </div>
-                {tutorList.map((tutors) => 
-                    <div className="grid grid-cols-3 space-x-4">
-                        {tutors.map((tutor) => 
-                            <TutorCard tutor={tutor}/>
-                        )}
-                    </div>
-                )}
+                {
+                    loading ?
+                    <div className="grid grid-cols-3 space-x-4 m-2">
+                        <Skeleton variant="rounded" height={280}/>
+                        <Skeleton variant="rounded" height={280}/>
+                        <Skeleton variant="rounded" height={280}/>
+                    </div> :
+                    tutorList.map((tutors) => 
+                        <div className="grid grid-cols-3 space-x-4">
+                            {tutors.map((tutor) => 
+                                <TutorCard tutor={tutor}/>
+                            )}
+                        </div>
+                    )
+                }
             </div>
         </div>
         
