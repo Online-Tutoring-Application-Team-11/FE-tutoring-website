@@ -18,6 +18,9 @@ import { LoadingButton } from '@mui/lab';
 const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => void }) => {
 
     const navigate = useNavigate();
+    const utc = require('dayjs/plugin/utc');
+    dayjs.extend(utc);
+
     const [validTime, setValidTime] = React.useState(false);
     const [appointOpen, setAppointOpen] = React.useState(false);
     const [loadingAppoint, setLoadingApp] = React.useState(false);
@@ -66,7 +69,14 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
 
     const handleAppointment = () => {
       getAllAppointments(props.tutor.email).then((response) => {
-        setAppointments(response);
+        setAppointments(response.map((appoint) => {
+            const convertedAppoint: AppointmentGet = {
+            ...appoint,
+            startTime: dayjs(appoint.startTime).add(dayjs().utcOffset(), 'minute').format(),
+            endTime: dayjs(appoint.endTime).add(dayjs().utcOffset(), 'minute').format()
+          };
+          return convertedAppoint;
+        }));
       }).finally(() => { 
         setValidTime(false);
         setAppointOpen(true); 
@@ -104,7 +114,7 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
       setErrorMessage("");
 
       if (date) {
-        setDate(date);
+        setDate(date.subtract(dayjs().utcOffset(), 'minute'));
 
         if (date.isBefore(dayjs())) {
           setErrorMessage("Selected time cannot be in the past");
@@ -138,8 +148,8 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
     const scheduleAppointment = () => {
       if (validTime && appointDate) {
         const newAppointment: AppointmentSend = {
-          requestedStartTime: appointDate.format('YYYY-MM-DDTHH:mm:ss'),
-          requestedEndTime: appointDate.add(30, 'minute').format('YYYY-MM-DDTHH:mm:ss'),
+          requestedStartTime: appointDate.subtract(dayjs().utcOffset()).format('YYYY-MM-DDTHH:mm:ss'),
+          requestedEndTime: appointDate.subtract(dayjs().utcOffset(), 'minute').add(30, 'minute').format('YYYY-MM-DDTHH:mm:ss'),
           studentEmail: user.email,
           tutorEmail: props.tutor.email,
           subject: subject
