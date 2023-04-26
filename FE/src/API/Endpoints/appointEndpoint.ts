@@ -7,7 +7,7 @@ export const getAllTutors = async (): Promise<Array<UserGet>> => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: process.env.REACT_APP_DB_URL + `/tutors/get/all?${subject}`,
+      url: process.env.REACT_APP_DB_URL + `/tutors/get/all`,
       headers: { 
         'Content-Type': 'application/json',
         'Authorization': `${getAuthToken()}`
