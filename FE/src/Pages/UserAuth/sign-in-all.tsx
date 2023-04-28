@@ -37,50 +37,48 @@ const SignIn = () => {
 
     // in progress
     const onSubmitHandler: SubmitHandler<LoginInput> = (login) => {
-        if (isSubmitSuccessful) {
-          const returnUser: UserSend = {
-            email: login.email, 
-            password: login.password,
-          }
-          logIn(returnUser).then((data) => {
-            setAuthToken(data.token);
-            updateCookie(data.token, data.email, data.tutor);
-            
-            if (!data.tutor) {
-              getStudent(login.email).then((response) => {
-                dispatch(setUser({
-                  ...response,
-                  fName: response.fname,
-                  lName: response.lname,
-                  year: response.year,
-                  favouriteTutorIds: response.favouriteTutorIds
-                }));
-                navigate("/");
-              })
-              
-            } else {
-              getTutor(login.email).then((response) => {
-                dispatch(setUser({
-                  ...response,
-                  fName: response.fname,
-                  lName: response.lname,
-                  subjects: response.subjects
-                }));
-                navigate("/");
-              })
-            }    
-
-             // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
-          }).catch((err) => {
-            setError(true);
-            setErrMsg(err.message);
+      const returnUser: UserSend = {
+        email: login.email, 
+        password: login.password,
+      }
+      logIn(returnUser).then((data) => {
+        setAuthToken(data.token);
+        updateCookie(data.token, data.email, data.tutor);
+        
+        if (!data.tutor) {
+          getStudent(login.email).then((response) => {
+            dispatch(setUser({
+              ...response,
+              fName: response.fname,
+              lName: response.lname,
+              year: response.year,
+              favouriteTutorIds: response.favouriteTutorIds
+            }));
+            navigate("/");
           })
-        }
+          
+        } else {
+          getTutor(login.email).then((response) => {
+            dispatch(setUser({
+              ...response,
+              fName: response.fname,
+              lName: response.lname,
+              subjects: response.subjects
+            }));
+            navigate("/");
+          })
+        }    
+
+          // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
+      }).catch((err) => {
+        setError(true);
+        setErrMsg(err.message);
+      })
       };
     
     const {
         register,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
         handleSubmit,
       } = useForm<LoginInput>({
         resolver: zodResolver(loginSchema),
@@ -147,7 +145,7 @@ const SignIn = () => {
 
             <div className="space-y-2">
               <Button
-                className="w-20 btn btn-lg btn-primary btn-temp-fix"
+                className="w-20 btn btn-temp-fix"
                 color="success"
                 variant="contained"
                 type="submit"
