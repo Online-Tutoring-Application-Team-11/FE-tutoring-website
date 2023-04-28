@@ -79,32 +79,30 @@ const EditProfileStudent = () => {
   }
 
   const onSubmitHandler: SubmitHandler<ProfileInput> = (profile) => {
-    if (isSubmitSuccessful) {
-        userChange = {
-          ...userChange,
-          fName: profile.fName,
-          lName: profile.lName,
-          year: profile.year,
-          profilePic: profileLink
-        }
-        updateUser(userChange).then((response) => {
-          dispatch(setUser({
-            ...response,
-            fName: response.fname,
-            lName: response.lname,
-            year: response.year
-          }));
-          setSuccess(true);
-        }).catch((err) => {
-          setErrMsg(err.message);
-          setError(true);
-        });
-    }
+      userChange = {
+        ...userChange,
+        fName: profile.fName,
+        lName: profile.lName,
+        year: profile.year,
+        profilePic: profileLink
+      }
+      updateUser(userChange).then((response) => {
+        dispatch(setUser({
+          ...response,
+          fName: response.fname,
+          lName: response.lname,
+          year: response.year
+        }));
+        setSuccess(true);
+      }).catch((err) => {
+        setErrMsg(err.message);
+        setError(true);
+      });
   };
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<ProfileInput>({
     defaultValues: {

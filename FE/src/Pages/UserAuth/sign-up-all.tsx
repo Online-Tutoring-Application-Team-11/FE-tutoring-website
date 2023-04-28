@@ -44,39 +44,37 @@ const SignUp = () => {
   type RegisterInput = TypeOf<typeof registerSchema>;
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
-    if (isSubmitSuccessful) {
-      const newUser: UserSend = {
-        email: register.email,
-        fName: register.fName,
-        lName: register.lName,
-        password: register.password,
-        tutor: register.tutor as unknown as boolean
-      }
-      registerUser(newUser).then((data) => {
-        const logInInfo = {
-          email: data.email,
-          password: newUser.password
-        }
-        logIn(logInInfo).then((response) => {
-          dispatch(setUser({
-            ...response,
-            fName: response.fname,
-            lName: response.lname
-          }))
-          setAuthToken(response.token);
-          updateCookie(response.token, response.email, response.tutor);
-
-          if (newUser.tutor) {
-            navigate("/auth/sign-up-tutor")
-          } else {
-            navigate("/")
-          }
-        }).catch((err) => console.log(err))
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message);
-      })
+    const newUser: UserSend = {
+      email: register.email,
+      fName: register.fName,
+      lName: register.lName,
+      password: register.password,
+      tutor: register.tutor as unknown as boolean
     }
+    registerUser(newUser).then((data) => {
+      const logInInfo = {
+        email: data.email,
+        password: newUser.password
+      }
+      logIn(logInInfo).then((response) => {
+        dispatch(setUser({
+          ...response,
+          fName: response.fname,
+          lName: response.lname
+        }))
+        setAuthToken(response.token);
+        updateCookie(response.token, response.email, response.tutor);
+
+        if (newUser.tutor) {
+          navigate("/auth/sign-up-tutor")
+        } else {
+          navigate("/")
+        }
+      }).catch((err) => console.log(err))
+    }).catch((err) => {
+      setError(true);
+      setErrMsg(err.message);
+    })
   };
 
   const navToSignIn = () => {
@@ -85,7 +83,7 @@ const SignUp = () => {
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -195,7 +193,7 @@ const SignUp = () => {
 
               <div className="space-y-2">
                 <Button
-                  className="w-20 btn btn-lg btn-primary btn-temp-fix"
+                  className="w-20 btn btn-temp-fix"
                   variant="contained"
                   color="success"
                   type="submit"
