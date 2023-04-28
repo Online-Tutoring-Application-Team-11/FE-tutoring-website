@@ -15,6 +15,8 @@ import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import cookies from '../../Hooks/cookieHook';
 
+import { Button as BsButton } from 'react-bootstrap';
+
 
 const SignUp = () => {
 
@@ -42,6 +44,20 @@ const SignUp = () => {
   });
 
   type RegisterInput = TypeOf<typeof registerSchema>;
+
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+
+  const handleImageButtonClick = () => {
+      if(hiddenFileInput.current==null){
+        console.log("State is null");
+      } else {
+        hiddenFileInput.current.click();
+      }
+  }
+     
+  const handleImageChange = () => {
+      
+  }
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
     const newUser: UserSend = {
@@ -90,8 +106,7 @@ const SignUp = () => {
   });
 
   return (
-    
-        
+
           <Box
             sx={{ minWidth: 500, minHeight: 660 }}
             component='form'
@@ -111,8 +126,8 @@ const SignUp = () => {
                 helperText={errors['email'] ? errors['email'].message : ''}
                 {...register('email')}
               />
-              <div className="grid grid-flow-col grid-cols-6">
-                <div className="col-span-3">
+              <div className="row">
+                <div className="col-sm">
                   <TextField
                     required
                     className="m-2"
@@ -123,7 +138,7 @@ const SignUp = () => {
                     {...register('fName')}
                   />
                 </div>
-                <div className="col-span-3">
+                <div className="col-sm">
                   <TextField
                     required
                     className="m-2"
@@ -134,6 +149,12 @@ const SignUp = () => {
                     {...register('lName')}
                   />
                 </div>
+              </div>
+              <div className='text-center'>
+              <label>
+                <input type="file" ref={hiddenFileInput} onChange={handleImageChange} style={{display:"none"}}/>
+                <BsButton onClick={handleImageButtonClick}>UPLOAD PIC</BsButton>
+              </label>
               </div>
               <TextField
                 required
@@ -212,9 +233,6 @@ const SignUp = () => {
               </div>
               
             </FormControl>
-
-            
-            
           </Box>
       
       

@@ -19,8 +19,8 @@
     "jsx": "react", /* Support JSX in .tsx files (This one comes in handy sometimes) */
     "sourceMap": true, /* generates corrresponding .map file */
     "declaration": true, /* generate corresponding .d.ts file */
-    "noUnusedLocals": true, /* reports errors on unused locals (suggested for clean code writing) */
-    "noUnusedParameters": true, /* report errors on unused parameters (again, suggested for clean code writing) */
+    "noUnusedLocals": false, /* reports errors on unused locals (suggested for clean code writing) */
+    "noUnusedParameters": false, /* report errors on unused parameters (again, suggested for clean code writing) */
   },
   "include": [
     "src/**/*" // *** The files TypeScript should type check ***

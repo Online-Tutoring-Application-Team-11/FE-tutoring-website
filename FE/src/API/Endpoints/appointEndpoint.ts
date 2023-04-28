@@ -80,6 +80,7 @@ export const getAllTutors = async (): Promise<Array<UserGet>> => {
   
     return axios.request(config).then((response) => response.data);
   }
+
 export const getAllAppointments = async (email: string): Promise<Array<AppointmentGet>> => {
   let config = {
     method: 'get',
@@ -110,3 +111,18 @@ export const createAppointment = async (appointment: AppointmentSend) => {
 
   return axios.request(config).then((response) => response.data);
 }
+
+
+export const getAllTutorsNoAuth = async () => {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: process.env.REACT_APP_DB_URL + `/tutors/get/all`,
+    headers: { 
+      'Content-Type': 'application/json'
+    }
+  };
+
+  return axios.request(config).then((response) => response.data);
+}
+
