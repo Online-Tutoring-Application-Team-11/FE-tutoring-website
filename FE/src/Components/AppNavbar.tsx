@@ -1,6 +1,8 @@
 import React from 'react';
 import {Button, Navbar, Container, Nav} from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
+// @ts-ignore
+import { Link } from "react-scroll";
 
 const AppNavbar = () => {
 
@@ -21,10 +23,21 @@ const AppNavbar = () => {
           <img src="https://i.imgur.com/Vomm9Wd.png" className="navbar-image" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
           <Nav className="navbar-links">
-            <Nav.Link className="navlink-hp" href="#">TUTORS</Nav.Link>
-            <Nav.Link className="navlink-hp" href="#">COURSES</Nav.Link>
-            <Nav.Link className="navlink-hp" href="#">REVIEWS</Nav.Link>
-            <Nav.Link className="navlink-hp" href="#">CONTACT US</Nav.Link>
+            <Link activeClass="active" smooth spy to="tutors-section">
+              <Nav.Link className="navlink-hp">TUTORS</Nav.Link>
+            </Link>
+
+            <Link activeClass="active" smooth spy to="courses-section">
+              <Nav.Link className="navlink-hp" href="#">COURSES</Nav.Link>
+            </Link>
+
+            <Link activeClass="active" smooth spy to="reviews-section">
+              <Nav.Link className="navlink-hp" href="#">REVIEWS</Nav.Link>
+            </Link>
+
+            <Link activeClass="active" smooth spy to="contactus-section">
+              <Nav.Link className="navlink-hp" href="#">CONTACT US</Nav.Link>
+            </Link>
           </Nav>
           <Nav className="float-end">
             <Button variant="hollow-nb-button" style={{marginRight:15}} onClick={signIn}>RETURNING USER?</Button>

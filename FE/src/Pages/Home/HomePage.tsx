@@ -2,78 +2,75 @@ import React, { useEffect } from 'react';
 import AppNavbar from '../../Components/AppNavbar'
 import StudentNavbar from '../../Components/StudentNavbar';
 import TutorNavbar from '../../Components/TutorNavbar'
-import PageTitle from '../../Components/PageTitle';
-import PageBlurb from '../../Components/PageBlurb';
-import PicturesCarousel from '../../Components/PicturesCarousel';
-import FloatingPicture from '../../Components/FloatingPicture';
-import TutorsSection from '../../Components/TutorsSection';
-import { Outlet } from 'react-router-dom'
-import useResultsStudent from '../../Hooks/useResultsStudent';
-import useResultsTutors from '../../Hooks/useResultsTutors';
-import CoursesSection from '../../Components/CoursesSection';
-import ReviewsSection from '../../Components/ReviewsSection';
-import ContactUsSection from '../../Components/ContactUs';
-import HomepageFooter from '../../Components/HomepageFooter';
+
+import { Outlet, useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../../Hooks/stateHooks';
+import cookies from '../../Hooks/cookieHook';
+import { getTutor, getStudent } from '../../API/Endpoints/userEndpoints';
+import { setAuthToken } from '../../Hooks/useAuthToken';
+import { setUser } from '../../Hooks/userSlice';
+import { UserGet } from '../../API/DTOs/userTypes';
 
 const HomePage = () => {
 
-  //HOOKS
-  const[studentNameAPI, results] = useResultsStudent();
-  const[allTutorsAPI, resultsTutors] = useResultsTutors();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const getCookie = cookies().getCookie;
 
-  const processAPI = () => {
-      allTutorsAPI();
-      // console.log("In Homepage, 1results = " + JSON.stringify(resultsTutors));
-  }
+  const [loaded, setLoaded] = React.useState(false);
+
+  const startup = () => {
+    if (getCookie().bearerToken && getCookie().email) {
+      setAuthToken(getCookie().bearerToken);
+
+      if (getCookie().tutor != undefined && getCookie().tutor == 'true') {
+        getTutor(getCookie().email).then((user) => {
+          dispatch(setUser({
+            ...user,
+            fName: user.fname,
+            lName: user.lname
+          }));
+          setResults(user);
+          setLoaded(true);
+        })
+      } else if (getCookie().tutor != undefined) {
+        getStudent(getCookie().email).then((user) => {
+          dispatch(setUser({
+            ...user,
+            fName: user.fname,
+            lName: user.lname
+          }));
+          setResults(user);
+          setLoaded(true);
+        })
+      } else {
+        setLoaded(true);
+        navigate("/");
+      }
+    } else {
+      setLoaded(true);
+    }
+  };
 
   useEffect(() => {
-    processAPI();
-    // console.log("In Homepage, 2results = " + (resultsTutors));
+    startup();
   }, []);
 
-
+  const [results, setResults] = React.useState({} as UserGet);
 
     return (
+      loaded ?
       <div className="App">
         {
           results.fname && results.fname.length > 0 ? 
-            results.tutor ? <TutorNavbar nameAPI={studentNameAPI} results={results}/> : 
-            <StudentNavbar nameAPI={studentNameAPI} results={results}/> :
+            results.tutor ? <TutorNavbar results={results}/> : 
+            <StudentNavbar results={results}/> :
           <AppNavbar/>
         }
-
-        <div id="page-body" style={{paddingLeft:"65px", paddingRight:"65px"}}>
-          {/* ROW STARTS */}
-          <div className="row">
-            <div className="col-sm">
-              <PageTitle/>
-              <PageBlurb/>
-            </div>
-
-            <div className="col-sm">
-              <PicturesCarousel/>
-            </div>
-          </div>
-
-          <FloatingPicture/>
-
-          <TutorsSection resultsTutors={resultsTutors}/>
-
-          <div style={{paddingBottom: "40px"}}>
-          <CoursesSection/>
-          </div>
-
-          <ReviewsSection/>
-
-          <ContactUsSection/>
-          <br/>
-          <br/>
-
-        </div>{/*  BODY DIV ENDS */}
-        <HomepageFooter/>
         
         <Outlet/>
-      </div>
+      </div> :
+      <div/>
     )
   }
   

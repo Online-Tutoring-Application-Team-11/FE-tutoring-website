@@ -1,36 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Button, Navbar, Container, Nav} from 'react-bootstrap'
-import { getAllTutors } from '../API/Endpoints/appointEndpoint';
+import { getAllTutorsNoAuth } from '../API/Endpoints/appointEndpoint';
 import { UserGet } from '../API/DTOs/userTypes'
+import { Carousel } from 'react-bootstrap';
+import TutorHomepageCard from './TutorHomepageCard';
 
-const TutorsSection = (resultsTutors: any) => {
+const TutorsSection = () => {
 
-    // const getAllAppTutors = () => {
-    //     getAllTutors('').then((data: Array<UserGet>) => {}
+    const [highlightTutor, setHighlightTutor] = React.useState(0);
+    const [totalList, setTotalList] = React.useState<Array<UserGet>>([]);
+    const getList = () => {
+        getAllTutorsNoAuth().then((data: Array<UserGet>) => {
+            setTotalList(data);
+        })
+    }
 
-    // }
-    // let abc:Array<UserGet> = resultsTutors
-    // console.log("abc = ")
+    useEffect(() => {
+        getList();
+      }, []);
 
-    // const processAPI = () => {
-    //   allTutorsAPI();
-    //   // console.log("In Homepage, results = " + (results))
-    // }
+    const showCard = (id_: number) => {
+        let ac_index: number;
+        let ac_user: UserGet;
+        for(let i=0; i<totalList.length; i++){
+            ac_user = totalList[i];
+            if(ac_user.id == id_){
+                ac_index = i;
+                setHighlightTutor(ac_index);
+                break;
+            }
+        }
+    }
 
     return(
         <>
-        {/* {console.log("Result: " + abc)} */}
-        {/* {(resultsTutors).forEach((element:any) => {
-            console.log("ELEMENT = " + element)
-        })} */}
-        
-        {/* <img className="tutorClipartPicture" src="https://i.imgur.com/DjrOzVL.png" alt="tutors clipart"/> */}
-        {/* {console.log("Inside TutorSection.tsx, tutorList value = " + tutorList[0].fname)} */}
         <div className="row" style={{marginTop:"25px"}}>
-
-            {/* TUTOR CaRD PANEL */}
-            <div className="col-5" style={{background:"pink"}}>
-                CASHAPP
+            
+            {/* TUTOR CARD PANEL  */}
+            <div className="col-5" style={{background:"white", position:"relative"}}>
+                <Carousel className="TutorCarousel" activeIndex={highlightTutor} fade={true} controls={false} indicators={false} >
+                        {
+                            totalList.map((tutor_) => 
+                            <Carousel.Item>
+                                <TutorHomepageCard tutor={tutor_}/>
+                            </Carousel.Item>
+                            )
+                        }
+                </Carousel>
             </div>
 
             {/* TUTOR FACE PANEL  */}
@@ -44,13 +60,17 @@ const TutorsSection = (resultsTutors: any) => {
                     </div>
                 </div>
 
-                
-
+                <div className="text-center" style={{paddingTop:"26px"}}>
+                {totalList.map((tutors) => 
+                    // <div className="hp-tutor-whole" style={{display:"inline"}}>
+                        <Button className="hp-tutor-pic-button" style={{}} onClick={() => showCard(tutors.id)}>
+                            <img style={{}} className="hp-tutor-pic" src={tutors.profilePic} alt="Tutor profile pic"/>
+                        </Button>
+                    // </div>
+                )}
+                </div>
             </div>
         </div>
-
-
-
         </>
     )
 }

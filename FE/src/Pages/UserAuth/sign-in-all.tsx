@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { object, string, TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, Button, FormControl, Box, Typography, Checkbox, FormGroup, FormControlLabel, Alert, Collapse, IconButton } from '@mui/material'
+import { TextField, Button, FormControl, Box, Typography, Alert, Collapse, IconButton } from '@mui/material'
 import { useNavigate } from "react-router-dom";
 
 import '../../output.css'
@@ -14,6 +14,7 @@ import { setUser } from '../../Hooks/userSlice';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import { FaTimes } from 'react-icons/fa';
 import { getStudent, getTutor } from '../../API/Endpoints/userEndpoints';
+import cookies from '../../Hooks/cookieHook';
 
 const SignIn = () => {
 
@@ -23,6 +24,8 @@ const SignIn = () => {
     const [errorMessage, setErrMsg] = React.useState('');
 
     const dispatch = useAppDispatch();
+
+    const updateCookie = cookies().updateCookie;
 
     // in progress
     const loginSchema = object({
@@ -41,6 +44,8 @@ const SignIn = () => {
           }
           logIn(returnUser).then((data) => {
             setAuthToken(data.token);
+            updateCookie(data.token, data.email, data.tutor);
+            
             if (!data.tutor) {
               getStudent(login.email).then((response) => {
                 dispatch(setUser({
@@ -81,22 +86,9 @@ const SignIn = () => {
         resolver: zodResolver(loginSchema),
       });
 
-    const [state, setState] = React.useState({
-        rememberMe: true,
-    });
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState({
-            ...state,
-            [event.target.name]:event.target.checked,
-        });
-    };
-
     const navToSignUp = () => {
         navigate("/auth/sign-up")
     }
-
-    const { rememberMe } = state;
 
     return (
     
@@ -131,13 +123,6 @@ const SignIn = () => {
               helperText={errors['password'] ? errors['password'].message : ''}
               {...register('password')}
             />
-
-            <FormGroup>
-                <FormControlLabel 
-                    control={<Checkbox checked={rememberMe} onChange={handleChange} name="rememberMe" />} 
-                    label="Remember Me"                
-                />
-            </FormGroup>
             
             <Collapse in={error}>
                 <Alert
@@ -163,13 +148,20 @@ const SignIn = () => {
             <div className="space-y-2">
               <Button
                 className="w-20 btn btn-lg btn-primary btn-temp-fix"
+                color="success"
                 variant="contained"
                 type="submit"
               >
                 Sign In
               </Button>
               <p className="mt-1 mb-0 text flex justify-center">Don't have an account?</p>
-              <Button className="mv-0 btn btn-link btn-temp-fix" variant="text" onClick={navToSignUp}> Sign Up!</Button>
+              <Button 
+                className="mv-0 btn btn-link btn-temp-fix"
+                variant="text" onClick={navToSignUp}
+                sx={{color: 'green', '&:hover': {color: 'green'}}}
+              >
+                Sign Up!
+              </Button>
               <p className="text-muted flex justify-center">Team 11 &copy; 2023</p>
             </div>
             

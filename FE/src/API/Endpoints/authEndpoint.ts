@@ -11,7 +11,7 @@ export const registerUser = async (user: UserSend) => {
     headers: { 
       'Content-Type': 'application/json'
     },
-    data : data
+    data: data
   };
   
   return axios.request(config).then((response) => response.data)
@@ -19,7 +19,7 @@ export const registerUser = async (user: UserSend) => {
 
 export const logIn = async (user: UserSend) => {
   let data = JSON.stringify(user);
-  console.log(data)
+
   let config = {
     method: 'post',
     maxBodyLength: Infinity,
@@ -27,7 +27,7 @@ export const logIn = async (user: UserSend) => {
     headers: { 
       'Content-Type': 'application/json'
     },
-    data : data
+    data: data
   };
 
   return axios.request(config).then((response) => response.data)

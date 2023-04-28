@@ -1,4 +1,4 @@
-# Online Tutoring App FE - Team 11
+# Online Tutoring App FrontEnd - Team 11
 
 # Getting Started with Create React App
 

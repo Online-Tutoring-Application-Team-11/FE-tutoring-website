@@ -142,6 +142,7 @@ const SignUpTutor = () => {
                 <Button
                   className="w-20 btn btn-lg btn-primary btn-temp-fix"
                   variant="contained"
+                  color="success"
                   type="submit"
                 >
                   Save
