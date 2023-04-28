@@ -23,64 +23,9 @@ import ContactUsSection from '../../Components/ContactUs';
 import HomepageFooter from '../../Components/HomepageFooter';
 
 const HomePage = () => {
-
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const getCookie = cookies().getCookie;
-
-  const [loaded, setLoaded] = React.useState(false);
-
-  const startup = () => {
-    if (getCookie().bearerToken && getCookie().email) {
-      setAuthToken(getCookie().bearerToken);
-
-      if (getCookie().tutor != undefined && getCookie().tutor == 'true') {
-        getTutor(getCookie().email).then((user) => {
-          dispatch(setUser({
-            ...user,
-            fName: user.fname,
-            lName: user.lname
-          }));
-          setResults(user);
-          setLoaded(true);
-        })
-      } else if (getCookie().tutor != undefined) {
-        getStudent(getCookie().email).then((user) => {
-          dispatch(setUser({
-            ...user,
-            fName: user.fname,
-            lName: user.lname
-          }));
-          setResults(user);
-          setLoaded(true);
-        })
-      } else {
-        setLoaded(true);
-        navigate("/");
-      }
-    } else {
-      setLoaded(true);
-    }
-  };
-
-  useEffect(() => {
-    startup();
-  }, []);
-
-  const [results, setResults] = React.useState({} as UserGet);
-
     return (
-      loaded ?
-      <div className="App">
-        {
-          results.fname && results.fname.length > 0 ? 
-            results.tutor ? <TutorNavbar results={results}/> : 
-            <StudentNavbar results={results}/> :
-          <AppNavbar/>
-        }
-
+        <>
         <div id="page-body" style={{paddingLeft:"65px", paddingRight:"65px"}}>
-          {/* ROW STARTS */}
           <div className="row">
             <div className="col-sm">
               <PageTitle/>
@@ -116,13 +61,9 @@ const HomePage = () => {
           <br/>
           <br/>
 
-
         </div>{/*  BODY DIV ENDS */}
         <HomepageFooter/>
-        
-        <Outlet/>
-      </div> :
-      <div/>
+        </>
     )
   }
   
