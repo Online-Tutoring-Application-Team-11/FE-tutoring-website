@@ -46,7 +46,9 @@ const ViewProfileStudent = () => {
               <Typography className="row-span-1" variant="body1">{user.fName} {user.lName}</Typography>
               <Typography className="row-span-1" variant="h6">Email</Typography>
               <Typography className="row-span-1" variant="body1">{user.email}</Typography>
-              <div className = "row-span-6"></div>
+              <Typography className="row-span-1" variant="h6">Year</Typography>
+              <Typography className="row-span-1" variant="body1">{user.year}</Typography>
+              <div className = "row-span-4"></div>
           
             </div>
 

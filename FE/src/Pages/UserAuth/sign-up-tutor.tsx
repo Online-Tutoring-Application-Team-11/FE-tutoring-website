@@ -58,7 +58,7 @@ const SignUpTutor = () => {
             fName: response.fname,
             lName: response.lname
           }));
-          navigate('/');
+          navigate('/hours');
         })
       }).catch((err) => {
         setError(true);
