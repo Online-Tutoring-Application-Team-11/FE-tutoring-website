@@ -88,102 +88,100 @@ const SetHours = () => {
       }, []);
 
     const onSubmitHandler: SubmitHandler<BlockInput> = (someBlock) => {
-        if (isSubmitSuccessful) {
-            let milStartHr: string | number;
-            let milEndHr: string | number;
+        let milStartHr: string | number;
+        let milEndHr: string | number;
 
-            if (someBlock.startAMPM == "PM" && +someBlock.startHr != 12)
-                milStartHr = +someBlock.startHr + 12
-            else if (someBlock.startAMPM == "AM" && +someBlock.startHr == 12)
-                milStartHr = "0"
-            else
-                milStartHr = someBlock.startHr
+        if (someBlock.startAMPM == "PM" && +someBlock.startHr != 12)
+            milStartHr = +someBlock.startHr + 12
+        else if (someBlock.startAMPM == "AM" && +someBlock.startHr == 12)
+            milStartHr = "0"
+        else
+            milStartHr = someBlock.startHr
 
-            if (someBlock.endAMPM == "PM" && +someBlock.endHr != 12)
-                milEndHr = +someBlock.endHr + 12
-            else if (someBlock.endAMPM == "AM" && +someBlock.endHr == 12)
-                milEndHr = "0"
-            else
-                milEndHr = someBlock.endHr
+        if (someBlock.endAMPM == "PM" && +someBlock.endHr != 12)
+            milEndHr = +someBlock.endHr + 12
+        else if (someBlock.endAMPM == "AM" && +someBlock.endHr == 12)
+            milEndHr = "0"
+        else
+            milEndHr = someBlock.endHr
 
-            milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!)
-            milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!)
+        milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!)
+        milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!)
 
-            if (+milStartHr >= +milEndHr) {
-                setError(true);
-                setErrMsg("End time must be after start time");
-                return;
-            }
+        if (+milStartHr >= +milEndHr) {
+            setError(true);
+            setErrMsg("End time must be after start time");
+            return;
+        }
 
-            milStartHr = +milStartHr - (dayjs().utcOffset() / 60);
-            milEndHr = +milEndHr - (dayjs().utcOffset() / 60);
+        milStartHr = +milStartHr - (dayjs().utcOffset() / 60);
+        milEndHr = +milEndHr - (dayjs().utcOffset() / 60);
 
-            let dayOfWeek = someBlock.dayOfWeek;
-            let firstBlock;
+        let dayOfWeek = someBlock.dayOfWeek;
+        let firstBlock;
 
-            if (milStartHr >= 24) {
-                milStartHr -= 24;
-                milEndHr -= 24;
+        if (milStartHr >= 24) {
+            milStartHr -= 24;
+            milEndHr -= 24;
 
-                milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!);
-                milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!);
+            milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!);
+            milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!);
 
-                dayOfWeek = dayArray.indexOf(dayOfWeek) < dayArray.length - 1 ? 
-                dayArray[dayArray.indexOf(dayOfWeek) + 1] :
-                dayArray[0];
-            } else if (milEndHr > 24) {
-                firstBlock = {
-                    email: user.email,
-                    dayOfWeek: dayOfWeek,
-                    startTime: milStartHr + ":" + someBlock.startMin + ":00",
-                    endTime: "23:59:00"
-                }
-
-                milStartHr = "00";
-                milEndHr -= 24;
-                milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!);
-
-                dayOfWeek = dayArray.indexOf(dayOfWeek) < dayArray.length - 1 ? 
-                dayArray[dayArray.indexOf(dayOfWeek) + 1] :
-                dayArray[0];
-            } else if (milEndHr == 24) {
-                milEndHr = 23;
-                someBlock.endMin = "59";
-            }
-
-            const newBlock: HoursSend = {
+            dayOfWeek = dayArray.indexOf(dayOfWeek) < dayArray.length - 1 ? 
+            dayArray[dayArray.indexOf(dayOfWeek) + 1] :
+            dayArray[0];
+        } else if (milEndHr > 24) {
+            firstBlock = {
                 email: user.email,
                 dayOfWeek: dayOfWeek,
                 startTime: milStartHr + ":" + someBlock.startMin + ":00",
-                endTime: milEndHr + ":" + someBlock.endMin + ":00"
+                endTime: "23:59:00"
             }
 
-            if (firstBlock) {
-                setTutorHours(firstBlock).then(() => {
-                    setTutorHours(newBlock).then(() => {
-                        getAvailableHours();
-                        setSuccess(true);
-                    })
-                }).catch((err) => {
-                    setError(true);
-                    setErrMsg(err.message)
-                })
-            } else {
+            milStartHr = "00";
+            milEndHr -= 24;
+            milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!);
+
+            dayOfWeek = dayArray.indexOf(dayOfWeek) < dayArray.length - 1 ? 
+            dayArray[dayArray.indexOf(dayOfWeek) + 1] :
+            dayArray[0];
+        } else if (milEndHr == 24) {
+            milEndHr = 23;
+            someBlock.endMin = "59";
+        }
+
+        const newBlock: HoursSend = {
+            email: user.email,
+            dayOfWeek: dayOfWeek,
+            startTime: milStartHr + ":" + someBlock.startMin + ":00",
+            endTime: milEndHr + ":" + someBlock.endMin + ":00"
+        }
+
+        if (firstBlock) {
+            setTutorHours(firstBlock).then(() => {
                 setTutorHours(newBlock).then(() => {
                     getAvailableHours();
                     setSuccess(true);
-                }).catch((err) => {
-                    setError(true);
-                    setErrMsg(err.message)
                 })
-            }
-            
+            }).catch((err) => {
+                setError(true);
+                setErrMsg(err.message)
+            })
+        } else {
+            setTutorHours(newBlock).then(() => {
+                getAvailableHours();
+                setSuccess(true);
+            }).catch((err) => {
+                setError(true);
+                setErrMsg(err.message)
+            })
         }
+            
       };
     
       const {
         register,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
         handleSubmit,
       } = useForm<BlockInput>({
         resolver: zodResolver(blockSchema),

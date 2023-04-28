@@ -83,41 +83,39 @@ const EditProfileTutor = () => {
   }
 
   const onSubmitHandler: SubmitHandler<ProfileInput> = (profile) => {
-    if (isSubmitSuccessful) {
-      tutorSubjects = {
-        email: userChange.email,
-        subjects: profile.subjects
-      }
-      updateTutor(tutorSubjects).then((data: UserGet) => {
-        userChange = {
-          id: data.id,
-          email: data.email,
-          tutor: data.tutor, 
-          profilePic: profileLink,
-          totalHours: data.totalHours,
-          aboutMe: profile.aboutMe,
-          fName: profile.fName,
-          lName: profile.lName
-        }
-        updateUser(userChange).then((response) => {
-          dispatch(setUser({
-            ...response,
-            subjects: data.subjects,
-            fName: response.fname,
-            lName: response.lname
-          }));
-          setSuccess(true);
-        })
-      }).catch((err) => {
-        setErrMsg(err.message);
-        setError(true);
-      })
+    tutorSubjects = {
+      email: userChange.email,
+      subjects: profile.subjects
     }
+    updateTutor(tutorSubjects).then((data: UserGet) => {
+      userChange = {
+        id: data.id,
+        email: data.email,
+        tutor: data.tutor, 
+        profilePic: profileLink,
+        totalHours: data.totalHours,
+        aboutMe: profile.aboutMe,
+        fName: profile.fName,
+        lName: profile.lName
+      }
+      updateUser(userChange).then((response) => {
+        dispatch(setUser({
+          ...response,
+          subjects: data.subjects,
+          fName: response.fname,
+          lName: response.lname
+        }));
+        setSuccess(true);
+      })
+    }).catch((err) => {
+      setErrMsg(err.message);
+      setError(true);
+    });
   };
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<ProfileInput>({
     defaultValues: {
