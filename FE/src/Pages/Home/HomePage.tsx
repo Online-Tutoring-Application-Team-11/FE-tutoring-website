@@ -12,8 +12,15 @@ import { setUser } from '../../Hooks/userSlice';
 import { UserGet } from '../../API/DTOs/userTypes';
 // @ts-ignore
 import { Element } from 'react-scroll';
-// @ts-ignore
-import { Element } from 'react-scroll';
+import PageBlurb from '../../Components/PageBlurb';
+import PageTitle from '../../Components/PageTitle';
+import PicturesCarousel from '../../Components/PicturesCarousel';
+import FloatingPicture from '../../Components/FloatingPicture';
+import TutorsSection from '../../Components/TutorsSection';
+import CoursesSection from '../../Components/CoursesSection';
+import ReviewsSection from '../../Components/ReviewsSection';
+import ContactUsSection from '../../Components/ContactUs';
+import HomepageFooter from '../../Components/HomepageFooter';
 
 const HomePage = () => {
 
