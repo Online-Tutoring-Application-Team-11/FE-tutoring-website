@@ -12,6 +12,8 @@ import { setUser } from '../../Hooks/userSlice';
 import { UserGet } from '../../API/DTOs/userTypes';
 // @ts-ignore
 import { Element } from 'react-scroll';
+// @ts-ignore
+import { Element } from 'react-scroll';
 
 const HomePage = () => {
 
