@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CardContent, Typography, CardActions, TextField, Button, Avatar, Badge, IconButton, Dialog, DialogTitle, Collapse, Alert, Fab } from '@mui/material'
+import { CardContent, Typography, CardActions, TextField, Button, Avatar, Badge, IconButton, Dialog, DialogTitle, Collapse, Alert, Fab, MenuItem } from '@mui/material'
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { object, string, TypeOf } from 'zod'
+import { number, object, string, TypeOf } from 'zod'
 
 import {FaEdit, FaTimes} from 'react-icons/fa';
 
@@ -36,7 +36,8 @@ const EditProfileStudent = () => {
 
   const profileSchema = object({
     fName: string().nonempty('Name is required'),
-    lName: string().nonempty('Name is required')
+    lName: string().nonempty('Name is required'),
+    year: number()
   });
 
   type ProfileInput = TypeOf<typeof profileSchema>
@@ -83,13 +84,15 @@ const EditProfileStudent = () => {
           ...userChange,
           fName: profile.fName,
           lName: profile.lName,
+          year: profile.year,
           profilePic: profileLink
         }
         updateUser(userChange).then((response) => {
           dispatch(setUser({
             ...response,
             fName: response.fname,
-            lName: response.lname
+            lName: response.lname,
+            year: response.year
           }));
           setSuccess(true);
         }).catch((err) => {
@@ -106,7 +109,8 @@ const EditProfileStudent = () => {
   } = useForm<ProfileInput>({
     defaultValues: {
       fName: user.fName,
-      lName: user.lName
+      lName: user.lName,
+      year: user.year || 1
     },
     resolver: zodResolver(profileSchema),
   });
@@ -157,6 +161,19 @@ const EditProfileStudent = () => {
                 }}
                 value={user.email}
               />
+
+              <TextField
+                select
+                className="m-2"
+                size="small"
+                label="Year"
+                error={!!errors['year']}
+                {...register('year')}
+              >
+                {[1, 2, 3, 4].map((num) =>
+                  <MenuItem key={num} value={num}>{num}</MenuItem>
+                )}
+              </TextField>
             </div>
 
             <div className="col-span-4 flex justify-end">
