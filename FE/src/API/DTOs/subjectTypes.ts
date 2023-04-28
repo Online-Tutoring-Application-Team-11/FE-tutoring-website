@@ -14,3 +14,5 @@ export const subjectArray = [
     "Discrete Math",
     "Linear Algebra"
 ]
+
+export const dayArray = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
