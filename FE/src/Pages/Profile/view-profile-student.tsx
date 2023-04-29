@@ -52,10 +52,12 @@ const ViewProfileStudent = () => {
           
             </div>
 
-            <div className="col-span-4 flex justify-end">
+            <div className="grid grid-flow-row col-span-4 flex justify-end">
               <Avatar sx={{ width: 256, height: 256, fontSize: '80px', bgcolor: nameToColor(user.fName || " ") }} src={user.profilePic}>
                   {nameToInitials(user.fName|| " ", user.lName || " ")}
               </Avatar>
+
+              <Typography variant="h6">Hours Spent Learning: {user.totalHours}</Typography>
             </div>
 
           </div>
