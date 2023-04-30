@@ -1,4 +1,4 @@
-import { Alert, Button, Card, CardActions, CardContent, Collapse, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { Alert, Button, Card, CardActions, CardContent, Collapse, IconButton, MenuItem, Skeleton, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { deleteAllTutorHours, deleteTutorHours, getTutorHours, setTutorHours } from '../API/Endpoints/appointEndpoint';
 import TimeBlock from '../Components/TimeBlock';
@@ -19,6 +19,7 @@ const SetHours = () => {
     
     const [blockList, setBlockList] = React.useState<Array<HoursGet>>();
     const [selectDeleteAll, setSelectDeleteAll] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     const [error, setError] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
@@ -37,6 +38,7 @@ const SetHours = () => {
     type BlockInput = TypeOf<typeof blockSchema>
 
     const getAvailableHours = () => {
+        setLoading(true);
         getTutorHours(user.email).then((response) => {
             let newBlockList: Array<HoursGet> = [];
             response.forEach((block) => {
@@ -80,7 +82,7 @@ const SetHours = () => {
             }
 
             setBlockList(newBlockList);
-        });
+        }).finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -410,7 +412,16 @@ const SetHours = () => {
                         </div>
                         <div className="col-span-1"></div>
 
-                        <div className="col-span-5">
+                        {
+                            loading ? 
+                            <div className="col-span-5 flex flex-col space-y-4 mt-2">
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                            </div> :
+                            <div className="col-span-5">
                             {
                                 blockList && blockList.length > 0 ?
                                 blockList?.map((block) => 
@@ -418,7 +429,8 @@ const SetHours = () => {
                                 ) :
                                 <Typography variant="h4" align="center" sx={{marginTop: 16}}>There are no time blocks set</Typography>
                             }
-                        </div>
+                            </div>
+                        }
 
                     </div>
 

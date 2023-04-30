@@ -54,10 +54,10 @@ const SearchTutors = () => {
         }).catch(() => setLoading(false));
     }
 
-    const removeUnavailable = async (data: Array<UserGet>) => {
+    const removeUnavailable = (data: Array<UserGet>) => {
         const newTutorList = [];
         for (const tutor of data) {
-            const hours: HoursGet[] = await getTutorHours(tutor.email);
+            const hours: HoursGet[] = tutor.availableHours!;
             if (hours.length != 0) {
                 newTutorList.push(tutor);
             }

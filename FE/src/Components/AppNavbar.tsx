@@ -19,8 +19,8 @@ const AppNavbar = () => {
     return(
         <Navbar className="nb-col" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#">
-          <img src="https://i.imgur.com/Vomm9Wd.png" className="navbar-image" alt="A+ Tutors Logo"/>
+          <Navbar.Brand href="#" className="cursor-pointer">
+            <img src="https://i.imgur.com/Vomm9Wd.png" className="navbar-image" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
           <Nav className="navbar-links">
             <Link activeClass="active" smooth spy to="tutors-section">

@@ -45,19 +45,19 @@ const SignUp = () => {
 
   type RegisterInput = TypeOf<typeof registerSchema>;
 
-  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  // const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
-  const handleImageButtonClick = () => {
-      if(hiddenFileInput.current==null){
-        console.log("State is null");
-      } else {
-        hiddenFileInput.current.click();
-      }
-  }
+  // const handleImageButtonClick = () => {
+  //     if(hiddenFileInput.current==null){
+  //       console.log("State is null");
+  //     } else {
+  //       hiddenFileInput.current.click();
+  //     }
+  // }
      
-  const handleImageChange = () => {
+  // const handleImageChange = () => {
       
-  }
+  // }
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
     const newUser: UserSend = {
@@ -151,10 +151,10 @@ const SignUp = () => {
                 </div>
               </div>
               <div className='text-center'>
-              <label>
+              {/* <label>
                 <input type="file" ref={hiddenFileInput} onChange={handleImageChange} style={{display:"none"}}/>
                 <BsButton onClick={handleImageButtonClick}>UPLOAD PIC</BsButton>
-              </label>
+              </label> */}
               </div>
               <TextField
                 required

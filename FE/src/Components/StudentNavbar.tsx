@@ -26,8 +26,8 @@ const StudentNavbar = ({ results }: { results: any }) => {
         <Navbar bg="dark" variant="dark">
         <Container>
         <Nav>
-          <Navbar.Brand onClick={() => {navigate("/")}}>
-          <img src="https://i.imgur.com/N7tRk7d.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
+          <Navbar.Brand onClick={() => {navigate("/")}} className="cursor-pointer">
+            <img src="https://i.imgur.com/N7tRk7d.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
             <NavDropdown style={{paddingLeft:20}}title="APPOINTMENTS" className="navlink-sp">
                 <NavDropdown.Item onClick={() => {navigate("/appointments/set")}} className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
