@@ -7,8 +7,8 @@ import { number, object, string, TypeOf } from 'zod'
 
 import {FaEdit, FaTimes} from 'react-icons/fa';
 
-import { UserSend } from '../../API/DTOs/userTypes'
-import { updateUser, changePassword } from '../../API/Endpoints/userEndpoints'
+import { StudentSend, UserSend } from '../../API/DTOs/userTypes'
+import { updateUser, changePassword, updateStudent } from '../../API/Endpoints/userEndpoints'
 import { useAppDispatch, useAppSelector } from '../../Hooks/stateHooks'
 import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
@@ -31,7 +31,6 @@ const EditProfileStudent = () => {
   const [success, setSuccess] = React.useState(false);
   const [errorMessage, setErrMsg] = React.useState('');
 
-  const [profileImage, setImage] = React.useState<string | ArrayBuffer | null>(null);
   const [profileLink, setLink] = React.useState(user.profilePic);
 
   const profileSchema = object({
@@ -51,15 +50,9 @@ const EditProfileStudent = () => {
   }
 
   const handleCapture = async ({ target }: { target: any }) => {
-    const fileReader = new FileReader();
-
-    fileReader.readAsDataURL(target.files[0]);
-    fileReader.onload = async (e) => {
-      setImage(e.target!.result);
-      uploadImage(profileImage!, user.id!.toString()).then((link) => {
+      uploadImage(target.files[0], user.id!.toString()).then((link) => {
         setLink(link);
       });
-    };
   }
 
   const handlePassword = async () => {
@@ -86,14 +79,16 @@ const EditProfileStudent = () => {
         year: profile.year,
         profilePic: profileLink
       }
-      updateUser(userChange).then((response) => {
-        dispatch(setUser({
-          ...response,
-          fName: response.fname,
-          lName: response.lname,
-          year: response.year
-        }));
-        setSuccess(true);
+      updateUser(userChange).then(() => {
+        updateStudent(userChange as StudentSend).then((response) => {
+          dispatch(setUser({
+            ...response,
+            fName: response.fname,
+            lName: response.lname,
+            year: response.year
+          }));
+          setSuccess(true);
+        })
       }).catch((err) => {
         setErrMsg(err.message);
         setError(true);
@@ -108,7 +103,7 @@ const EditProfileStudent = () => {
     defaultValues: {
       fName: user.fName,
       lName: user.lName,
-      year: user.year || 1
+      year: user.year
     },
     resolver: zodResolver(profileSchema),
   });
@@ -165,6 +160,7 @@ const EditProfileStudent = () => {
                 className="m-2"
                 size="small"
                 label="Year"
+                defaultValue={user.year as unknown as string}
                 error={!!errors['year']}
                 {...register('year')}
               >

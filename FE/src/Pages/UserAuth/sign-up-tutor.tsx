@@ -43,7 +43,7 @@ const SignUpTutor = () => {
     updateTutor(tutorSubjects).then((data: UserGet) => {
       newUser = {
         email: data.email,
-        tutor: data.tutor, 
+        tutor: data.tutor,
         profilePic: data.profilePic,
         totalHours: data.totalHours,
         aboutMe: profile.aboutMe,

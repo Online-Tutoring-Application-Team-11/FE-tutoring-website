@@ -1,3 +1,5 @@
+import { HoursGet } from "./appointTypes"
+
 export type UserSend = {
   id?: number,
   email: string,
@@ -45,5 +47,6 @@ export type UserGet = {
   token?: string,
   fav?: boolean,
   favouriteTutorIds?: number[],
-  year?: number
+  year?: number,
+  availableHours?: HoursGet[]
 }
