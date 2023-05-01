@@ -145,8 +145,10 @@ position: relative;
 .nb-nametag{
     font-family: 'Lato', sans-serif !important;
     color:white !important;
-    margin-top: 4px;
+    margin-top: 8px;
     margin-right: 15px;
+    /* vertical-align: middle !important; */
+
 }
 
 /* ------------------------------------------ */
