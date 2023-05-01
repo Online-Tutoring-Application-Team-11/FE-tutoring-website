@@ -1,6 +1,6 @@
-import { Alert, Button, Card, CardActions, CardContent, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { Alert, Button, Card, CardActions, CardContent, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Skeleton, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
-import { deleteAllTutorHours, getTutorHours, setTutorHours } from '../API/Endpoints/appointEndpoint';
+import { deleteAllTutorHours, deleteTutorHours, getTutorHours, setTutorHours } from '../API/Endpoints/appointEndpoint';
 import TimeBlock from '../Components/TimeBlock';
 import { useAppSelector } from '../Hooks/stateHooks';
 import { HoursGet, HoursSend } from '../API/DTOs/appointTypes';
@@ -9,16 +9,18 @@ import { TypeOf, object, string } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaTimes, FaTrash } from 'react-icons/fa';
 import '../output.css'
+import dayjs from 'dayjs';
+import { dayArray } from '../API/DTOs/subjectTypes';
 
 const SetHours = () => {
 
-    const dayArray = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
     const hourArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
     const user = useAppSelector((state) => state.user.value);
     
     const [blockList, setBlockList] = React.useState<Array<HoursGet>>();
     const [selectDeleteAll, setSelectDeleteAll] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     const [error, setError] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
@@ -37,11 +39,22 @@ const SetHours = () => {
     type BlockInput = TypeOf<typeof blockSchema>
 
     const getAvailableHours = () => {
+        setLoading(true);
         getTutorHours(user.email).then((response) => {
             let newBlockList: Array<HoursGet> = [];
             response.forEach((block) => {
                 const startTimeParse = (block.startTime as string).split(':');
+                startTimeParse[0] = +startTimeParse[0] + (dayjs().utcOffset() / 60) + "";
                 const endTimeParse = (block.endTime as string).split(':');
+                endTimeParse[0] = +endTimeParse[0] + (dayjs().utcOffset() / 60) + "";
+
+                if (+startTimeParse[0] < 0) {
+                    startTimeParse[0] = +startTimeParse[0] + 24 + "";
+                    endTimeParse[0] = +endTimeParse[0] + 24 + "";
+                    block.dayOfWeek = block.dayOfWeek.toUpperCase() == 'SUNDAY' ?
+                        'SATURDAY' : dayArray[dayArray.indexOf(block.dayOfWeek.toUpperCase()) - 1];
+                }
+
                 const newBlock = {
                     ...block,
                     dayOfWeek: block.dayOfWeek.toUpperCase(),
@@ -52,9 +65,25 @@ const SetHours = () => {
                 newBlockList.sort((a, b) => 
                     (dayArray.findIndex((element) => element === a.dayOfWeek) > dayArray.findIndex((element) => element === b.dayOfWeek)) 
                     ? 1 : (a.dayOfWeek === b.dayOfWeek) ? ((a.startTime > b.startTime) ? 1 : -1) : -1 );
-            })
+            });
+
+            for (let i: number = 1; i < newBlockList.length; i++) {
+                if ((newBlockList[i].startTime as Date).getHours() == (newBlockList[i - 1].endTime as Date).getHours() + 1
+                    && (newBlockList[i - 1].endTime as Date).getMinutes() == 59) {
+                    const concatBlock = {
+                        ...newBlockList[i - 1],
+                        startTime: newBlockList[i - 1].startTime,
+                        endTime: newBlockList[i].endTime
+                    }
+
+                    newBlockList[i - 1] = concatBlock;
+                    newBlockList.splice(i, 1);
+                    i--;
+                }
+            }
+
             setBlockList(newBlockList);
-        });
+        }).finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -62,42 +91,86 @@ const SetHours = () => {
       }, []);
 
     const onSubmitHandler: SubmitHandler<BlockInput> = (someBlock) => {
-        if (isSubmitSuccessful) {
-            let milStartHr: string | number;
-            let milEndHr: string | number;
+        let milStartHr: string | number;
+        let milEndHr: string | number;
 
-            if (someBlock.startAMPM == "PM" && +someBlock.startHr != 12)
-                milStartHr = +someBlock.startHr + 12
-            else if (someBlock.startAMPM == "AM" && +someBlock.startHr == 12)
-                milStartHr = "0"
-            else
-                milStartHr = someBlock.startHr
+        if (someBlock.startAMPM == "PM" && +someBlock.startHr != 12)
+            milStartHr = +someBlock.startHr + 12
+        else if (someBlock.startAMPM == "AM" && +someBlock.startHr == 12)
+            milStartHr = "0"
+        else
+            milStartHr = someBlock.startHr
 
-            if (someBlock.endAMPM == "PM" && +someBlock.endHr != 12)
-                milEndHr = +someBlock.endHr + 12
-            else if (someBlock.endAMPM == "AM" && +someBlock.endHr == 12)
-                milEndHr = "0"
-            else
-                milEndHr = someBlock.endHr
+        if (someBlock.endAMPM == "PM" && +someBlock.endHr != 12)
+            milEndHr = +someBlock.endHr + 12
+        else if (someBlock.endAMPM == "AM" && +someBlock.endHr == 12)
+            milEndHr = "0"
+        else
+            milEndHr = someBlock.endHr
 
-            milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!)
-            milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!)
+        milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!)
+        milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!)
 
-            if (+milStartHr >= +milEndHr) {
-                setError(true);
-                setErrMsg("End time must be after start time");
-                return;
-            }
+        if (+milStartHr >= +milEndHr) {
+            setError(true);
+            setErrMsg("End time must be after start time");
+            return;
+        }
 
-            const newBlock: HoursSend = {
+        milStartHr = +milStartHr - (dayjs().utcOffset() / 60);
+        milEndHr = +milEndHr - (dayjs().utcOffset() / 60);
+
+        let dayOfWeek = someBlock.dayOfWeek;
+        let firstBlock;
+
+        if (milStartHr >= 24) {
+            milStartHr -= 24;
+            milEndHr -= 24;
+
+            milStartHr = (+milStartHr! >= 10 ? milStartHr! : "0" + milStartHr!);
+            milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!);
+
+            dayOfWeek = dayArray.indexOf(dayOfWeek) < dayArray.length - 1 ? 
+            dayArray[dayArray.indexOf(dayOfWeek) + 1] :
+            dayArray[0];
+        } else if (milEndHr > 24) {
+            firstBlock = {
                 email: user.email,
-                dayOfWeek: someBlock.dayOfWeek,
+                dayOfWeek: dayOfWeek,
                 startTime: milStartHr + ":" + someBlock.startMin + ":00",
-                endTime: milEndHr + ":" + someBlock.endMin + ":00"
+                endTime: "23:59:00"
             }
 
-            console.log(newBlock)
+            milStartHr = "00";
+            milEndHr -= 24;
+            milEndHr = (+milEndHr! >= 10 ? milEndHr! : "0" + milEndHr!);
 
+            dayOfWeek = dayArray.indexOf(dayOfWeek) < dayArray.length - 1 ? 
+            dayArray[dayArray.indexOf(dayOfWeek) + 1] :
+            dayArray[0];
+        } else if (milEndHr == 24) {
+            milEndHr = 23;
+            someBlock.endMin = "59";
+        }
+
+        const newBlock: HoursSend = {
+            email: user.email,
+            dayOfWeek: dayOfWeek,
+            startTime: milStartHr + ":" + someBlock.startMin + ":00",
+            endTime: milEndHr + ":" + someBlock.endMin + ":00"
+        }
+
+        if (firstBlock) {
+            setTutorHours(firstBlock).then(() => {
+                setTutorHours(newBlock).then(() => {
+                    getAvailableHours();
+                    setSuccess(true);
+                })
+            }).catch((err) => {
+                setError(true);
+                setErrMsg(err.message)
+            })
+        } else {
             setTutorHours(newBlock).then(() => {
                 getAvailableHours();
                 setSuccess(true);
@@ -106,11 +179,12 @@ const SetHours = () => {
                 setErrMsg(err.message)
             })
         }
+            
       };
     
     const {
         register,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
         handleSubmit,
       } = useForm<BlockInput>({
         resolver: zodResolver(blockSchema),
@@ -134,6 +208,23 @@ const SetHours = () => {
     const handleClose = () => {
         setOpen(false);
     };
+        
+
+    const handleDelete = (endTime: string, day: string) => {
+    const endTimeDate = dayjs(endTime, 'HH:mm:ss');
+
+    if (endTimeDate.hour() == 23 && endTimeDate.minute() == 59) {
+        var startTimeDel = '00:00:00';
+        var dayDel;
+        if (day.toUpperCase() == 'SATURDAY') {
+            dayDel = 'SUNDAY';
+        } else {
+            dayDel = dayArray[dayArray.indexOf(day.toUpperCase()) + 1];
+        }
+        deleteTutorHours(user.email, dayDel, startTimeDel).then(() => getAvailableHours());
+    }
+    getAvailableHours();
+    }
 
     return(
         <main className="m-4">
@@ -346,15 +437,25 @@ const SetHours = () => {
                         </div>
                         <div className="col-span-1"></div>
 
-                        <div className="col-span-5">
+                        {
+                            loading ? 
+                            <div className="col-span-5 flex flex-col space-y-4 mt-2">
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                                <Skeleton sx={{ height: 45 }} variant="rounded"/>
+                            </div> :
+                            <div className="col-span-5">
                             {
                                 blockList && blockList.length > 0 ?
                                 blockList?.map((block) => 
-                                    <TimeBlock key={block.dayOfWeek + block.startTime} block={block} onHandleDelete={getAvailableHours}/>
+                                    <TimeBlock key={block.dayOfWeek + block.startTime} block={block} onHandleDelete={handleDelete}/>
                                 ) :
                                 <Typography variant="h4" align="center" sx={{marginTop: 16}}>There are no time blocks set</Typography>
                             }
-                        </div>
+                            </div>
+                        }
 
                     </div>
 

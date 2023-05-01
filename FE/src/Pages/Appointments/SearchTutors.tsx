@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { getAllTutors } from '../../API/Endpoints/appointEndpoint'
+import { getAllTutors, getTutorHours } from '../../API/Endpoints/appointEndpoint'
 
 import '../../output.css'
 import './appointment.css'
@@ -9,6 +9,7 @@ import { FaFilter, FaSearch } from 'react-icons/fa'
 import { subjectArray } from '../../API/DTOs/subjectTypes'
 import TutorCard from '../../Components/TutorCard'
 import { useAppSelector } from '../../Hooks/stateHooks'
+import { HoursGet } from '../../API/DTOs/appointTypes'
 
 
 const SearchTutors = () => {
@@ -49,24 +50,22 @@ const SearchTutors = () => {
                 }
             }
 
-            let newTutorList = [[]] as Array<Array<UserGet>>;
-            let outerIndex = 0;
-            let innerIndex = 0;
-            for (let i = 0; i < data.length; i++) {
-                if (nameFilter && nameFilter.length > 0 && !((data[i].fname! + " " + data[i].lname!).toLowerCase().includes(nameFilter.toLowerCase()))) {
-                    innerIndex--;
-                } else {
-                    newTutorList[outerIndex].push(data[i])
-                }
-                if ((innerIndex + 1) % 3 === 0) {
-                    newTutorList.push([]);
-                    outerIndex++;
-                }
-                innerIndex++;
+            removeUnavailable(data);
+        }).catch(() => setLoading(false));
+    }
+
+    const removeUnavailable = (data: Array<UserGet>) => {
+        const newTutorList = [];
+        for (const tutor of data) {
+            const hours: HoursGet[] = tutor.availableHours!;
+            if (hours.length != 0) {
+                newTutorList.push(tutor);
             }
-            setTotalList(data);
-            setTutorList(newTutorList);
-        }).finally(() => { setLoading(false); })
+        }
+
+        setTotalList(newTutorList);
+        updateList('All Subjects', '', newTutorList);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -74,8 +73,8 @@ const SearchTutors = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
-    const updateList = (subject: string, name: string | null) => {
-        const data = totalList;
+    const updateList = (subject: string, name: string | null, list?: Array<UserGet>) => {
+        const data = list || totalList;
 
         let newTutorList = [[]] as Array<Array<UserGet>>;
         let outerIndex = 0;

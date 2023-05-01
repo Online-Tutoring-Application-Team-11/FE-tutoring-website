@@ -36,40 +36,39 @@ const SignUpTutor = () => {
   type ProfileInput = TypeOf<typeof profileSchema>
 
   const onSubmitHandler: SubmitHandler<ProfileInput> = (profile) => {
-    if (isSubmitSuccessful) {
-      tutorSubjects = {
-        email: newUser.email,
-        subjects: profile.subjects.slice(1)
-      }
-      updateTutor(tutorSubjects).then((data: UserGet) => {
-        newUser = {
-          email: data.email,
-          tutor: data.tutor, 
-          profilePic: data.profilePic,
-          totalHours: data.totalHours,
-          aboutMe: profile.aboutMe,
-          fName: data.fname,
-          lName: data.lname
-        }
-        updateUser(newUser).then((response) => {
-          dispatch(setUser({
-            ...response,
-            subjects: data.subjects,
-            fName: response.fname,
-            lName: response.lname
-          }));
-          navigate('/');
-        })
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message)
-      })
+    tutorSubjects = {
+      email: newUser.email,
+      subjects: profile.subjects.slice(1)
     }
+    updateTutor(tutorSubjects).then((data: UserGet) => {
+      newUser = {
+        email: data.email,
+        tutor: data.tutor,
+        profilePic: data.profilePic,
+        totalHours: data.totalHours,
+        aboutMe: profile.aboutMe,
+        fName: data.fname,
+        lName: data.lname
+      }
+      updateUser(newUser).then((response) => {
+        dispatch(setUser({
+          ...response,
+          subjects: data.subjects,
+          fName: response.fname,
+          lName: response.lname
+        }));
+        navigate('/hours');
+      })
+    }).catch((err) => {
+      setError(true);
+      setErrMsg(err.message)
+    })
+    
   };
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<ProfileInput>({
     resolver: zodResolver(profileSchema),

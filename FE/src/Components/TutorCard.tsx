@@ -10,10 +10,11 @@ import { updateStudent } from '../API/Endpoints/userEndpoints';
 import { setUser } from '../Hooks/userSlice';
 import { DesktopDateTimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
-import { createAppointment, getAllAppointments } from '../API/Endpoints/appointEndpoint';
-import { AppointmentGet, AppointmentSend } from '../API/DTOs/appointTypes';
+import { createAppointment, getAllAppointments, getTutorHours } from '../API/Endpoints/appointEndpoint';
+import { AppointmentGet, AppointmentSend, HoursGet } from '../API/DTOs/appointTypes';
 import { LoadingButton } from '@mui/lab';
-
+import { dayArray } from '../API/DTOs/subjectTypes';
+import TimeBlock from './TimeBlock';
 
 const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => void }) => {
 
@@ -24,7 +25,7 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
     const [validTime, setValidTime] = React.useState(false);
     const [appointOpen, setAppointOpen] = React.useState(false);
     const [loadingAppoint, setLoadingApp] = React.useState(false);
-    const [appointDate, setDate] = React.useState<Dayjs>();
+    const [appointDate, setDate] = React.useState<Dayjs | null>();
     const [subject, setSubject] = React.useState("");
 
     const [errorMessage, setErrorMessage] = React.useState("");
@@ -33,6 +34,8 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
 
     const [isFav, setFav] = React.useState(props.tutor.fav);
     const [appointments, setAppointments] = React.useState<Array<AppointmentGet>>([]);
+    const [hours, setHours] = React.useState<Array<HoursGet>>([]);
+    const [shownHours, setShown] = React.useState<Array<HoursGet>>([]);
 
     const user = useAppSelector((state) => state.user.value)
     const dispatch = useAppDispatch();
@@ -77,10 +80,42 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
           };
           return convertedAppoint;
         }));
-      }).finally(() => { 
-        setValidTime(false);
-        setAppointOpen(true); 
-      })
+
+        getTutorHours(props.tutor.email).then((response) => {
+          setHours(response.map((hour) => {
+            var convStartTime = dayjs(hour.startTime, 'HH:mm:ss');
+            var convEndTime = dayjs(hour.endTime, 'HH:mm:ss');
+            var day = hour.dayOfWeek.toUpperCase();
+
+            if (convStartTime.hour() + (dayjs().utcOffset() / 60) < 0) {
+              convStartTime = convStartTime.add(24, 'hour')
+              convEndTime = convEndTime.add(24, 'hour')
+              if (day == 'SUNDAY') {
+                day = 'SATURDAY';
+              } else {
+                day = dayArray[dayArray.indexOf(day) - 1];
+              }
+            }
+            convStartTime = convStartTime.add(dayjs().utcOffset(), 'minute');
+            convEndTime = convEndTime.add(dayjs().utcOffset(), 'minute');
+
+            if (convEndTime.minute() == 59) {
+              convEndTime = convEndTime.add(1, 'minute')
+            }
+
+            const convertedHour: HoursGet = {
+              ...hour,
+              startTime: convStartTime.format('HH:mm:ss'),
+              endTime: convEndTime.format('HH:mm:ss'),
+              dayOfWeek: day
+            };
+            return convertedHour;
+          }))
+        }).finally(() => { 
+          setValidTime(false);
+          setAppointOpen(true); 
+        })
+      });
     }
 
     const actions = [
@@ -109,11 +144,29 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
       return false;
     }
 
+    const showBlocks = (dayIndex: number) => {
+      const dayOfWeek = dayArray[dayIndex];
+      let filteredHours = hours.filter((hour) => hour.dayOfWeek == dayOfWeek);
+      filteredHours = filteredHours.map((block) => {
+        const startTimeParse = (block.startTime as string).split(':');
+        const endTimeParse = (block.endTime as string).split(':');
+
+        return {
+          ...block,
+          startTime: new Date(0, 0, 0, +startTimeParse[0], +startTimeParse[1]),
+          endTime: new Date(0, 0, 0, +endTimeParse[0], +endTimeParse[1])
+        }
+      })
+
+      setShown(filteredHours);
+    }
+
     const valiDate = (date?: Dayjs | null) => {
       let valid: boolean = true;
       setErrorMessage("");
 
       if (date) {
+        showBlocks(date.day());
         setDate(date.subtract(dayjs().utcOffset(), 'minute'));
 
         if (date.isBefore(dayjs())) {
@@ -138,6 +191,21 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
             valid = false;
           }
         });
+
+        let withinHours = false;
+        hours.map((value) => {
+          const availableStartTime = dayjs(value.startTime, 'HH:mm:ss');
+          const availableEndTime = dayjs(value.endTime, 'HH:mm:ss');
+          if (dayArray.indexOf(value.dayOfWeek) == date.day()) {
+            if ((availableStartTime.hour() < date.hour() || (availableStartTime.hour() == date.hour() && availableStartTime.minute() <= date.minute()))
+              && (availableEndTime.hour() > date.hour() || (availableEndTime.hour() == date.hour() && availableEndTime.minute() >= date.minute() + 30))) {
+              withinHours = true;
+            }
+          }
+        });
+        if (!withinHours) setErrorMessage("Selected time does not fall within available hours");
+        valid = valid && withinHours;
+
       } else {
         valid = false;
       }
@@ -167,7 +235,14 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
             setAppointOpen(false);
           })
       }
-    }
+    };
+
+    const closeDialog = () => {
+      setAppointOpen(false);
+      setSubject("");
+      setShown([]);
+      setDate(null);
+    };
 
       return(
         <div>
@@ -216,8 +291,19 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
 
           <Dialog open={appointOpen}>
             <DialogTitle>Schedule Appointment</DialogTitle>
-              <DialogContent className="flex flex-col space-y-4" sx={{height: 240, width: 400}}>
+              <DialogContent className="flex flex-col space-y-4" sx={{minHeight: 240, minWidth: 565}}>
                 <DialogContentText>Select an available date and time</DialogContentText>
+                {
+                  appointDate ?
+                  <div className="grid-col grid-cols-2 space-x-2">
+                    { 
+                      shownHours.length > 0 ?
+                      shownHours?.map((block) => {
+                        return <TimeBlock key={block.dayOfWeek + block.startTime} block={block}/>
+                      }) : <Typography>No available hours for this day</Typography>
+                    }
+                  </div> : <div/>
+                }
                 <DesktopDateTimePicker
                   disablePast
                   minutesStep={30}
@@ -254,7 +340,7 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
                 </TextField>
               </DialogContent>
               <DialogActions>
-                <Button color="error" onClick={() => setAppointOpen(false)}>Cancel</Button>
+                <Button color="error" onClick={() => closeDialog()}>Cancel</Button>
                 <LoadingButton
                   loading={loadingAppoint}
                   color="success"

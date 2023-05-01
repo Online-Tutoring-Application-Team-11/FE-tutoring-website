@@ -33,7 +33,6 @@ const EditProfileTutor = () => {
   const [success, setSuccess] = React.useState(false);
   const [errorMessage, setErrMsg] = React.useState('');
 
-  const [profileImage, setImage] = React.useState<string | ArrayBuffer | null>(null);
   const [profileLink, setLink] = React.useState(user.profilePic);
 
   const profileSchema = object({
@@ -54,16 +53,9 @@ const EditProfileTutor = () => {
   }
 
   const handleCapture = async ({ target }: { target: any }) => {
-    const fileReader = new FileReader();
-
-    fileReader.readAsDataURL(target.files[0]);
-    fileReader.onload = async (e) => {
-      setImage(e.target!.result);
-      uploadImage(profileImage!, user.id!.toString()).then((link) => {
+      uploadImage(target.files[0], user.id!.toString()).then((link) => {
         setLink(link);
-        console.log(profileLink);
       });
-    };
   }
 
   const handlePassword = async () => {
@@ -83,41 +75,39 @@ const EditProfileTutor = () => {
   }
 
   const onSubmitHandler: SubmitHandler<ProfileInput> = (profile) => {
-    if (isSubmitSuccessful) {
-      tutorSubjects = {
-        email: userChange.email,
-        subjects: profile.subjects
-      }
-      updateTutor(tutorSubjects).then((data: UserGet) => {
-        userChange = {
-          id: data.id,
-          email: data.email,
-          tutor: data.tutor, 
-          profilePic: profileLink,
-          totalHours: data.totalHours,
-          aboutMe: profile.aboutMe,
-          fName: profile.fName,
-          lName: profile.lName
-        }
-        updateUser(userChange).then((response) => {
-          dispatch(setUser({
-            ...response,
-            subjects: data.subjects,
-            fName: response.fname,
-            lName: response.lname
-          }));
-          setSuccess(true);
-        })
-      }).catch((err) => {
-        setErrMsg(err.message);
-        setError(true);
-      })
+    tutorSubjects = {
+      email: userChange.email,
+      subjects: profile.subjects
     }
+    updateTutor(tutorSubjects).then((data: UserGet) => {
+      userChange = {
+        id: data.id,
+        email: data.email,
+        tutor: data.tutor, 
+        profilePic: profileLink,
+        totalHours: data.totalHours,
+        aboutMe: profile.aboutMe,
+        fName: profile.fName,
+        lName: profile.lName
+      }
+      updateUser(userChange).then((response) => {
+        dispatch(setUser({
+          ...response,
+          subjects: data.subjects,
+          fName: response.fname,
+          lName: response.lname
+        }));
+        setSuccess(true);
+      })
+    }).catch((err) => {
+      setErrMsg(err.message);
+      setError(true);
+    });
   };
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<ProfileInput>({
     defaultValues: {

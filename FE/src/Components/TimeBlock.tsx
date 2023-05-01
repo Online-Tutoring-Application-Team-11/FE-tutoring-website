@@ -5,12 +5,14 @@ import { HoursGet } from '../API/DTOs/appointTypes'
 import { deleteTutorHours } from '../API/Endpoints/appointEndpoint'
 import { useAppSelector } from '../Hooks/stateHooks'
 import { FaTimes } from 'react-icons/fa'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import { dayArray } from '../API/DTOs/subjectTypes'
 
-
-const TimeBlock = (props: {block: HoursGet, onHandleDelete?: () => void}) => {
+const TimeBlock = (props: {block: HoursGet, onHandleDelete?: (endTime: string, day: string) => void}) => {
 
   const user = useAppSelector((state) => state.user.value);
+  const utc = require('dayjs/plugin/utc');
+  dayjs.extend(utc);
 
   const [startHr, setStartHr] = React.useState(0);
   const [endHr, setEndHr] = React.useState(0);
@@ -20,13 +22,19 @@ const TimeBlock = (props: {block: HoursGet, onHandleDelete?: () => void}) => {
   const [selectDelete, setSelectDelete] = React.useState(false);
 
   const handleDelete = () => {
-
-    var formatteddatestr = moment(props.block.startTime).format('hh:mm:ss');
-    
-    deleteTutorHours(user.email, props.block.dayOfWeek, formatteddatestr).then(() => {
+    console.log(props.block)
+    var formatteddate = dayjs((props.block.startTime as string));
+    var dayOfWeek = props.block.dayOfWeek;
+    if (formatteddate.hour() - (dayjs().utcOffset() / 60) >= 24) {
+      formatteddate = formatteddate.subtract(24, 'hour');
+      dayOfWeek = dayOfWeek == 'SATURDAY' ? 'SUNDAY' : dayArray[dayArray.indexOf(dayOfWeek) + 1];
+    }
+    formatteddate = formatteddate.subtract(dayjs().utcOffset(), 'minute');
+  
+    deleteTutorHours(user.email, dayOfWeek, formatteddate.format('HH:mm:ss')).then((data) => {
       setSelectDelete(!selectDelete);
         if (props.onHandleDelete)
-          props.onHandleDelete();
+          props.onHandleDelete(data[0].endTime as string, props.block.dayOfWeek);
     })
    
   }

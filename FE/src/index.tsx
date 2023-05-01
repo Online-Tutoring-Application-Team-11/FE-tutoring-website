@@ -22,6 +22,7 @@ import ViewProfileTutor from './Pages/Profile/view-profile-tutor';
 import ViewProfileStudent from './Pages/Profile/view-profile-student';
 import SearchTutors from './Pages/Appointments/SearchTutors';
 import Favorites from './Pages/Favorites';
+import StudentNavbar from './Components/StudentNavbar';
 import Hours from './Pages/Hours';
 import UpcomingTutor from './Pages/Appointments/UpcomingTutor';
 import UpcomingStudent from './Pages/Appointments/UpcomingStudent';
@@ -34,7 +35,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path = "/" element = {<Header/>}>
-            <Route path = "home" element = {<HomePage/>}></Route>
+            <Route path = "" element = {<HomePage/>}></Route>
             <Route path = "profile" element = {<ProfileLayout/>}>
               <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
               <Route path = "edit/student" element = {<EditProfileStudent/>}></Route>

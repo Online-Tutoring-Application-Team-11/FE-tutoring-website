@@ -11,7 +11,7 @@ import { setAuthToken } from '../../Hooks/useAuthToken';
 import { setUser } from '../../Hooks/userSlice';
 import { UserGet } from '../../API/DTOs/userTypes';
 
-const HomePage = () => {
+const Header = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -74,4 +74,4 @@ const HomePage = () => {
     )
   }
   
-export default HomePage
+export default Header

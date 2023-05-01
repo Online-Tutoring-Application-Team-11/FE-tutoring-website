@@ -27,7 +27,6 @@ const SignIn = () => {
 
     const updateCookie = cookies().updateCookie;
 
-    // in progress
     const loginSchema = object({
       email: string().nonempty('Email is required'),
       password: string().nonempty('Password is required'),
@@ -35,7 +34,6 @@ const SignIn = () => {
 
     type LoginInput = TypeOf<typeof loginSchema>;
 
-    // in progress
     const onSubmitHandler: SubmitHandler<LoginInput> = (login) => {
         if (isSubmitSuccessful) {
           const returnUser: UserSend = {
@@ -75,8 +73,9 @@ const SignIn = () => {
             setError(true);
             setErrMsg(err.message);
           })
-        }
-      };
+      }
+    }
+          
     
     const {
         register,
@@ -147,7 +146,7 @@ const SignIn = () => {
 
             <div className="space-y-2">
               <Button
-                className="w-20 btn btn-lg btn-primary btn-temp-fix"
+                className="w-20 btn btn-temp-fix"
                 color="success"
                 variant="contained"
                 type="submit"

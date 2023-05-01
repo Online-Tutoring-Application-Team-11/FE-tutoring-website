@@ -15,6 +15,8 @@ import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import cookies from '../../Hooks/cookieHook';
 
+import { Button as BsButton } from 'react-bootstrap';
+
 
 const SignUp = () => {
 
@@ -43,40 +45,52 @@ const SignUp = () => {
 
   type RegisterInput = TypeOf<typeof registerSchema>;
 
-  const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
-    if (isSubmitSuccessful) {
-      const newUser: UserSend = {
-        email: register.email,
-        fName: register.fName,
-        lName: register.lName,
-        password: register.password,
-        tutor: register.tutor as unknown as boolean
-      }
-      registerUser(newUser).then((data) => {
-        const logInInfo = {
-          email: data.email,
-          password: newUser.password
-        }
-        logIn(logInInfo).then((response) => {
-          dispatch(setUser({
-            ...response,
-            fName: response.fname,
-            lName: response.lname
-          }))
-          setAuthToken(response.token);
-          updateCookie(response.token, response.email, response.tutor);
+  // const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
-          if (newUser.tutor) {
-            navigate("/auth/sign-up-tutor")
-          } else {
-            navigate("/")
-          }
-        }).catch((err) => console.log(err))
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message);
-      })
+  // const handleImageButtonClick = () => {
+  //     if(hiddenFileInput.current==null){
+  //       console.log("State is null");
+  //     } else {
+  //       hiddenFileInput.current.click();
+  //     }
+  // }
+     
+  // const handleImageChange = () => {
+      
+  // }
+
+  const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
+    const newUser: UserSend = {
+      email: register.email,
+      fName: register.fName,
+      lName: register.lName,
+      password: register.password,
+      tutor: register.tutor as unknown as boolean
     }
+    registerUser(newUser).then((data) => {
+      const logInInfo = {
+        email: data.email,
+        password: newUser.password
+      }
+      logIn(logInInfo).then((response) => {
+        dispatch(setUser({
+          ...response,
+          fName: response.fname,
+          lName: response.lname
+        }))
+        setAuthToken(response.token);
+        updateCookie(response.token, response.email, response.tutor);
+
+        if (newUser.tutor) {
+          navigate("/auth/sign-up-tutor")
+        } else {
+          navigate("/")
+        }
+      }).catch((err) => console.log(err))
+    }).catch((err) => {
+      setError(true);
+      setErrMsg(err.message);
+    })
   };
 
   const navToSignIn = () => {
@@ -85,15 +99,14 @@ const SignUp = () => {
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
   });
 
   return (
-    
-        
+
           <Box
             sx={{ minWidth: 500, minHeight: 660 }}
             component='form'
@@ -113,8 +126,8 @@ const SignUp = () => {
                 helperText={errors['email'] ? errors['email'].message : ''}
                 {...register('email')}
               />
-              <div className="grid grid-flow-col grid-cols-6">
-                <div className="col-span-3">
+              <div className="row">
+                <div className="col-sm">
                   <TextField
                     required
                     className="m-2"
@@ -125,7 +138,7 @@ const SignUp = () => {
                     {...register('fName')}
                   />
                 </div>
-                <div className="col-span-3">
+                <div className="col-sm">
                   <TextField
                     required
                     className="m-2"
@@ -136,6 +149,12 @@ const SignUp = () => {
                     {...register('lName')}
                   />
                 </div>
+              </div>
+              <div className='text-center'>
+              {/* <label>
+                <input type="file" ref={hiddenFileInput} onChange={handleImageChange} style={{display:"none"}}/>
+                <BsButton onClick={handleImageButtonClick}>UPLOAD PIC</BsButton>
+              </label> */}
               </div>
               <TextField
                 required
@@ -195,7 +214,7 @@ const SignUp = () => {
 
               <div className="space-y-2">
                 <Button
-                  className="w-20 btn btn-lg btn-primary btn-temp-fix"
+                  className="w-20 btn btn-temp-fix"
                   variant="contained"
                   color="success"
                   type="submit"
@@ -214,9 +233,6 @@ const SignUp = () => {
               </div>
               
             </FormControl>
-
-            
-            
           </Box>
       
       
