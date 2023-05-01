@@ -450,6 +450,10 @@ position: relative;
 /*------------- TUTOR CAROUSEL -------------------- */
 
 .hp-tutor-pic-button{
+
+    width: 130px !important;
+    height: 130px !important;
+
     padding: 0px !important;
     margin-right: 14px !important;
     margin-left: 14px !important;
@@ -460,9 +464,6 @@ position: relative;
     border-radius: 50% !important;
     overflow: hidden !important;
 
-    width: 130px !important;
-    height: 130px !important;
-
     background-color: white !important;
     color: white !important;
     border-color: white !important;
@@ -471,6 +472,8 @@ position: relative;
 
 .hp-tutor-pic{
     border-radius: 50% !important;
+    width: 130px !important;
+    height: 130px !important;
 }
 
 .hp-tutor-pic-button:hover > .hp-tutor-pic{
