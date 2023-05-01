@@ -55,7 +55,7 @@ const SignIn = () => {
                   year: response.year,
                   favouriteTutorIds: response.favouriteTutorIds
                 }));
-                navigate("/");
+                navigate("/upcoming/student");
               })
               
             } else {
@@ -66,7 +66,7 @@ const SignIn = () => {
                   lName: response.lname,
                   subjects: response.subjects
                 }));
-                navigate("/");
+                navigate("/upcoming/tutor");
               })
             }    
 

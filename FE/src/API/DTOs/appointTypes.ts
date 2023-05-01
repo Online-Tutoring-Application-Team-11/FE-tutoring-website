@@ -4,6 +4,8 @@ export type AppointmentGet = {
     subject: string,
     studentId: number,
     tutorId: number
+    studentEmail: string,
+    tutorEmail: string
 }
 
 export type HoursSend = {

@@ -1,4 +1,4 @@
-import { Alert, Button, Card, CardActions, CardContent, Collapse, IconButton, MenuItem, TextField, Typography } from '@mui/material'
+import { Alert, Button, Card, CardActions, CardContent, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, TextField, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { deleteAllTutorHours, getTutorHours, setTutorHours } from '../API/Endpoints/appointEndpoint';
 import TimeBlock from '../Components/TimeBlock';
@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { TypeOf, object, string } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaTimes, FaTrash } from 'react-icons/fa';
+import '../output.css'
 
 const SetHours = () => {
 
@@ -49,8 +50,8 @@ const SetHours = () => {
                 };
                 newBlockList.push(newBlock);
                 newBlockList.sort((a, b) => 
-                (dayArray.findIndex((element) => element === a.dayOfWeek) > dayArray.findIndex((element) => element === b.dayOfWeek)) 
-                ? 1 : (a.dayOfWeek === b.dayOfWeek) ? ((a.startTime > b.startTime) ? 1 : -1) : -1 );
+                    (dayArray.findIndex((element) => element === a.dayOfWeek) > dayArray.findIndex((element) => element === b.dayOfWeek)) 
+                    ? 1 : (a.dayOfWeek === b.dayOfWeek) ? ((a.startTime > b.startTime) ? 1 : -1) : -1 );
             })
             setBlockList(newBlockList);
         });
@@ -107,45 +108,68 @@ const SetHours = () => {
         }
       };
     
-      const {
+    const {
         register,
         formState: { errors, isSubmitSuccessful },
         handleSubmit,
       } = useForm<BlockInput>({
         resolver: zodResolver(blockSchema),
-      });
+    });
       
-      const deleteAllHours = () => {
-        //console.log(user.email);
-        //console.log(props.block.dayOfWeek);
-    
-        //var formatteddatestr = moment(props.block.startTime).format('hh:mm:ss');
-        //console.log(formatteddatestr);
+    const deleteAllHours = () => {
         
         deleteAllTutorHours(user.email).then(() => {
           setSelectDeleteAll(!selectDeleteAll);
           getAvailableHours();
-            //if (props.onHandleDelete)
-              //props.onHandleDelete();
+
         })
-        //console.log("Did we make it??");
-      } 
+    }
+    
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return(
         <main className="m-4">
             <div className="grid-flow-col">
                 <div className="grid-flow-row">
-                    <div className="grid-flow-col grid-cols-12">
+                    <div className=" grid grid-flow-col grid-cols-12">
                         <div className="col-span-6">
                             <Typography variant="h4"> &nbsp; Set Available Hours</Typography>
                         </div>
                         <div className="col-span-5 flex justify-end">
-                            <Button variant="contained" color="error" sx={{marginRight: 16}} onClick={deleteAllHours}>Delete All &nbsp; <FaTrash color="white"/></Button>
+                            <Button variant="contained" color="error" sx={{marginRight: 1}} onClick={handleClickOpen}>Delete All &nbsp; <FaTrash color="white"/></Button>
+                            <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                                <DialogTitle id="alert-dialog-title">
+                                {"Delete All Time Blocks?"}
+                                </DialogTitle>
+                                <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    This action will delete all time blocks, which reflects all your available hours.
+                                    Do you wish to continue anyway?
+                                </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button onClick={deleteAllHours} autoFocus>Continue</Button>
+                                </DialogActions>
+                            </Dialog>
                         </div>
                     </div>
                     <div className="grid grid-flow-col grid-cols-12">
                         <div className="col-span-5">
-                        <Card>
+                        <Card sx={{marginLeft: 2}}>
                             <CardContent>
                                 <div className="grid grid-flow-row col-span-5 form-elements">
                         
@@ -276,7 +300,7 @@ const SetHours = () => {
                                 
                             </CardContent>
                             <CardActions>
-                                <Button className="m-3" variant="contained" color="primary" onClick={handleSubmit(onSubmitHandler)}>+ Add Block</Button>
+                                <Button className="m-3" variant="contained" color="success" onClick={handleSubmit(onSubmitHandler)}>+ Add Block</Button>
                             </CardActions>
                             <Collapse in={error}>
                                 <Alert

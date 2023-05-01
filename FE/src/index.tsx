@@ -23,6 +23,9 @@ import ViewProfileStudent from './Pages/Profile/view-profile-student';
 import SearchTutors from './Pages/Appointments/SearchTutors';
 import Favorites from './Pages/Favorites';
 import Hours from './Pages/Hours';
+import UpcomingTutor from './Pages/Appointments/UpcomingTutor';
+import UpcomingStudent from './Pages/Appointments/UpcomingStudent';
+import Header from './Pages/Home/Header';
 
 export default function App() {
 
@@ -30,7 +33,8 @@ export default function App() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
         <Routes>
-          <Route path = "/" element = {<HomePage/>}>
+          <Route path = "/" element = {<Header/>}>
+            <Route path = "home" element = {<HomePage/>}></Route>
             <Route path = "profile" element = {<ProfileLayout/>}>
               <Route path = "edit/tutor" element = {<EditProfileTutor/>}></Route>
               <Route path = "edit/student" element = {<EditProfileStudent/>}></Route>
@@ -38,6 +42,8 @@ export default function App() {
               <Route path = "view/student/:studentEmail" element = {<ViewProfileStudent/>}></Route>
             </Route>
             <Route path = "appointments/set" element = {<SearchTutors/>}></Route>
+            <Route path = "upcoming/tutor" element = {<UpcomingTutor/>}></Route>
+            <Route path = "upcoming/student" element = {<UpcomingStudent/>}></Route>
             <Route path = "favorites" element = {<Favorites/>}></Route>
             <Route path = "hours" element = {<Hours/>}></Route>
           </Route>

@@ -66,7 +66,6 @@ export const getAllTutors = async (): Promise<Array<UserGet>> => {
     return axios.request(config).then((response) => response.data);
   }
 
-  // trying to delete all hours using one query param for day
   export const deleteAllTutorHours = async (email: string): Promise<Array<HoursGet>> => {
     let config = {
       method: 'delete',
@@ -102,6 +101,22 @@ export const createAppointment = async (appointment: AppointmentSend) => {
     maxBodyLength: Infinity,
     url: process.env.REACT_APP_DB_URL + `/appointments/create`,
     headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `${getAuthToken()}`
+    },
+    data: data
+  };
+
+  return axios.request(config).then((response) => response.data);
+}
+
+export const deleteAppointment = async (appointment: AppointmentSend) => {
+  const data = JSON.stringify(appointment);
+  let config = {
+    method: 'delete',
+    maxBodyLength: Infinity,
+    url: process.env.REACT_APP_DB_URL + `/appointments/delete`,
+    headers: { 
       'Content-Type': 'application/json',
       'Authorization': `${getAuthToken()}`
     },
