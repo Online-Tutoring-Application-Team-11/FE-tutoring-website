@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserGet } from '../API/DTOs/userTypes';
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
+
 const TutorHomepageCard = ({tutor}: {tutor: UserGet}) => {
 
     return(

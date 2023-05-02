@@ -1,7 +1,4 @@
 import React from 'react';
-import AppNavbar from '../Components/AppNavbar'
-import StudentNavbar from '../Components/StudentNavbar';
-import TutorNavbar from '../Components/TutorNavbar'
 import PageTitle from '../Components/PageTitle'
 import PageBlurb from '../Components/PageBlurb'
 import PicturesCarousel from '../Components/PicturesCarousel'

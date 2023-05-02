@@ -1,7 +1,6 @@
 import React from 'react';
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
-import { MDBBtn } from 'mdb-react-ui-kit';
 const PageBlurb = () => {
 
     const navigate = useNavigate();

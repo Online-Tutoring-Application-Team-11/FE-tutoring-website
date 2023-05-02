@@ -1,15 +1,4 @@
-import React, { useEffect } from 'react';
-import AppNavbar from '../../Components/AppNavbar'
-import StudentNavbar from '../../Components/StudentNavbar';
-import TutorNavbar from '../../Components/TutorNavbar'
-
-import { Outlet, useNavigate } from 'react-router-dom'
-import { useAppDispatch } from '../../Hooks/stateHooks';
-import cookies from '../../Hooks/cookieHook';
-import { getTutor, getStudent } from '../../API/Endpoints/userEndpoints';
-import { setAuthToken } from '../../Hooks/useAuthToken';
-import { setUser } from '../../Hooks/userSlice';
-import { UserGet } from '../../API/DTOs/userTypes';
+import React from 'react';
 // @ts-ignore
 import { Element } from 'react-scroll';
 import PageBlurb from '../../Components/PageBlurb';
