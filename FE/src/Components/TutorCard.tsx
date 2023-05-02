@@ -216,8 +216,8 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
     const scheduleAppointment = () => {
       if (validTime && appointDate) {
         const newAppointment: AppointmentSend = {
-          requestedStartTime: appointDate.subtract(dayjs().utcOffset()).format('YYYY-MM-DDTHH:mm:ss'),
-          requestedEndTime: appointDate.subtract(dayjs().utcOffset(), 'minute').add(30, 'minute').format('YYYY-MM-DDTHH:mm:ss'),
+          requestedStartTime: appointDate.format('YYYY-MM-DDTHH:mm:ss'),
+          requestedEndTime: appointDate.add(30, 'minute').format('YYYY-MM-DDTHH:mm:ss'),
           studentEmail: user.email,
           tutorEmail: props.tutor.email,
           subject: subject
@@ -329,7 +329,6 @@ const TutorCard = (props: { tutor: UserGet, onHandleFavorite?: (id: number) => v
                   label="Subject"
                   onChange={(event) => {
                     setSubject(event.target.value);
-                    valiDate(appointDate);
                   }}
                 >
                   {props.tutor.subjects.map((option) => 
