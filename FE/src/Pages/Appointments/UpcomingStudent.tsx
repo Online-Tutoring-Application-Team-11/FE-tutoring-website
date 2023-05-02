@@ -5,6 +5,7 @@ import { AppointmentGet } from '../../API/DTOs/appointTypes';
 import AppointCard from '../../Components/AppointCardStudent';
 import { Skeleton, Typography } from '@mui/material';
 import '../../output.css'
+import dayjs from 'dayjs';
 
 const UpcomingStudent = () => {
 
@@ -13,10 +14,13 @@ const UpcomingStudent = () => {
     const [appointmentsList, setAppointmentsList] = React.useState<Array<AppointmentGet>>();
     const [loading, setLoading] = React.useState(false);
 
+    const utc = require('dayjs/plugin/utc');
+    dayjs.extend(utc);
+
     const getAppointmentsWithTutors = () => {
         setLoading(true);
         getAllAppointments(user.email).then((response) => {
-            let newAppointmentsList: Array<AppointmentGet>= [];
+            const newAppointmentsList: Array<AppointmentGet>= [];
             response.forEach((appointment) => {
                 
                 const formatData = (input: number) => {
@@ -55,17 +59,22 @@ const UpcomingStudent = () => {
                                       endTimeData.dd.toString() + 'T' +
                                       endTimeData.HH.toString() + ':' +
                                       endTimeData.MM.toString() + ':' +
-                                      endTimeData.SS.toString();                
+                                      endTimeData.SS.toString();
+                                      
+                if (dayjs(startTimeFormat).isAfter(dayjs())) {
+                    const newAppointment = {
+                        ...appointment,
+                        startTime: startTimeFormat,
+                        endTime: endTimeFormat,
+                    };
+
+                    newAppointmentsList.push(newAppointment);
+                }
                                         
-                const newAppointment = {
-                    ...appointment,
-                    startTime: startTimeFormat,
-                    endTime: endTimeFormat,
-                };
-                newAppointmentsList.push(newAppointment);
-                newAppointmentsList.sort((a, b) =>
+            });
+            newAppointmentsList.sort((a, b) =>
                     (a.startTime as Date) > (b.startTime as Date) ? 1 : -1);
-            })
+
             setAppointmentsList(newAppointmentsList);
         }).finally(() => { setLoading(false); })
     }
@@ -81,7 +90,7 @@ const UpcomingStudent = () => {
                     <Typography variant="h4">&nbsp; Upcoming Appointments</Typography>
                     {
                         loading ?
-                        <div className="grid grid-cols-4 space-x-4">
+                        <div className="grid grid-cols-4 space-x-4 mt-4">
                             <Skeleton variant="rounded" width={350} height={244}/>
                             <Skeleton variant="rounded" width={350} height={244}/>
                             <Skeleton variant="rounded" width={350} height={244}/>
@@ -92,11 +101,11 @@ const UpcomingStudent = () => {
                         {
                             appointmentsList && appointmentsList.length > 0 ?
                             appointmentsList?.map((appointment) => 
-                                <AppointCard key={appointment.subject} appointment={appointment} onHandleDelete={getAppointmentsWithTutors}/>
-                                ) :
-                                <div className="col-span-4">
+                                <AppointCard key={appointment.startTime as string} appointment={appointment} onHandleDelete={getAppointmentsWithTutors}/>
+                            ) :
+                            <div className="col-span-4">
                                 <Typography variant="h4" align="center" sx={{marginTop: 16}}>There are no upcoming appointments scheduled</Typography>
-                                </div>
+                            </div>
                         }
                     </div>
                     }
