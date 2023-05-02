@@ -14,6 +14,7 @@ const AppointCardTutor = (props: {appointment: AppointmentGet, onHandleDelete?: 
     const navigate = useNavigate();
 
     const [selectDelete, setSelectDelete] = React.useState(false);
+    const [cancel, setCancel] = React.useState(true);
 
     const handleDelete = () => {
 
@@ -42,6 +43,10 @@ const AppointCardTutor = (props: {appointment: AppointmentGet, onHandleDelete?: 
           lName: response.lname
         };
         setUser(newStudent);
+
+        if (dayjs().subtract(dayjs().utcOffset(), 'minute').add(1, 'day').isAfter(dayjs(props.appointment.startTime))) {
+          setCancel(false);
+        }
       })
     };
 
@@ -71,27 +76,45 @@ const AppointCardTutor = (props: {appointment: AppointmentGet, onHandleDelete?: 
       const endTimeParse = (dateStringParse2[1]).split(':');
       endTimeParse[0] = +endTimeParse[0] + (dayjs().utcOffset() / 60) + "";
 
+      if (+startTimeParse[0] < 0) {
+        dateStringParse[0] = dayjs(dateStringParse[0]).subtract(1, 'day').format('MM/DD/YYYY');
+        startTimeParse[0] = +startTimeParse[0] + 24 + "";
+        endTimeParse[0] = +endTimeParse[0] + 24 + "";
+      } else {
+        dateStringParse[0] = dayjs(dateStringParse[0]).format('MM/DD/YYYY');
+      }
+
       setAppointmentDate(dateStringParse[0]);
       //setStartLocalTime(dateStringParse[1]);
       //setEndLocalTime(dateStringParse2[1]);
-      //setStartLocalTime(startTimeParse[0] + ':' + startTimeParse[1]);
+      setStartLocalTime(startTimeParse[0] + ':' + startTimeParse[1]);
       setEndLocalTime(endTimeParse[0] + ':' + endTimeParse[1]);
 
-      if(Number(startTimeParse[0]) < 12){
-        setStartLocalTime(startTimeParse[0] + ':' + startTimeParse[1]);
+      if (+startTimeParse[0] == 0) {
+        setStartLocalTime(12 + ':' + startTimeParse[1]);
         setStartLocalAMPM("AM");
       }
-      else{
-        setStartLocalTime(((Number(startTimeParse[0])) - 12).toString() + ':' + startTimeParse[1]);
+      else if (+startTimeParse[0] < 12) {
+        setStartLocalAMPM("AM");
+      }
+      else {
+        if (+startTimeParse[0] > 12) {
+          setStartLocalTime(+startTimeParse[0] - 12 + ':' + startTimeParse[1]);
+        }
         setStartLocalAMPM("PM");
       }
 
-      if(Number(endTimeParse[0]) < 12){
-        setEndLocalTime(endTimeParse[0] + ':' + endTimeParse[1]);
+      if (+endTimeParse[0] == 0) {
+        setEndLocalTime(12 + ':' + endTimeParse[1]);
         setEndLocalAMPM("AM");
       }
-      else{
-        setEndLocalTime(((Number(endTimeParse[0])) - 12).toString() + ':' + endTimeParse[1]);
+      else if (+endTimeParse[0] < 12) {
+        setEndLocalAMPM("AM");
+      }
+      else {
+        if (+endTimeParse[0] > 12) {
+          setEndLocalTime(+endTimeParse[0] - 12 + ':' + endTimeParse[1]);
+        }
         setEndLocalAMPM("PM");
       }
 
@@ -142,7 +165,11 @@ const AppointCardTutor = (props: {appointment: AppointmentGet, onHandleDelete?: 
             <Typography variant="h6">{appointmentDate}</Typography>
           </div>
           <div className="col-span-4 row-span-1">
-            <Button variant="contained" color="error" onClick={handleClickOpen}>Cancel Appointment</Button>
+            {
+              cancel ?
+              <Button variant="contained" color="error" onClick={handleClickOpen}>Cancel Appointment</Button> :
+              <div/>
+            }
             <Dialog
                 open={open}
                 onClose={handleClose}
