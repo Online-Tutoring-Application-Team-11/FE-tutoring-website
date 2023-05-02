@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { getAllTutors, getTutorHours } from '../../API/Endpoints/appointEndpoint'
+import { getAllTutors } from '../../API/Endpoints/appointEndpoint'
 
 import '../../output.css'
 import './appointment.css'
@@ -36,7 +36,7 @@ const SearchTutors = () => {
     }
 
     const getList = () => {
-        if (!subjList.find((val) => val == "All Subjects")) {
+        if (!subjList.find((val) => val === "All Subjects")) {
             subjList.push("All Subjects");
         }
         
@@ -82,7 +82,7 @@ const SearchTutors = () => {
         for (let i = 0; i < data.length; i++) {
             if (name && name.length > 0 && !((data[i].fname! + " " + data[i].lname!).toLowerCase().includes(name.toLowerCase()))) {
                 innerIndex--;
-            } else if (subject && subject != "All Subjects" && !(data[i].subjects.includes(subject))) {
+            } else if (subject && subject !== "All Subjects" && !(data[i].subjects.includes(subject))) {
                 innerIndex--;
             } else {
                 newTutorList[outerIndex].push(data[i])

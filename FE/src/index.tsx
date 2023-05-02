@@ -22,7 +22,6 @@ import ViewProfileTutor from './Pages/Profile/view-profile-tutor';
 import ViewProfileStudent from './Pages/Profile/view-profile-student';
 import SearchTutors from './Pages/Appointments/SearchTutors';
 import Favorites from './Pages/Favorites';
-import StudentNavbar from './Components/StudentNavbar';
 import Hours from './Pages/Hours';
 import UpcomingTutor from './Pages/Appointments/UpcomingTutor';
 import UpcomingStudent from './Pages/Appointments/UpcomingStudent';

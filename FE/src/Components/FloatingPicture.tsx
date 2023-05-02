@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
 const FloatingPicture = () => {
 
     return(

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
-import { MDBBtn } from 'mdb-react-ui-kit';
+import { getAuthToken } from '../Hooks/useAuthToken';
 const PageBlurb = () => {
 
     const navigate = useNavigate();
@@ -14,6 +14,14 @@ const PageBlurb = () => {
         navigate('/auth/sign-up')
     }
 
+    const checkAuthToken = (token: String|null|undefined) => {
+        if (!token || token === null || token === undefined || token.length <= 0) {
+            return false;
+        }
+
+        return true;
+    } 
+
     return(
         <>
         <div className="body-text text-left">
@@ -24,6 +32,8 @@ const PageBlurb = () => {
         <br/>
 
         <div className="body-text text-left" style={{fontFamily:"'Lato', sans-serif", fontWeight:700}}>Tell us more about yourself.</div>
+
+        { !checkAuthToken(getAuthToken()) ?
         <div>
             <Button onClick={signUp} className="btn-options"
                 style={{ background: 'linear-gradient(to right, #c1f9ae, #74b67d)'}}>
@@ -34,7 +44,7 @@ const PageBlurb = () => {
                 style={{ background: 'linear-gradient(to right, #74b67d, #c1f9ae)'}}>
                     I am a returning student ❯
             </Button>
-        </div>
+        </div> : "" }
         </>
     )
 }

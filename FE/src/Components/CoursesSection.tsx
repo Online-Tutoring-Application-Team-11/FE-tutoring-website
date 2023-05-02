@@ -1,7 +1,4 @@
 import React from 'react';
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
-import { getAllTutors } from '../API/Endpoints/appointEndpoint';
-import { UserGet } from '../API/DTOs/userTypes'
 import CoursesCard from './CoursesCard';
 
 const CoursesSection = () => {

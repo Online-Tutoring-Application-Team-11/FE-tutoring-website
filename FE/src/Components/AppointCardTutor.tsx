@@ -4,7 +4,7 @@ import { Avatar, Button, Card, Dialog, DialogActions, DialogContent, DialogConte
 import { nameToColor, nameToInitials } from '../Helpers/avatarHelper'
 import { deleteAppointment } from '../API/Endpoints/appointEndpoint'
 import dayjs from 'dayjs';
-import { getStudent, getTutor } from '../API/Endpoints/userEndpoints'
+import { getStudent } from '../API/Endpoints/userEndpoints'
 import { UserSend } from '../API/DTOs/userTypes'
 import { useNavigate } from 'react-router-dom'
 

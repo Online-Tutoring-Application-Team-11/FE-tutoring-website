@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { useCookies }  from "react-cookie";
 
   export default () => {

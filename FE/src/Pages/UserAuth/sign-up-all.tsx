@@ -15,9 +15,6 @@ import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import cookies from '../../Hooks/cookieHook';
 
-import { Button as BsButton } from 'react-bootstrap';
-
-
 const SignUp = () => {
 
   const navigate = useNavigate();

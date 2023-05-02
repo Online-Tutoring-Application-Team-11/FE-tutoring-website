@@ -1,5 +1,4 @@
 import React from 'react';
-import {Carousel} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 const ReviewCard = ({stu_name}: {stu_name: string}) => {

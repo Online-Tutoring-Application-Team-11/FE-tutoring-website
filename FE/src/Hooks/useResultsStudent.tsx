@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { useState, useEffect } from "react";
 import APlus from "../API/APlus";
 import { useAppSelector } from './stateHooks';
