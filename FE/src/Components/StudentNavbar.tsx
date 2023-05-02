@@ -31,7 +31,7 @@ const StudentNavbar = ({ results }: { results: any }) => {
           </Navbar.Brand>
             <NavDropdown style={{paddingLeft:20}}title="APPOINTMENTS" className="navlink-sp">
                 <NavDropdown.Item onClick={() => {navigate("/appointments/set")}} className="down-nb">NEW APPOINTMENT</NavDropdown.Item>
-                <NavDropdown.Item href="#action4" className="down-nb">UPCOMING APPOINTMENT</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => {navigate("/upcoming/student")}} className="down-nb">UPCOMING APPOINTMENTS</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link onClick={() => {navigate("/favorites")}} className="navlink-sp">FAVORITES</Nav.Link>
         </Nav>

@@ -27,7 +27,6 @@ const SignIn = () => {
 
     const updateCookie = cookies().updateCookie;
 
-    // in progress
     const loginSchema = object({
       email: string().nonempty('Email is required'),
       password: string().nonempty('Password is required'),
@@ -35,50 +34,52 @@ const SignIn = () => {
 
     type LoginInput = TypeOf<typeof loginSchema>;
 
-    // in progress
     const onSubmitHandler: SubmitHandler<LoginInput> = (login) => {
-      const returnUser: UserSend = {
-        email: login.email, 
-        password: login.password,
-      }
-      logIn(returnUser).then((data) => {
-        setAuthToken(data.token);
-        updateCookie(data.token, data.email, data.tutor);
-        
-        if (!data.tutor) {
-          getStudent(login.email).then((response) => {
-            dispatch(setUser({
-              ...response,
-              fName: response.fname,
-              lName: response.lname,
-              year: response.year,
-              favouriteTutorIds: response.favouriteTutorIds
-            }));
-            navigate("/");
-          })
-          
-        } else {
-          getTutor(login.email).then((response) => {
-            dispatch(setUser({
-              ...response,
-              fName: response.fname,
-              lName: response.lname,
-              subjects: response.subjects
-            }));
-            navigate("/");
-          })
-        }    
+        if (isSubmitSuccessful) {
+          const returnUser: UserSend = {
+            email: login.email, 
+            password: login.password,
+          }
+          logIn(returnUser).then((data) => {
+            setAuthToken(data.token);
+            updateCookie(data.token, data.email, data.tutor);
+            
+            if (!data.tutor) {
+              getStudent(login.email).then((response) => {
+                dispatch(setUser({
+                  ...response,
+                  fName: response.fname,
+                  lName: response.lname,
+                  year: response.year,
+                  favouriteTutorIds: response.favouriteTutorIds
+                }));
+                navigate("/upcoming/student");
+              })
+              
+            } else {
+              getTutor(login.email).then((response) => {
+                dispatch(setUser({
+                  ...response,
+                  fName: response.fname,
+                  lName: response.lname,
+                  subjects: response.subjects
+                }));
+                navigate("/upcoming/tutor");
+              })
+            }    
 
-          // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
-      }).catch((err) => {
-        setError(true);
-        setErrMsg(err.message);
-      })
-      };
+             // only navigate to homepage if log in correctly... yes to the Q: does this user exist in the database?
+          }).catch((err) => {
+            setError(true);
+            setErrMsg(err.message);
+          })
+      }
+    }
+          
     
     const {
         register,
-        formState: { errors },
+        formState: { errors, isSubmitSuccessful },
         handleSubmit,
       } = useForm<LoginInput>({
         resolver: zodResolver(loginSchema),

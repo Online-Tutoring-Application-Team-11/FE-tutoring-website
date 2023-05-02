@@ -27,7 +27,7 @@ const TutorNavbar = ({ results }: { results: any }) => {
           <Navbar.Brand onClick={() => {navigate("/")}} className="cursor-pointer">
             <img src="https://i.imgur.com/N7tRk7d.png" className="navbar-image-full" alt="A+ Tutors Logo"/>
           </Navbar.Brand>
-            <Nav.Link className="navlink-sp">UPCOMING</Nav.Link>
+            <Nav.Link className="navlink-sp" onClick={() => {navigate("/upcoming/tutor")}}>UPCOMING</Nav.Link>
             <Nav.Link className="navlink-sp" onClick={() => {navigate("/hours")}}>SET HOURS</Nav.Link>
         </Nav>
         

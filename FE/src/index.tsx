@@ -24,7 +24,9 @@ import SearchTutors from './Pages/Appointments/SearchTutors';
 import Favorites from './Pages/Favorites';
 import StudentNavbar from './Components/StudentNavbar';
 import Hours from './Pages/Hours';
-import Header from './Pages/Home/Header'
+import UpcomingTutor from './Pages/Appointments/UpcomingTutor';
+import UpcomingStudent from './Pages/Appointments/UpcomingStudent';
+import Header from './Pages/Home/Header';
 
 export default function App() {
 
@@ -41,6 +43,8 @@ export default function App() {
               <Route path = "view/student/:studentEmail" element = {<ViewProfileStudent/>}></Route>
             </Route>
             <Route path = "appointments/set" element = {<SearchTutors/>}></Route>
+            <Route path = "upcoming/tutor" element = {<UpcomingTutor/>}></Route>
+            <Route path = "upcoming/student" element = {<UpcomingStudent/>}></Route>
             <Route path = "favorites" element = {<Favorites/>}></Route>
             <Route path = "hours" element = {<Hours/>}></Route>
           </Route>

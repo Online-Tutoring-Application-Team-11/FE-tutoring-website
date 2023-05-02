@@ -80,7 +80,7 @@ const ViewProfileTutor = () => {
     </div>
 
     <div>
-      <Button className="m-3" variant="contained" color="primary" onClick={navBack}>Back</Button>
+      <Button className="m-3" variant="contained" color="success"onClick={navBack} >Back</Button>
     </div>
 
     </main>
