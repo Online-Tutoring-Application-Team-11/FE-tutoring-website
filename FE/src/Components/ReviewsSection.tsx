@@ -1,6 +1,6 @@
 import React from 'react';
-import {Carousel} from 'react-bootstrap'
 import ReviewsCarousel from './ReviewsCarousel';
+
 const ReviewsSection = () => {
 
     return(
