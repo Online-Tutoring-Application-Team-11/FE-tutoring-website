@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
 import { getAuthToken } from '../Hooks/useAuthToken';
+import checkAuthToken from '../Hooks/useIsTokenExpired';
 const PageBlurb = () => {
 
     const navigate = useNavigate();
@@ -13,14 +14,6 @@ const PageBlurb = () => {
     const signUp = () => {
         navigate('/auth/sign-up')
     }
-
-    const checkAuthToken = (token: String|null|undefined) => {
-        if (!token || token === null || token === undefined || token.length <= 0) {
-            return false;
-        }
-
-        return true;
-    } 
 
     return(
         <>
