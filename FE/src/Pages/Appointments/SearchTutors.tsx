@@ -58,7 +58,7 @@ const SearchTutors = () => {
         const newTutorList = [];
         for (const tutor of data) {
             const hours: HoursGet[] = tutor.availableHours!;
-            if (hours.length != 0) {
+            if (hours.length != 0 && (tutor.profilePic && tutor.profilePic.length > 0)) {
                 newTutorList.push(tutor);
             }
         }
