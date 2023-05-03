@@ -53,7 +53,6 @@ const SignUp = () => {
   const [file, setFile] = React.useState<string | ArrayBuffer>();
 
   const handleCapture = async ({ target }: { target: any }) => {
-    console.log("Set file");
     setFile(target.files[0]);
 
     if (target.files[0]) {
@@ -64,9 +63,7 @@ const SignUp = () => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
-      if(hiddenFileInput.current==null){
-        console.log("State is null");
-      } else {
+      if (hiddenFileInput.current != null) {
         hiddenFileInput.current.click();
       }
   }
@@ -89,27 +86,29 @@ const SignUp = () => {
           ...response,
           fName: response.fname,
           lName: response.lname
-        }))
+        }));
         setAuthToken(response.token);
         updateCookie(response.token, response.email, response.tutor);
 
         if(register.tutor == 1 && file != undefined){
-          getTutor(register.email).then((freshAccount: UserGet)=>
+          getTutor(register.email).then((freshAccount: UserGet) =>
             
             uploadImage(file, freshAccount.id!.toString()).then((link) => {
-              
               setLink(link);
-              console.log("LINK (TUTOR) = " + link);
 
               var userChange: UserSend = freshAccount;
               userChange = {
                 ...userChange,
                 fName: freshAccount.fname,
                 lName: freshAccount.lname,
-                year: freshAccount.year,
                 profilePic: link
               }
               updateUser(userChange).then(() => {
+                dispatch(setUser({
+                  ...response,
+                  fName: response.fname,
+                  lName: response.lname
+                }));
               }).catch((err) => {
                 setErrMsg(err.message);
                 setError(true);
@@ -120,32 +119,24 @@ const SignUp = () => {
           )
         }
         else if(register.tutor == 0 && file != undefined){
-          getStudent(register.email).then((freshAccount: UserGet)=>
+          getStudent(register.email).then((freshAccount: UserGet) =>
 
             uploadImage(file, freshAccount.id!.toString()).then((link) => {
-
               setLink(link);
-              console.log("LINK (STUDENT) = " + link);
 
               var userChange: UserSend = freshAccount;
               userChange = {
                 ...userChange,
                 fName: freshAccount.fname,
                 lName: freshAccount.lname,
-                year: freshAccount.year,
                 profilePic: link
               }
               updateUser(userChange).then(() => {
-                // updateStudent(userChange as StudentSend).then((response) => {
-                //   dispatch(setUser({
-                //     ...response,
-                //     fName: response.fname,
-                //     lName: response.lname,
-                //     year: response.year
-                //   }));
-                //   setSuccess(true);
-                console.log("Student user was updated!");
-                // })
+                dispatch(setUser({
+                  ...response,
+                  fName: response.fname,
+                  lName: response.lname
+                }));
               }).catch((err) => {
                 setErrMsg(err.message);
                 setError(true);
@@ -160,7 +151,7 @@ const SignUp = () => {
         } else {
           navigate("/")
         }
-      }).catch((err) => console.log(err))
+      });
     }).catch((err) => {
       setError(true);
       setErrMsg(err.message);

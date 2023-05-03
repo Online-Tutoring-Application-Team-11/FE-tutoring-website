@@ -20,6 +20,7 @@ const Header = () => {
   const [loaded, setLoaded] = React.useState(false);
 
   const startup = () => {
+    setLoaded(false);
     if (getCookie().bearerToken && getCookie().email) {
       setAuthToken(getCookie().bearerToken);
 
@@ -52,6 +53,10 @@ const Header = () => {
     }
   };
 
+  const restart = () => {
+    setResults({} as UserGet);
+  }
+
   useEffect(() => {
     startup();
   }, []);
@@ -63,8 +68,8 @@ const Header = () => {
       <div className="App">
         {
           results.fname && results.fname.length > 0 ? 
-            results.tutor ? <TutorNavbar results={results}/> : 
-            <StudentNavbar results={results}/> :
+            results.tutor ? <TutorNavbar results={results} restart={restart}/> : 
+            <StudentNavbar results={results} restart={restart}/> :
           <AppNavbar/>
         }
         

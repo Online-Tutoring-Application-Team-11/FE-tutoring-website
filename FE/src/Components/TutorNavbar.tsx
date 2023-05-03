@@ -8,7 +8,7 @@ import { Avatar } from '@mui/material';
 import cookies from '../Hooks/cookieHook';
 
 
-const TutorNavbar = ({ results }: { results: any }) => {
+const TutorNavbar = (props: { results: any, restart: () => void }) => {
 
     const navigate = useNavigate();
 
@@ -17,7 +17,8 @@ const TutorNavbar = ({ results }: { results: any }) => {
     const signOut = () => {
       setAuthToken("");
       updateCookie("", "", false);
-      navigate("/auth/sign-in")
+      navigate("/");
+      props.restart();
     }
 
     return(
@@ -34,17 +35,17 @@ const TutorNavbar = ({ results }: { results: any }) => {
 
         <Nav className='float-end'>
           {
-          results.fname && results.fname.length > 0 ? 
-          <Navbar.Text className="nb-nametag">
-            Hello, <b>{results.fname}</b>
-          </Navbar.Text> :
-          <Navbar.Text className="nb-nametag">
-            Hello, Guest
-          </Navbar.Text>
+            props.results.fname && props.results.fname.length > 0 ? 
+            <Navbar.Text className="nb-nametag">
+              Hello, <b>{props.results.fname}</b>
+            </Navbar.Text> :
+            <Navbar.Text className="nb-nametag">
+              Hello, Guest
+            </Navbar.Text>
           }
           
-          <NavDropdown align="end" style={{marginRight:-50}} title={<Avatar sx={{ bgcolor: nameToColor(results.fname || " ") }} src={results.profilePic}>
-                  {nameToInitials(results.fname || " ", results.lname || " ")}
+          <NavDropdown align="end" style={{marginRight:-50}} title={<Avatar sx={{ bgcolor: nameToColor(props.results.fname || " ") }} src={props.results.profilePic}>
+                  {nameToInitials(props.results.fname || " ", props.results.lname || " ")}
                 </Avatar>}>
                 <NavDropdown.Item onClick={() => {navigate("/profile/edit/tutor")}} className="down-nb">Edit Profile</NavDropdown.Item>
                 <NavDropdown.Divider />

@@ -56,6 +56,7 @@ const EditProfileTutor = () => {
       uploadImage(target.files[0], user.id!.toString()).then((link) => {
         setLink(link);
       });
+      window.location.reload();
   }
 
   const handlePassword = async () => {
