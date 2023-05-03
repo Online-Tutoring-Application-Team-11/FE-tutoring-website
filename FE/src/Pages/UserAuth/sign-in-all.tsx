@@ -140,7 +140,10 @@ const SignIn = () => {
                   }
                   sx={{ mb: 2 }}
                 >
-                  {errorMessage}
+                  {errorMessage.endsWith("400") ?
+                  ("Wrong username or password. Please check and try again!") :
+                  errorMessage
+                  }
                 </Alert>
               </Collapse>
 
