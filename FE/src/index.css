@@ -878,3 +878,18 @@ position: relative;
     bottom: -124px;
     animation-delay: 22s;
 }
+
+.sign-up-pp{
+    background-color: white !important;
+    padding: 0px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    border-width: 0px !important;
+
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.sign-up-pp:hover{
+    opacity: 60% !important;
+}
