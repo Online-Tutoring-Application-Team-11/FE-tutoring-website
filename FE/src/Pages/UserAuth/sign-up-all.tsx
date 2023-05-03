@@ -2,20 +2,24 @@ import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { number, object, string, TypeOf } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TextField, MenuItem, Button, FormControl, Box, Typography, Alert, Collapse, IconButton } from '@mui/material'
+import { TextField, MenuItem, Button, FormControl, Box, Typography, Alert, Collapse, IconButton, Badge, Fab, Avatar } from '@mui/material'
 import { useNavigate } from "react-router-dom";
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaEdit } from 'react-icons/fa';
 
 import '../../output.css'
 import './sign-in.css'
-import { UserSend } from '../../API/DTOs/userTypes'
+import { StudentSend, UserGet, UserSend } from '../../API/DTOs/userTypes'
 import { registerUser, logIn } from '../../API/Endpoints/authEndpoint'
 import { setUser } from '../../Hooks/userSlice';
 import { useAppDispatch } from '../../Hooks/stateHooks';
 import { setAuthToken } from '../../Hooks/useAuthToken';
 import cookies from '../../Hooks/cookieHook';
+import { uploadImage } from '../../Helpers/firebaseHelper'
+
+import { nameToColor, nameToInitials } from '../../Helpers/avatarHelper'
 
 import { Button as BsButton } from 'react-bootstrap';
+import { getStudent, getTutor, updateStudent, updateUser } from '../../API/Endpoints/userEndpoints';
 
 
 const SignUp = () => {
@@ -45,19 +49,27 @@ const SignUp = () => {
 
   type RegisterInput = TypeOf<typeof registerSchema>;
 
-  // const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const [profileLink, setLink] = React.useState<string>('');
+  const [file, setFile] = React.useState<string | ArrayBuffer>();
 
-  // const handleImageButtonClick = () => {
-  //     if(hiddenFileInput.current==null){
-  //       console.log("State is null");
-  //     } else {
-  //       hiddenFileInput.current.click();
-  //     }
-  // }
-     
-  // const handleImageChange = () => {
-      
-  // }
+  const handleCapture = async ({ target }: { target: any }) => {
+    console.log("Set file");
+    setFile(target.files[0]);
+
+    if (target.files[0]) {
+      (document.getElementById('myimg') as HTMLInputElement).src = URL.createObjectURL(target.files[0]);
+    }
+  }
+
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+      if(hiddenFileInput.current==null){
+        console.log("State is null");
+      } else {
+        hiddenFileInput.current.click();
+      }
+  }
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (register) => {
     const newUser: UserSend = {
@@ -81,6 +93,68 @@ const SignUp = () => {
         setAuthToken(response.token);
         updateCookie(response.token, response.email, response.tutor);
 
+        if(register.tutor == 1 && file != undefined){
+          getTutor(register.email).then((freshAccount: UserGet)=>
+            
+            uploadImage(file, freshAccount.id!.toString()).then((link) => {
+              
+              setLink(link);
+              console.log("LINK (TUTOR) = " + link);
+
+              var userChange: UserSend = freshAccount;
+              userChange = {
+                ...userChange,
+                fName: freshAccount.fname,
+                lName: freshAccount.lname,
+                year: freshAccount.year,
+                profilePic: link
+              }
+              updateUser(userChange).then(() => {
+              }).catch((err) => {
+                setErrMsg(err.message);
+                setError(true);
+              });
+
+            })
+
+          )
+        }
+        else if(register.tutor == 0 && file != undefined){
+          getStudent(register.email).then((freshAccount: UserGet)=>
+
+            uploadImage(file, freshAccount.id!.toString()).then((link) => {
+
+              setLink(link);
+              console.log("LINK (STUDENT) = " + link);
+
+              var userChange: UserSend = freshAccount;
+              userChange = {
+                ...userChange,
+                fName: freshAccount.fname,
+                lName: freshAccount.lname,
+                year: freshAccount.year,
+                profilePic: link
+              }
+              updateUser(userChange).then(() => {
+                // updateStudent(userChange as StudentSend).then((response) => {
+                //   dispatch(setUser({
+                //     ...response,
+                //     fName: response.fname,
+                //     lName: response.lname,
+                //     year: response.year
+                //   }));
+                //   setSuccess(true);
+                console.log("Student user was updated!");
+                // })
+              }).catch((err) => {
+                setErrMsg(err.message);
+                setError(true);
+              });
+
+            })
+          )
+        }
+        
         if (newUser.tutor) {
           navigate("/auth/sign-up-tutor")
         } else {
@@ -150,6 +224,23 @@ const SignUp = () => {
                   />
                 </div>
               </div>
+
+              <div className="text-center" style={{paddingTop:"8px", paddingBottom:"6px"}}>
+              {profileLink=='' && 
+                  <BsButton className="sign-up-pp" onClick={handleClick}>
+                  <img id="myimg" src="https://i.imgur.com/ZMAkqjW.jpg"/>
+                  </BsButton>
+              }
+              {profileLink!='' &&
+                  <BsButton className="sign-up-pp" onClick={handleClick}>
+                  <img src={profileLink}/>
+                  </BsButton>
+              }
+                <div style={{fontSize:"15px", color:"#5A5A5A"}}>Upload Picture</div>
+                <input id="imgInp" accept="image/*" onChange={handleCapture} ref={hiddenFileInput} type='file' style={{display:'none'}}/>
+              </div>
+
+
               <div className='text-center'>
               {/* <label>
                 <input type="file" ref={hiddenFileInput} onChange={handleImageChange} style={{display:"none"}}/>
