@@ -20,7 +20,7 @@ const StudentNavbar = (props: { results: any, restart: () => void }) => {
       setAuthToken("");
       updateCookie("", "", false);
       navigate("/");
-      props.results.restart();
+      props.restart();
     }
 
     return(

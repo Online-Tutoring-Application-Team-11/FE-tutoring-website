@@ -8,13 +8,6 @@ import TutorsSection from '../Components/TutorsSection';
 
 const HomePage = () => {
 
-    // const[allTutorsAPI, results, errorMessage] = useResultsTutors();
-
-    // const processAPI = () => {
-    //   allTutorsAPI();
-    //   // console.log("In Homepage, results = " + (results))
-    // }
-
     return (
       <div className="App">
         {/* <AppNavbar/> */}

@@ -22,7 +22,6 @@ const TimeBlock = (props: {block: HoursGet, onHandleDelete?: (endTime: string, d
   const [selectDelete, setSelectDelete] = React.useState(false);
 
   const handleDelete = () => {
-    console.log(props.block)
     var formatteddate = dayjs((props.block.startTime as string));
     var dayOfWeek = props.block.dayOfWeek;
     if (formatteddate.hour() - (dayjs().utcOffset() / 60) >= 24) {

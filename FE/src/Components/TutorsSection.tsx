@@ -63,11 +63,9 @@ const TutorsSection = () => {
                 <div className="text-center" style={{paddingTop:"26px"}}>
                 {totalList.map((tutors) => 
                 tutors.profilePic &&
-                    // <div className="hp-tutor-whole" style={{display:"inline"}}>
-                        <Button className="hp-tutor-pic-button" style={{}} onClick={() => showCard(tutors.id)}>
-                            <img style={{}} className="hp-tutor-pic" src={tutors.profilePic} alt="Tutor profile pic"/>
-                        </Button>
-                    // </div>
+                    <Button className="hp-tutor-pic-button" style={{}} onClick={() => showCard(tutors.id)}>
+                        <img style={{}} className="hp-tutor-pic" src={tutors.profilePic} alt="Tutor profile pic"/>
+                    </Button>
                 )}
                 </div>
             </div>
