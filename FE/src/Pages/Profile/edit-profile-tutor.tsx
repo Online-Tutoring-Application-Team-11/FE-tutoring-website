@@ -55,8 +55,15 @@ const EditProfileTutor = () => {
   const handleCapture = async ({ target }: { target: any }) => {
       uploadImage(target.files[0], user.id!.toString()).then((link) => {
         setLink(link);
+      
+        userChange = {
+          ...user,
+          profilePic: link
+        };
+        updateUser(userChange).then(() => {
+          window.location.reload();
+        })
       });
-      window.location.reload();
   }
 
   const handlePassword = async () => {
