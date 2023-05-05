@@ -3,7 +3,7 @@ import { getStorage, ref, uploadBytes, uploadString, getDownloadURL } from 'fire
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyABuco52HsFr4uyH3-rLV5GaGvngb_YTPU",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "t11tutorapp.firebaseapp.com",
     projectId: "t11tutorapp",
     storageBucket: "t11tutorapp.appspot.com",
