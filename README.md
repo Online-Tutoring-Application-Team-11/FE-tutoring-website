@@ -4,7 +4,6 @@ You can use the deployed link: https://online-tutoring-team-eleven.vercel.app/ t
 - Clone this GitHub Repo into your work environment by using: `git clone https://github.com/Online-Tutoring-Application-Team-11/FE-tutoring-website.git`
 - Navigate to the FE folder by `cd .\FE-tutoring-website\` and then `cd .\FE\`
 - Add the .env file provided to you with the submission in this location
-- Replace the "application.properties" file in `src/main/resources` with the contents of this file: "Files for Local Deployment/application.properties" provided in our submission
 - Run `npm install` on the terminal to install all necessary modules
 - Run `npm start` on the terminal to start the website on your localhost
 
